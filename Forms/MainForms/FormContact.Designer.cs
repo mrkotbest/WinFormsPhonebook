@@ -49,7 +49,7 @@
 			// lblPerson
 			// 
 			this.lblPerson.AutoSize = true;
-			this.lblPerson.Location = new System.Drawing.Point(28, 31);
+			this.lblPerson.Location = new System.Drawing.Point(24, 31);
 			this.lblPerson.Name = "lblPerson";
 			this.lblPerson.Size = new System.Drawing.Size(43, 13);
 			this.lblPerson.TabIndex = 13;
@@ -59,7 +59,7 @@
 			// 
 			this.tbPerson.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbPerson.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tbPerson.Location = new System.Drawing.Point(77, 28);
+			this.tbPerson.Location = new System.Drawing.Point(73, 28);
 			this.tbPerson.Name = "tbPerson";
 			this.tbPerson.ReadOnly = true;
 			this.tbPerson.Size = new System.Drawing.Size(275, 20);
@@ -68,7 +68,7 @@
 			// 
 			// btnPersonInfo
 			// 
-			this.btnPersonInfo.Location = new System.Drawing.Point(369, 28);
+			this.btnPersonInfo.Location = new System.Drawing.Point(365, 28);
 			this.btnPersonInfo.Name = "btnPersonInfo";
 			this.btnPersonInfo.Size = new System.Drawing.Size(35, 22);
 			this.btnPersonInfo.TabIndex = 1;
@@ -78,7 +78,7 @@
 			// 
 			// btnPersonRemove
 			// 
-			this.btnPersonRemove.Location = new System.Drawing.Point(410, 28);
+			this.btnPersonRemove.Location = new System.Drawing.Point(406, 28);
 			this.btnPersonRemove.Name = "btnPersonRemove";
 			this.btnPersonRemove.Size = new System.Drawing.Size(35, 22);
 			this.btnPersonRemove.TabIndex = 2;
@@ -88,7 +88,7 @@
 			// 
 			// btnAddressRemove
 			// 
-			this.btnAddressRemove.Location = new System.Drawing.Point(410, 54);
+			this.btnAddressRemove.Location = new System.Drawing.Point(406, 54);
 			this.btnAddressRemove.Name = "btnAddressRemove";
 			this.btnAddressRemove.Size = new System.Drawing.Size(35, 22);
 			this.btnAddressRemove.TabIndex = 4;
@@ -98,7 +98,7 @@
 			// 
 			// btnAddressInfo
 			// 
-			this.btnAddressInfo.Location = new System.Drawing.Point(369, 54);
+			this.btnAddressInfo.Location = new System.Drawing.Point(365, 54);
 			this.btnAddressInfo.Name = "btnAddressInfo";
 			this.btnAddressInfo.Size = new System.Drawing.Size(35, 22);
 			this.btnAddressInfo.TabIndex = 3;
@@ -110,7 +110,7 @@
 			// 
 			this.tbAddress.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tbAddress.Location = new System.Drawing.Point(77, 54);
+			this.tbAddress.Location = new System.Drawing.Point(73, 54);
 			this.tbAddress.Name = "tbAddress";
 			this.tbAddress.ReadOnly = true;
 			this.tbAddress.Size = new System.Drawing.Size(275, 20);
@@ -120,7 +120,7 @@
 			// lblAddress
 			// 
 			this.lblAddress.AutoSize = true;
-			this.lblAddress.Location = new System.Drawing.Point(28, 57);
+			this.lblAddress.Location = new System.Drawing.Point(24, 57);
 			this.lblAddress.Name = "lblAddress";
 			this.lblAddress.Size = new System.Drawing.Size(48, 13);
 			this.lblAddress.TabIndex = 14;
@@ -128,7 +128,7 @@
 			// 
 			// btnPhoneRemove
 			// 
-			this.btnPhoneRemove.Location = new System.Drawing.Point(410, 80);
+			this.btnPhoneRemove.Location = new System.Drawing.Point(406, 80);
 			this.btnPhoneRemove.Name = "btnPhoneRemove";
 			this.btnPhoneRemove.Size = new System.Drawing.Size(35, 22);
 			this.btnPhoneRemove.TabIndex = 6;
@@ -138,7 +138,7 @@
 			// 
 			// btnPhoneInfo
 			// 
-			this.btnPhoneInfo.Location = new System.Drawing.Point(369, 80);
+			this.btnPhoneInfo.Location = new System.Drawing.Point(365, 80);
 			this.btnPhoneInfo.Name = "btnPhoneInfo";
 			this.btnPhoneInfo.Size = new System.Drawing.Size(35, 22);
 			this.btnPhoneInfo.TabIndex = 5;
@@ -150,7 +150,7 @@
 			// 
 			this.tbPhone.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbPhone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tbPhone.Location = new System.Drawing.Point(77, 80);
+			this.tbPhone.Location = new System.Drawing.Point(73, 80);
 			this.tbPhone.Name = "tbPhone";
 			this.tbPhone.ReadOnly = true;
 			this.tbPhone.Size = new System.Drawing.Size(275, 20);
@@ -160,7 +160,7 @@
 			// lblPhone
 			// 
 			this.lblPhone.AutoSize = true;
-			this.lblPhone.Location = new System.Drawing.Point(28, 83);
+			this.lblPhone.Location = new System.Drawing.Point(24, 83);
 			this.lblPhone.Name = "lblPhone";
 			this.lblPhone.Size = new System.Drawing.Size(41, 13);
 			this.lblPhone.TabIndex = 15;
@@ -169,7 +169,7 @@
 			// tbEmail
 			// 
 			this.tbEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tbEmail.Location = new System.Drawing.Point(77, 108);
+			this.tbEmail.Location = new System.Drawing.Point(73, 108);
 			this.tbEmail.MaxLength = 35;
 			this.tbEmail.Name = "tbEmail";
 			this.tbEmail.Size = new System.Drawing.Size(275, 20);
@@ -180,7 +180,7 @@
 			// lblEmail
 			// 
 			this.lblEmail.AutoSize = true;
-			this.lblEmail.Location = new System.Drawing.Point(28, 111);
+			this.lblEmail.Location = new System.Drawing.Point(24, 111);
 			this.lblEmail.Name = "lblEmail";
 			this.lblEmail.Size = new System.Drawing.Size(35, 13);
 			this.lblEmail.TabIndex = 16;
@@ -188,7 +188,7 @@
 			// 
 			// btnSave
 			// 
-			this.btnSave.Location = new System.Drawing.Point(31, 153);
+			this.btnSave.Location = new System.Drawing.Point(27, 153);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(105, 35);
 			this.btnSave.TabIndex = 9;
@@ -198,7 +198,7 @@
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Location = new System.Drawing.Point(142, 153);
+			this.btnCancel.Location = new System.Drawing.Point(138, 153);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(105, 35);
 			this.btnCancel.TabIndex = 8;
@@ -210,7 +210,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(484, 211);
+			this.ClientSize = new System.Drawing.Size(464, 211);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.tbEmail);

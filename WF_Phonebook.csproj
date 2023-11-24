@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -137,13 +138,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\DataSources\FormMain.datasource" />
-    <None Include="Properties\DataSources\WF_Phonebook.Forms.FormAddressList.datasource" />
-    <None Include="Properties\DataSources\WF_Phonebook.Forms.FormPersonList.datasource" />
-    <None Include="Properties\DataSources\WF_Phonebook.Forms.FormPhoneList.datasource" />
-    <None Include="Properties\DataSources\WF_Phonebook.Models.Address.datasource" />
-    <None Include="Properties\DataSources\WF_Phonebook.Models.Contact.datasource" />
-    <None Include="Properties\DataSources\WF_Phonebook.Models.Person.datasource" />
-    <None Include="Properties\DataSources\WF_Phonebook.Models.Phone.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

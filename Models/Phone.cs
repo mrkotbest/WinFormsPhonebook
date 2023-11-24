@@ -1,9 +1,12 @@
-﻿namespace WF_Phonebook.Models
+﻿using System.ComponentModel;
+
+namespace WF_Phonebook.Models
 {
 	public class Phone
 	{
-		public int Id { get; set; }
+		[Browsable(true)]
 		public string Number { get; set; }
+		[Browsable(true)]
 		public string Type { get; set; }        // Type of the Phone
 
         public Phone() { }

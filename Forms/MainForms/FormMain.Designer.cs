@@ -40,15 +40,10 @@
 			this.btnRemove = new System.Windows.Forms.ToolStripButton();
 			this.contactsDataGridView = new System.Windows.Forms.DataGridView();
 			this.contactsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-			this.PersonFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.personSecondNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.personGenderDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.personBirthDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.addressStreetDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.addressHouseNoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.addressApartmentNoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.phoneNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.phoneTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.personDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.phoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.contactsDataGridView)).BeginInit();
@@ -120,15 +115,10 @@
 			this.contactsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.contactsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.contactsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PersonFirstName,
-            this.personSecondNameDataGridViewTextBoxColumn,
-            this.personGenderDataGridViewTextBoxColumn,
-            this.personBirthDateDataGridViewTextBoxColumn,
-            this.addressStreetDataGridViewTextBoxColumn,
-            this.addressHouseNoDataGridViewTextBoxColumn,
-            this.addressApartmentNoDataGridViewTextBoxColumn,
-            this.phoneNumberDataGridViewTextBoxColumn,
-            this.phoneTypeDataGridViewTextBoxColumn,
+            this.idDataGridViewTextBoxColumn,
+            this.personDataGridViewTextBoxColumn,
+            this.addressDataGridViewTextBoxColumn,
+            this.phoneDataGridViewTextBoxColumn,
             this.emailDataGridViewTextBoxColumn});
 			this.contactsDataGridView.DataSource = this.contactsBindingSource;
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -160,68 +150,34 @@
 			// 
 			this.contactsBindingSource.DataSource = typeof(WF_Phonebook.Models.Contact);
 			// 
-			// PersonFirstName
+			// idDataGridViewTextBoxColumn
 			// 
-			this.PersonFirstName.DataPropertyName = "PersonFirstName";
-			this.PersonFirstName.HeaderText = "First Name";
-			this.PersonFirstName.Name = "PersonFirstName";
-			this.PersonFirstName.ReadOnly = true;
+			this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+			this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+			this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+			this.idDataGridViewTextBoxColumn.ReadOnly = true;
+			this.idDataGridViewTextBoxColumn.Visible = false;
 			// 
-			// personSecondNameDataGridViewTextBoxColumn
+			// personDataGridViewTextBoxColumn
 			// 
-			this.personSecondNameDataGridViewTextBoxColumn.DataPropertyName = "PersonSecondName";
-			this.personSecondNameDataGridViewTextBoxColumn.HeaderText = "Second Name";
-			this.personSecondNameDataGridViewTextBoxColumn.Name = "personSecondNameDataGridViewTextBoxColumn";
-			this.personSecondNameDataGridViewTextBoxColumn.ReadOnly = true;
+			this.personDataGridViewTextBoxColumn.DataPropertyName = "Person";
+			this.personDataGridViewTextBoxColumn.HeaderText = "Person";
+			this.personDataGridViewTextBoxColumn.Name = "personDataGridViewTextBoxColumn";
+			this.personDataGridViewTextBoxColumn.ReadOnly = true;
 			// 
-			// personGenderDataGridViewTextBoxColumn
+			// addressDataGridViewTextBoxColumn
 			// 
-			this.personGenderDataGridViewTextBoxColumn.DataPropertyName = "PersonGender";
-			this.personGenderDataGridViewTextBoxColumn.HeaderText = "Gender";
-			this.personGenderDataGridViewTextBoxColumn.Name = "personGenderDataGridViewTextBoxColumn";
-			this.personGenderDataGridViewTextBoxColumn.ReadOnly = true;
+			this.addressDataGridViewTextBoxColumn.DataPropertyName = "Address";
+			this.addressDataGridViewTextBoxColumn.HeaderText = "Address";
+			this.addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
+			this.addressDataGridViewTextBoxColumn.ReadOnly = true;
 			// 
-			// personBirthDateDataGridViewTextBoxColumn
+			// phoneDataGridViewTextBoxColumn
 			// 
-			this.personBirthDateDataGridViewTextBoxColumn.DataPropertyName = "PersonBirthDate";
-			this.personBirthDateDataGridViewTextBoxColumn.HeaderText = "Date of Birth";
-			this.personBirthDateDataGridViewTextBoxColumn.Name = "personBirthDateDataGridViewTextBoxColumn";
-			this.personBirthDateDataGridViewTextBoxColumn.ReadOnly = true;
-			// 
-			// addressStreetDataGridViewTextBoxColumn
-			// 
-			this.addressStreetDataGridViewTextBoxColumn.DataPropertyName = "AddressStreet";
-			this.addressStreetDataGridViewTextBoxColumn.HeaderText = "Street";
-			this.addressStreetDataGridViewTextBoxColumn.Name = "addressStreetDataGridViewTextBoxColumn";
-			this.addressStreetDataGridViewTextBoxColumn.ReadOnly = true;
-			// 
-			// addressHouseNoDataGridViewTextBoxColumn
-			// 
-			this.addressHouseNoDataGridViewTextBoxColumn.DataPropertyName = "AddressHouseNo";
-			this.addressHouseNoDataGridViewTextBoxColumn.HeaderText = "House No.";
-			this.addressHouseNoDataGridViewTextBoxColumn.Name = "addressHouseNoDataGridViewTextBoxColumn";
-			this.addressHouseNoDataGridViewTextBoxColumn.ReadOnly = true;
-			// 
-			// addressApartmentNoDataGridViewTextBoxColumn
-			// 
-			this.addressApartmentNoDataGridViewTextBoxColumn.DataPropertyName = "AddressApartmentNo";
-			this.addressApartmentNoDataGridViewTextBoxColumn.HeaderText = "Apartment No.";
-			this.addressApartmentNoDataGridViewTextBoxColumn.Name = "addressApartmentNoDataGridViewTextBoxColumn";
-			this.addressApartmentNoDataGridViewTextBoxColumn.ReadOnly = true;
-			// 
-			// phoneNumberDataGridViewTextBoxColumn
-			// 
-			this.phoneNumberDataGridViewTextBoxColumn.DataPropertyName = "PhoneNumber";
-			this.phoneNumberDataGridViewTextBoxColumn.HeaderText = "Number";
-			this.phoneNumberDataGridViewTextBoxColumn.Name = "phoneNumberDataGridViewTextBoxColumn";
-			this.phoneNumberDataGridViewTextBoxColumn.ReadOnly = true;
-			// 
-			// phoneTypeDataGridViewTextBoxColumn
-			// 
-			this.phoneTypeDataGridViewTextBoxColumn.DataPropertyName = "PhoneType";
-			this.phoneTypeDataGridViewTextBoxColumn.HeaderText = "Type";
-			this.phoneTypeDataGridViewTextBoxColumn.Name = "phoneTypeDataGridViewTextBoxColumn";
-			this.phoneTypeDataGridViewTextBoxColumn.ReadOnly = true;
+			this.phoneDataGridViewTextBoxColumn.DataPropertyName = "Phone";
+			this.phoneDataGridViewTextBoxColumn.HeaderText = "Phone";
+			this.phoneDataGridViewTextBoxColumn.Name = "phoneDataGridViewTextBoxColumn";
+			this.phoneDataGridViewTextBoxColumn.ReadOnly = true;
 			// 
 			// emailDataGridViewTextBoxColumn
 			// 
@@ -259,19 +215,14 @@
 		private System.Windows.Forms.ToolStripButton btnAdd;
 		private System.Windows.Forms.ToolStripButton btnEdit;
 		private System.Windows.Forms.ToolStripButton btnRemove;
-		private System.Windows.Forms.BindingSource contactsBindingSource;
 		private System.Windows.Forms.DataGridView contactsDataGridView;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
 		private System.Windows.Forms.ToolStripButton btnSave;
-		private System.Windows.Forms.DataGridViewTextBoxColumn PersonFirstName;
-		private System.Windows.Forms.DataGridViewTextBoxColumn personSecondNameDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn personGenderDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn personBirthDateDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn addressStreetDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn addressHouseNoDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn addressApartmentNoDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn phoneTypeDataGridViewTextBoxColumn;
+		private System.Windows.Forms.BindingSource contactsBindingSource;
+		private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn personDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn phoneDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
 	}
 }

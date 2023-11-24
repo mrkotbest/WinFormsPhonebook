@@ -7,103 +7,94 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPersonList : Form
 	{
-		public FormContact FormContact { get; set; }
 		public BindingList<Contact> Contacts { get; set; }
-		public BindingList<Person> PersonList { get; set; }
+		public BindingList<Person> Persons { get; set; }
 		public Mode CurrentMode { get; set; }
 
-		public FormPersonList(FormContact formContact, BindingList<Contact> contacts, BindingList<Person> personList, Mode mode)
+		public FormPersonList(BindingList<Contact> contacts, BindingList<Person> persons, Mode mode)
 		{
 			InitializeComponent();
 
-			FormContact = formContact;
 			Contacts = contacts;
-			PersonList = personList;
+			Persons = persons;
 			CurrentMode = mode;
 
 			InitializeControls();
 		}
 
+		public int GetSelectedPersonIndex()
+		{
+			return peopleDataGridView.SelectedRows[0].Index;
+		}
 		private void InitializeControls()
 		{
-			peopleBindingSource.DataSource = PersonList;
+			peopleBindingSource.DataSource = Persons;
 
 			LoadPersonData();
 
-			PersonList.ListChanged += PersonList_ListChanged;
-			btnEdit.Enabled = PersonList.Count > 0;
-			btnRemove.Enabled = PersonList.Count > 0;
+			if (Persons != null)
+			{
+				Persons.ListChanged += PersonList_ListChanged;
+				btnEdit.Enabled = Persons.Count > 0;
+				btnRemove.Enabled = Persons.Count > 0;
+			}
 		}
 		private void LoadPersonData()
 		{
-			if (Contacts.Count > 0 && PersonList.Count == 0)
+			if (Persons != null && Persons.Count == 0)
 			{
 				foreach (Contact contact in Contacts)
 				{
-					PersonList.Add(contact.GetPerson());
+					Persons.Add(contact.GetPerson());
 				}
 			}
 		}
-		private void UpdatePersonTextBox()
-		{
-			if (GetSelectedPerson() != null)
-			{
-				Person lastPerson = GetSelectedPerson();
-				string personData = $"{lastPerson.FirstName} {lastPerson.LastName} [{lastPerson.Gender}] {lastPerson.BirthDate.ToShortDateString()}";
-				FormContact.UpdateTextBox("tbPerson", personData);
-			}
-		}
-		private Person GetSelectedPerson()
-		{
-			if (peopleDataGridView.SelectedRows.Count == 1)
-			{
-				int selectedRowIndex = peopleDataGridView.SelectedRows[0].Index;
-				return PersonList[selectedRowIndex];
-			}
-			return null;
-		}
+		//private Person GetSelectedPerson()
+		//{
+		//	if (peopleDataGridView.SelectedRows.Count == 1)
+		//	{
+		//		int selectedRowIndex = GetSelectedPersonIndex();
+		//		return Persons[selectedRowIndex];
+		//	}
+		//	return null;
+		//}
 
 		private void PersonList_ListChanged(object sender, ListChangedEventArgs e)
 		{
-			if (e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted)
-			{
-				UpdatePersonTextBox();
-			}
-
-			btnEdit.Enabled = btnRemove.Enabled = PersonList.Count > 0;
+			btnEdit.Enabled = btnRemove.Enabled = Persons.Count > 0;
 		}
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormPersonData formPersonData = new FormPersonData(PersonList, Mode.Add);
-			formPersonData.ShowDialog();
+			FormPersonData formPersonData = new FormPersonData(Mode.Add, new Person());
+			if (formPersonData.ShowDialog() == DialogResult.OK)
+			{
+				Persons.Add(formPersonData.Person);
+			}
 		}
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
-			Person selectedPerson = GetSelectedPerson();
-			if (selectedPerson != null)
+			int selectedIndex = GetSelectedPersonIndex();
+			Person selectedPerson = Persons[selectedIndex];
+
+			FormPersonData formPersonData = new FormPersonData(Mode.Edit, selectedPerson);
+			if (formPersonData.ShowDialog() == DialogResult.OK)
 			{
-				FormPersonData formPersonData = new FormPersonData(FormContact, PersonList, Mode.Edit, selectedPerson);
-				formPersonData.ShowDialog();
-				peopleDataGridView.Refresh();
+				Persons[selectedIndex] = formPersonData.Person;
 			}
 		}
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
-			Person selectedPerson = GetSelectedPerson();
-			if (selectedPerson != null)
+			if (peopleDataGridView.SelectedRows.Count > 0)
 			{
-				PersonList.Remove(selectedPerson);
-				peopleDataGridView.Refresh();
+				int selectedIndex = GetSelectedPersonIndex();
+				Persons.RemoveAt(selectedIndex);
 			}
 		}
 
 		private void FormPersonList_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			UpdatePersonTextBox();
-			FormContact.SelectedPerson = GetSelectedPerson();
-			if (PersonList.Count == 0)
-				FormContact.UpdateTextBox("tbPerson", string.Empty);
+			DialogResult = DialogResult.OK;
 		}
 	}
 }

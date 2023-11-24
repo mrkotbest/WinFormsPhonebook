@@ -7,19 +7,16 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPhoneList : Form
 	{
-		public FormContact FormContact { get; set; }
 		public BindingList<Contact> Contacts { get; set; }
-		public BindingList<Phone> PhoneList { get; set; }
+		public BindingList<Phone> Phones { get; set; }
 		public Mode CurrentMode { get; set; }
 
-		public FormPhoneList(FormContact formContact,
-			BindingList<Contact> contacts, BindingList<Phone> phoneList, Mode mode)
+		public FormPhoneList(BindingList<Contact> contacts, BindingList<Phone> phones, Mode mode)
 		{
 			InitializeComponent();
 
-			FormContact = formContact;
 			Contacts = contacts;
-			PhoneList = phoneList;
+			Phones = phones;
 			CurrentMode = mode;
 
 			InitializeControls();
@@ -27,84 +24,74 @@ namespace WF_Phonebook.Forms
 
 		private void InitializeControls()
 		{
-			phoneListBindingSource.DataSource = PhoneList;
+			phoneListBindingSource.DataSource = Phones;
 
 			LoadPhoneData();
 
-			PhoneList.ListChanged += PhoneList_ListChanged;
-			btnEdit.Enabled = PhoneList.Count > 0;
-			btnRemove.Enabled = PhoneList.Count > 0;
+			Phones.ListChanged += PhoneList_ListChanged;
+			btnEdit.Enabled = Phones.Count > 0;
+			btnRemove.Enabled = Phones.Count > 0;
 		}
 		private void LoadPhoneData()
 		{
-			if (Contacts.Count > 0 && PhoneList.Count == 0)
+			if (Phones != null && Phones.Count == 0)
 			{
 				foreach (Contact contact in Contacts)
 				{
-					PhoneList.Add(contact.GetPhone());
+					Phones.Add(contact.GetPhone());
 				}
 			}
 		}
-		private void UpdatePhoneTextBox()
+		public int GetSelectedPhoneIndex()
 		{
-			if (GetSelectedPhone() != null)
-			{
-				Phone lastPhone = GetSelectedPhone();
-				string phoneData = $"{lastPhone.Number} ({lastPhone.Type})";
-				FormContact.UpdateTextBox("tbPhone", phoneData);
-			}
+			return phoneListDataGridView.SelectedRows[0].Index;
 		}
-		private Phone GetSelectedPhone()
-		{
-			if (phoneListDataGridView.SelectedRows.Count == 1)
-			{
-				int selectedRowIndex = phoneListDataGridView.SelectedRows[0].Index;
-				return PhoneList[selectedRowIndex];
-			}
-			return null;
-		}
+		//private Phone GetSelectedPhone()
+		//{
+		//	if (phoneListDataGridView.SelectedRows.Count == 1)
+		//	{
+		//		int selectedRowIndex = GetSelectedPhoneIndex();
+		//		return Phones[selectedRowIndex];
+		//	}
+		//	return null;
+		//}
 
 		private void PhoneList_ListChanged(object sender, ListChangedEventArgs e)
 		{
-			if (e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted)
-			{
-				UpdatePhoneTextBox();
-			}
-
-			btnEdit.Enabled = btnRemove.Enabled = PhoneList.Count > 0;
+			btnEdit.Enabled = btnRemove.Enabled = Phones.Count > 0;
 		}
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormPhoneData formPhoneData = new FormPhoneData(PhoneList, Mode.Add);
-			formPhoneData.ShowDialog();
+			FormPhoneData formPhoneData = new FormPhoneData(Mode.Add, new Phone());
+			if (formPhoneData.ShowDialog() == DialogResult.OK)
+			{
+				Phones.Add(formPhoneData.Phone);
+			}
 		}
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
-			Phone selectedPhone = GetSelectedPhone();
-			if (selectedPhone != null)
+			int selectedIndex = GetSelectedPhoneIndex();
+			Phone selectedPhone = Phones[selectedIndex];
+
+			FormPhoneData formPhoneData = new FormPhoneData(Mode.Edit, selectedPhone);
+			if (formPhoneData.ShowDialog() == DialogResult.OK)
 			{
-				FormPhoneData formPhoneData = new FormPhoneData(PhoneList, Mode.Edit, selectedPhone);
-				formPhoneData.ShowDialog();
-				phoneListDataGridView.Refresh();
+				Phones[selectedIndex] = formPhoneData.Phone;
 			}
 		}
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
-			Phone selectedPhone = GetSelectedPhone();
-			if (selectedPhone != null)
+			if (phoneListDataGridView.SelectedRows.Count > 0)
 			{
-				PhoneList.Remove(selectedPhone);
-				phoneListDataGridView.Refresh();
+				int selectedIndex = GetSelectedPhoneIndex();
+				Phones.RemoveAt(selectedIndex);
 			}
 		}
 
 		private void FormPhoneList_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			UpdatePhoneTextBox();
-			FormContact.SelectedPhone = GetSelectedPhone();
-			if (PhoneList.Count == 0)
-				FormContact.UpdateTextBox("tbPhone", string.Empty);
+			DialogResult = DialogResult.OK;
 		}
 	}
 }

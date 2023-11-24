@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -12,7 +11,10 @@ namespace WF_Phonebook
 	public partial class FormMain : Form
 	{
 		public BindingList<Contact> Contacts { get; set; } = new BindingList<Contact>();
-		
+		public BindingList<Person> Persons { get; set; } = new BindingList<Person>();
+		public BindingList<Address> Addresses { get; set; } = new BindingList<Address>();
+		public BindingList<Phone> Phones { get; set; } = new BindingList<Phone>();
+
 		public FormMain()
 		{
 			InitializeComponent();
@@ -26,39 +28,33 @@ namespace WF_Phonebook
 		}
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormContact formContact = new FormContact(this, Contacts, Mode.Add);
-			formContact.ShowDialog();
+			FormContact formContact = new FormContact(Mode.Add, Contacts, Persons, Addresses, Phones);
 
+			if (formContact.ShowDialog() == DialogResult.OK)
+			{
+				Contacts = formContact.Contacts;
+			}
 		}
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
+			int selectedContactIndex = GetSelectedContactIndex();
 			Contact selectedContact = GetSelectedContact();
 			if (selectedContact != null)
 			{
-				FormContact formContact = new FormContact(this, Contacts, Mode.Edit, selectedContact);
-				formContact.ShowDialog();
-				contactsDataGridView.Refresh();
+				FormContact formContact = new FormContact(Mode.Edit, Contacts, Persons, Addresses, Phones, selectedContact, selectedContactIndex);
+				if (formContact.ShowDialog() == DialogResult.OK)
+				{
+					Contacts = formContact.Contacts;
+				}
 			}
 		}
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
 			RemoveItem();
 		}
-
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			SaveData();
-		}
-
-		private void InitializeControls()
-		{
-			LoadData();
-			
-			contactsBindingSource.DataSource = Contacts;
-			
-			Contacts.ListChanged += Contacts_ListChanged;
-			btnEdit.Enabled = Contacts.Count > 0;
-			btnRemove.Enabled = Contacts.Count > 0;
 		}
 
 		private void Contacts_ListChanged(object sender, ListChangedEventArgs e)
@@ -66,11 +62,26 @@ namespace WF_Phonebook
 			btnEdit.Enabled = btnRemove.Enabled = Contacts.Count > 0;
 		}
 
+		private void InitializeControls()
+		{
+
+			LoadData();
+			contactsBindingSource.DataSource = Contacts;
+			
+			Contacts.ListChanged += Contacts_ListChanged;
+			btnEdit.Enabled = Contacts.Count > 0;
+			btnRemove.Enabled = Contacts.Count > 0;
+		}
+
+		private int GetSelectedContactIndex()
+		{
+			return contactsDataGridView.SelectedRows[0].Index;
+		}
 		private Contact GetSelectedContact()
 		{
 			if (contactsDataGridView.SelectedRows.Count == 1)
 			{
-				int selectedRowIndex = contactsDataGridView.SelectedRows[0].Index;
+				int selectedRowIndex = GetSelectedContactIndex();
 				return Contacts[selectedRowIndex];
 			}
 			return null;
@@ -79,14 +90,14 @@ namespace WF_Phonebook
 		{
 			if (Contacts.Count == 0 || Contacts is null)
 			{
-				MessageBox.Show("There is no item to remove.", "No Item to Remove", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("There is no item to remove.", "Removal warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			else if (contactsDataGridView.SelectedRows.Count == 1)
 			{
-				if (MessageBox.Show("Are you sure to remove?", "Removal warning",
+				if (MessageBox.Show("Are you sure to remove this record?", "Removal warning",
 					MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
 				{
-					int selectedRowIndex = contactsDataGridView.SelectedRows[0].Index;
+					int selectedRowIndex = GetSelectedContactIndex();
 					Contacts.RemoveAt(selectedRowIndex);
 				}
 			}
@@ -102,10 +113,13 @@ namespace WF_Phonebook
 				{
 					Contacts = (BindingList<Contact>)formatter.Deserialize(fs);
 				}
-			}
-			else
-			{
-				InitTestData();
+
+				foreach (Contact contact in Contacts)
+				{
+					Persons.Add(contact.GetPerson());
+					Addresses.Add(contact.GetAddress());
+					Phones.Add(contact.GetPhone());
+				}
 			}
 		}
 		private void SaveData()
@@ -117,28 +131,26 @@ namespace WF_Phonebook
 				formatter.Serialize(fs, Contacts);
 			}
 		}
-		private void InitTestData()
-		{
-			Contacts.Add(new Contact(
-				new Person("John", "Walker", "male", DateTime.Now.Date),
-				new Address("Blackmen Street", 11, 23),
-				new Phone("+15874962358", "mobile"),
-				"blackman@gmail.com"));
-			Contacts.Add(new Contact(
-				new Person("Mia", "Halifa", "female", DateTime.Now.Date),
-				new Address("Oxford Square", 5, 297),
-				new Phone("+448573296858", "mobile"),
-				"mselizamilez@gmail.com"));
-			Contacts.Add(new Contact(
-				new Person("Jack", "Sparrow", "male", DateTime.Now.Date),
-				new Address("The Black Pearl", 1, 1),
-				new Phone("+15698741255", "mobile"),
-				"sparrowcapitan@gmail.com"));
-			Contacts.Add(new Contact(
-				new Person("Donald", "Trump", "male", DateTime.Now.Date),
-				new Address("Washington Street", 76, 158),
-				new Phone("+10278549637", "mobile"),
-				"trumpnextpresident@gmail.com"));
-		}
+		//private void InitTestData()
+		//{
+		//	Contacts.Add(new Contact(
+		//		Contacts.Count,
+		//		new Person("Jessica", "ARCANGULA", "female", DateTime.UtcNow),
+		//		new Address("JSSTREET", 23, 2334),
+		//		new Phone("+380686312365", "mobile"),
+		//		"js@gmail.com"));
+		//	Contacts.Add(new Contact(
+		//		Contacts.Count,
+		//		new Person("Jessica", "ARCANGULA", "female", DateTime.UtcNow),
+		//		new Address("JSSTREET", 23, 2334),
+		//		new Phone("+380686312365", "mobile"),
+		//		"js@gmail.com"));
+		//	Contacts.Add(new Contact(
+		//		Contacts.Count,
+		//		new Person("Jessica", "ARCANGULA", "female", DateTime.UtcNow),
+		//		new Address("JSSTREET", 23, 2334),
+		//		new Phone("+380686312365", "mobile"),
+		//		"js@gmail.com"));
+		//}
 	}
 }

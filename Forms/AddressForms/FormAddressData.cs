@@ -7,23 +7,21 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormAddressData : Form
 	{
-		public BindingList<Address> AddressList { get; set; }
-		public Address CurrentAddress { get; set; }
+		public Address Address { get; set; }
 		public Mode CurrentMode { get; set; }
 
-		public FormAddressData(BindingList<Address> addressList, Mode mode, Address address = null)
+		public FormAddressData(Mode mode, Address address = null)
 		{
 			InitializeComponent();
 
 			CurrentMode = mode;
-			CurrentAddress = address;
-			AddressList = addressList;
+			Address = address;
 
-			if (CurrentMode == Mode.Edit)
+			if (CurrentMode == Mode.Edit && Address != null)
 			{
-				tbStreet.Text = CurrentAddress.Street;
-				tbHouse.Text = CurrentAddress.HouseNo.ToString();
-				tbApartment.Text = CurrentAddress.ApartmentNo.ToString();
+				tbStreet.Text = Address.Street;
+				tbHouse.Text = Address.HouseNo.ToString();
+				tbApartment.Text = Address.ApartmentNo.ToString();
 			}
 		}
 
@@ -38,14 +36,14 @@ namespace WF_Phonebook.Forms
 			{
 				if (CurrentMode == Mode.Add)
 				{
-					AddressList.Add(new Address(tbStreet.Text, Convert.ToInt32(tbHouse.Text), Convert.ToInt32(tbApartment.Text)));
+					Address = new Address(tbStreet.Text, Convert.ToInt32(tbHouse.Text), Convert.ToInt32(tbApartment.Text));
 				}
 				else if (CurrentMode == Mode.Edit)
 				{
-					CurrentAddress.Street = tbStreet.Text;
-					CurrentAddress.HouseNo = Convert.ToInt32(tbHouse.Text);
-					CurrentAddress.ApartmentNo = Convert.ToInt32(tbApartment.Text);
+					Address = new Address(tbStreet.Text, Convert.ToInt32(tbHouse.Text), Convert.ToInt32(tbApartment.Text));
 				}
+
+				DialogResult = DialogResult.OK;
 				Close();
 			}
 		}

@@ -7,104 +7,91 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormAddressList : Form
 	{
-		public FormContact FormContact { get; set; }
 		public BindingList<Contact> Contacts { get; set; }
-		public BindingList<Address> AddressList { get; set; }
+		public BindingList<Address> Addresses { get; set; }
 		public Mode CurrentMode { get; set; }
 
-		public FormAddressList(FormContact formContact,
-			BindingList<Contact> contacts, BindingList<Address> addressList, Mode mode)
+		public FormAddressList(BindingList<Contact> contacts, BindingList<Address> addresses, Mode mode)
 		{
 			InitializeComponent();
 
-			FormContact = formContact;
 			Contacts = contacts;
-			AddressList = addressList;
+			Addresses = addresses;
 			CurrentMode = mode;
 
 			InitializeControls();
 		}
 
+		public int GetSelectedAddressIndex()
+		{
+			return addressListDataGridView.SelectedRows[0].Index;
+		}
 		private void InitializeControls()
 		{
-			addressListBindingSource.DataSource = AddressList;
+			addressListBindingSource.DataSource = Addresses;
 
 			LoadAddressData();
 
-			AddressList.ListChanged += AddressList_ListChanged;
-			btnEdit.Enabled = AddressList.Count > 0;
-			btnRemove.Enabled = AddressList.Count > 0;
+			Addresses.ListChanged += AddressList_ListChanged;
+			btnEdit.Enabled = Addresses.Count > 0;
+			btnRemove.Enabled = Addresses.Count > 0;
 		}
 		private void LoadAddressData()
 		{
-			if (Contacts.Count > 0 && AddressList.Count == 0)
+			if (Addresses != null && Addresses.Count == 0)
 			{
 				foreach (Contact contact in Contacts)
 				{
-					AddressList.Add(contact.GetAddress());
+					Addresses.Add(contact.GetAddress());
 				}
 			}
 		}
-		private void UpdateAddressTextBox()
-		{
-			if (GetSelectedAddress() != null)
-			{
-				Address lastAddress = GetSelectedAddress();
-				string addressData = $"{lastAddress.Street} {lastAddress.HouseNo}/{lastAddress.ApartmentNo}";
-				FormContact.UpdateTextBox("tbAddress", addressData);
-			}
-		}
-		private Address GetSelectedAddress()
-		{
-			if (addressListDataGridView.SelectedRows.Count == 1)
-			{
-				int selectedRowIndex = addressListDataGridView.SelectedRows[0].Index;
-				return AddressList[selectedRowIndex];
-			}
-			return null;
-		}
+		//private Address GetSelectedAddress()
+		//{
+		//	if (addressListDataGridView.SelectedRows.Count == 1)
+		//	{
+		//		int selectedRowIndex = GetSelectedAddressIndex();
+		//		return Addresses[selectedRowIndex];
+		//	}
+		//	return null;
+		//}
 
 		private void AddressList_ListChanged(object sender, ListChangedEventArgs e)
 		{
-			if (e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted)
-			{
-				UpdateAddressTextBox();
-			}
-
-			btnEdit.Enabled = btnRemove.Enabled = AddressList.Count > 0;
+			btnEdit.Enabled = btnRemove.Enabled = Addresses.Count > 0;
 		}
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormAddressData formAddressData = new FormAddressData(AddressList, Mode.Add);
-			formAddressData.ShowDialog();
+			FormAddressData formAddressData = new FormAddressData(Mode.Add, new Address());
+			if (formAddressData.ShowDialog() == DialogResult.OK)
+			{
+				Addresses.Add(formAddressData.Address);
+			}
 		}
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
-			Address selectedAddress = GetSelectedAddress();
-			if (selectedAddress != null)
+			int selectedIndex = GetSelectedAddressIndex();
+			Address selectedAddress = Addresses[selectedIndex];
+
+			FormAddressData formAddressData = new FormAddressData(Mode.Edit, selectedAddress);
+			if (formAddressData.ShowDialog() == DialogResult.OK)
 			{
-				FormAddressData formAddressData = new FormAddressData(AddressList, Mode.Edit, selectedAddress);
-				formAddressData.ShowDialog();
-				addressListDataGridView.Refresh();
+				Addresses[selectedIndex] = formAddressData.Address;
 			}
 		}
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
-			Address selectedAddress = GetSelectedAddress();
-			if (selectedAddress != null)
+			if (addressListDataGridView.SelectedRows.Count > 0)
 			{
-				AddressList.Remove(selectedAddress);
-				addressListDataGridView.Refresh();
+				int selectedIndex = GetSelectedAddressIndex();
+				Addresses.RemoveAt(selectedIndex);
 			}
 		}
 
 		private void FormAddressList_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			UpdateAddressTextBox();
-			FormContact.SelectedAddress = GetSelectedAddress();
-			if (AddressList.Count == 0)
-				FormContact.UpdateTextBox("tbAddress", string.Empty);
+			DialogResult = DialogResult.OK;
 		}
 	}
 }

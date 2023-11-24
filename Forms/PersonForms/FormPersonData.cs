@@ -7,27 +7,22 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPersonData : Form
 	{
-		public FormContact FormContact { get; set; }
-		public BindingList<Person> PersonList { get; set; }
-		public Person CurrentPerson { get; set; }
+		public Person Person { get; set; }
 		public Mode CurrentMode { get; set; }
 
-		public FormPersonData(BindingList<Person> personList, Mode mode, Person person = null) : this(null, personList, mode, person) { }
-		public FormPersonData(FormContact formContact, BindingList<Person> personList, Mode mode, Person person = null)
+		public FormPersonData(Mode mode, Person person = null)
 		{
 			InitializeComponent();
 
-			FormContact = formContact;
-			PersonList = personList;
 			CurrentMode = mode;
-			CurrentPerson = person;
+			Person = person;
 
-			if (CurrentMode == Mode.Edit && CurrentPerson != null)
+			if (CurrentMode == Mode.Edit && Person != null)
 			{
-				tbFirstName.Text = CurrentPerson.FirstName;
-				tbLastName.Text = CurrentPerson.LastName;
-				tbGender.Text = CurrentPerson.Gender;
-				dpBirthDate.Value = CurrentPerson.BirthDate.Date;
+				tbFirstName.Text = Person.FirstName;
+				tbLastName.Text = Person.LastName;
+				tbGender.Text = Person.Gender;
+				dpBirthDate.Value = Person.BirthDate.Date;
 			}
 		}
 
@@ -42,20 +37,14 @@ namespace WF_Phonebook.Forms
 			{
 				if (CurrentMode == Mode.Add)
 				{
-					PersonList.Add(new Person(tbFirstName.Text, tbLastName.Text, tbGender.Text, dpBirthDate.Value.Date));
+					Person = new Person(tbFirstName.Text, tbLastName.Text, tbGender.Text, dpBirthDate.Value.Date);
 				}
-				else if (CurrentMode == Mode.Edit && CurrentPerson == null)
+				else if (CurrentMode == Mode.Edit)
 				{
-					Person tempPerson = new Person(tbFirstName.Text, tbLastName.Text, tbGender.Text, dpBirthDate.Value.Date);
-					FormContact.SelectedPerson = tempPerson;
+					Person = new Person(tbFirstName.Text, tbLastName.Text, tbGender.Text, dpBirthDate.Value.Date);
 				}
-				else if (CurrentMode == Mode.Edit && CurrentPerson != null)
-				{
-					CurrentPerson.FirstName = tbFirstName.Text;
-					CurrentPerson.LastName = tbLastName.Text;
-					CurrentPerson.Gender = tbGender.Text;
-					CurrentPerson.BirthDate = dpBirthDate.Value.Date;
-				}
+
+				DialogResult = DialogResult.OK;
 				Close();
 			}
 		}

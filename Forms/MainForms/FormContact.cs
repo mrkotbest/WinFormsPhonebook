@@ -9,45 +9,36 @@ namespace WF_Phonebook.Forms
 	public partial class FormContact : Form
 	{
 		public Mode CurrentMode { get; set; }
-		public FormMain FormMain { get; set; }
 
-		public BindingList<Contact> Contacts { get; }
-		public BindingList<Person> PersonList { get; set; } = new BindingList<Person>();
-		public BindingList<Address> AddressList { get; set; } = new BindingList<Address>();
-		public BindingList<Phone> PhoneList { get; set; } = new BindingList<Phone>();
+		public BindingList<Contact> Contacts { get; set; }
+		public BindingList<Person> Persons { get; set; }
+		public BindingList<Address> Addresses { get; set; }
+		public BindingList<Phone> Phones { get; set; }
 
+		public Person Person { get; set; }
+		public Address Address { get; set; }
+		public Phone Phone { get; set; }
 
+		public int CurrentContactIndex { get; set; }
 		public Contact CurrentContact { get; set; }
-		public Person SelectedPerson { get; set; }
-		public Address SelectedAddress { get; set; }
-		public Phone SelectedPhone { get; set; }
 
-		public FormContact(FormMain formMain, BindingList<Contact> contacts, Mode mode, Contact contact = null)
+		public FormContact(Mode mode, BindingList<Contact> contacts,
+			BindingList<Person> persons, BindingList<Address> addresses, BindingList<Phone> phones,
+			Contact contact = null, int contactIndex = 0)
 		{
 			InitializeComponent();
 
-			FormMain = formMain;
-			Contacts = contacts;
 			CurrentMode = mode;
+			Contacts = contacts;
 			CurrentContact = contact;
+			CurrentContactIndex = contactIndex;
+			Persons = persons;
+			Addresses = addresses;
+			Phones = phones;
 
-			if (CurrentMode == Mode.Edit)
-			{
-				SelectedPerson = CurrentContact.GetPerson();
-				SelectedAddress = CurrentContact.GetAddress();
-				SelectedPhone = CurrentContact.GetPhone();
-
-				tbPerson.Text = SelectedPerson.ToString();
-				tbAddress.Text = SelectedAddress.ToString();
-				tbPhone.Text = SelectedPhone.ToString();
-				tbEmail.Text = CurrentContact.Email;
-			}
+			InitComponents();
 		}
 
-		private void ClearTextBox(TextBox textBox)
-		{
-			textBox.Clear();
-		}
 		public void UpdateTextBox(string textBoxName, string text)
 		{
 			// Get textBoxes by their name.
@@ -56,15 +47,14 @@ namespace WF_Phonebook.Forms
 				textBox.Text = text;
 			}
 		}
-		private void RemoveDataByType<T>(TextBox textBox) where T : class
+		private void InitComponents()
 		{
-			if (MessageBox.Show($"{typeof(T).Name} data is going to be cleaned!", "Removal warning",
-				MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+			if (CurrentMode == Mode.Edit)
 			{
-				ClearTextBox(textBox);
-				if (typeof(T) == typeof(Person)) SelectedPerson = null;
-				else if (typeof(T) == typeof(Address)) SelectedAddress = null;
-				else if (typeof(T) == typeof(Phone)) SelectedPhone = null;
+				tbPerson.Text = CurrentContact.GetPerson().ToString();
+				tbAddress.Text = CurrentContact.GetAddress().ToString();
+				tbPhone.Text = CurrentContact.GetPhone().ToString();
+				tbEmail.Text = CurrentContact.Email;
 			}
 		}
 
@@ -72,38 +62,71 @@ namespace WF_Phonebook.Forms
 		{
 			if (CurrentMode == Mode.Add)
 			{
-				FormPersonList formPersonList = new FormPersonList(this, Contacts, PersonList, CurrentMode);
-				formPersonList.ShowDialog();
+				FormPersonList formPersonList = new FormPersonList(Contacts, Persons, CurrentMode);
+				if (formPersonList.ShowDialog() == DialogResult.OK)
+				{
+					Person = formPersonList.Persons[formPersonList.GetSelectedPersonIndex()];
+				}
 			}
-			else if (CurrentMode == Mode.Edit)
+			else if (CurrentMode == Mode.Edit && CurrentContact != null)
 			{
-				FormPersonData formPersonData = new FormPersonData(this, PersonList, CurrentMode, CurrentContact.GetPerson());
+				FormPersonData formPersonData = new FormPersonData(CurrentMode, CurrentContact.GetPerson());
 				formPersonData.ShowDialog();
-				UpdateTextBox("tbPerson", SelectedPerson.ToString());
+				Person = formPersonData.Person;
 			}
+			if (Person is null) return;
+			UpdateTextBox("tbPerson", Person.ToString());
 		}
 		private void btnAddressInfo_Click(object sender, EventArgs e)
 		{
-			FormAddressList formAddressList = new FormAddressList(this, Contacts, AddressList, CurrentMode);
-			formAddressList.ShowDialog();
+			if (CurrentMode == Mode.Add)
+			{
+				FormAddressList formAddressList = new FormAddressList(Contacts, Addresses, CurrentMode);
+				if (formAddressList.ShowDialog() == DialogResult.OK)
+				{
+					Address = formAddressList.Addresses[formAddressList.GetSelectedAddressIndex()];
+				}
+			}
+			else if (CurrentMode == Mode.Edit)
+			{
+				FormAddressData formAddressData = new FormAddressData(CurrentMode, CurrentContact.GetAddress());
+				formAddressData.ShowDialog();
+				Address = formAddressData.Address;
+			}
+			if (Address is null) return;
+			UpdateTextBox("tbAddress", Address.ToString());
 		}
 		private void btnPhoneInfo_Click(object sender, EventArgs e)
 		{
-			FormPhoneList formPhoneList = new FormPhoneList(this, Contacts, PhoneList, CurrentMode);
-			formPhoneList.ShowDialog();
+			if (CurrentMode == Mode.Add)
+			{
+				FormPhoneList formPhoneList = new FormPhoneList(Contacts, Phones, CurrentMode);
+				if (formPhoneList.ShowDialog() == DialogResult.OK)
+				{
+					Phone = formPhoneList.Phones[formPhoneList.GetSelectedPhoneIndex()];
+				}
+			}
+			else if (CurrentMode == Mode.Edit)
+			{
+				FormPhoneData formPhoneData = new FormPhoneData(CurrentMode, CurrentContact.GetPhone());
+				formPhoneData.ShowDialog();
+				Phone = formPhoneData.Phone;
+			}
+			if (Phone is null) return;
+			UpdateTextBox("tbPhone", Phone.ToString());
 		}
 
 		private void btnPersonRemove_Click(object sender, EventArgs e)
 		{
-			RemoveDataByType<Person>(tbPerson);
+			UpdateTextBox("tbPerson", string.Empty);
 		}
 		private void btnAddressRemove_Click(object sender, EventArgs e)
 		{
-			RemoveDataByType<Address>(tbAddress);
+			UpdateTextBox("tbAddress", string.Empty);
 		}
 		private void btnPhoneRemove_Click(object sender, EventArgs e)
 		{
-			RemoveDataByType<Phone>(tbPhone);
+			UpdateTextBox("tbPhone", string.Empty);
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)
@@ -111,34 +134,33 @@ namespace WF_Phonebook.Forms
 			TextBox[] textBoxes = new[] { tbPerson, tbAddress, tbPhone, tbEmail };
 			if (textBoxes.Any(tb => tb.Text == string.Empty))
 			{
-				MessageBox.Show("There is no data in some field!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show("Some fields are empty! Please complete them to save.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
-			if (CurrentMode == Mode.Add && (SelectedPerson != null & SelectedAddress != null & SelectedPhone != null))
+			Person = Person ?? CurrentContact.GetPerson();
+			Address = Address ?? CurrentContact.GetAddress();
+			Phone = Phone ?? CurrentContact.GetPhone();
+
+			Contact newContact = new Contact(Contacts.Count, Person, Address, Phone, tbEmail.Text);
+
+			if (CurrentMode == Mode.Add)
 			{
-				Contacts.Add(new Contact(SelectedPerson, SelectedAddress, SelectedPhone, tbEmail.Text));
+				Contacts.Add(newContact);
 			}
 			else if (CurrentMode == Mode.Edit)
 			{
-				CurrentContact.UpdateContact(SelectedPerson, SelectedAddress, SelectedPhone, tbEmail.Text);
+				Contacts[CurrentContactIndex] = newContact;
 			}
+
+			DialogResult = DialogResult.OK;
 			Close();
 		}
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
-			if (SelectedPerson != null || SelectedAddress != null || SelectedPhone != null || tbEmail.Text != string.Empty)
-			{
-				if (MessageBox.Show("You are going to remove the Contact data!", "Removal warning",
-					MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
-					return;
-				else
-				{
-					SelectedPerson = null;
-					SelectedAddress = null;
-					SelectedPhone = null;
-				}
-			}
+			if (MessageBox.Show("The data is not saved! Are you sure to cancel?", "Removal warning",
+				MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+				return;
 			Close();
 		}
 

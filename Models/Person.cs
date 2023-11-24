@@ -1,13 +1,18 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace WF_Phonebook.Models
 {
 	public class Person
 	{
-		public int Id { get; set; }
+		[Browsable(true)]
 		public string FirstName { get; set; }
+		[DataMember]
 		public string LastName { get; set; }
+		[Browsable(true)]
 		public string Gender { get; set; }
+		[Browsable(true)]
 		public DateTime BirthDate { get; set; }
 
 		public Person() { }

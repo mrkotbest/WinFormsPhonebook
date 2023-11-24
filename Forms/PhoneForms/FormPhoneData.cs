@@ -6,22 +6,20 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPhoneData : Form
 	{
-		public BindingList<Phone> PhoneList { get; set; }
-		public Phone CurrentPhone { get; set; }
+		public Phone Phone { get; set; }
 		public Mode CurrentMode { get; set; }
 
-		public FormPhoneData(BindingList<Phone> phoneList, Mode mode, Phone phone = null)
+		public FormPhoneData(Mode mode, Phone phone = null)
 		{
 			InitializeComponent();
 
 			CurrentMode = mode;
-			CurrentPhone = phone;
-			PhoneList = phoneList;
+			Phone = phone;
 
-			if (CurrentMode == Mode.Edit)
+			if (CurrentMode == Mode.Edit && Phone != null)
 			{
-				tbNumber.Text = CurrentPhone.Number;
-				tbType.Text = CurrentPhone.Type;
+				tbNumber.Text = Phone.Number;
+				tbType.Text = Phone.Type;
 			}
 		}
 
@@ -36,13 +34,14 @@ namespace WF_Phonebook.Forms
 			{
 				if (CurrentMode == Mode.Add)
 				{
-					PhoneList.Add(new Phone(tbNumber.Text, tbType.Text));
+					Phone = new Phone(tbNumber.Text, tbType.Text);
 				}
 				else if (CurrentMode == Mode.Edit)
 				{
-					CurrentPhone.Number = tbNumber.Text;
-					CurrentPhone.Type = tbType.Text;
+					Phone = new Phone(tbNumber.Text, tbType.Text);
 				}
+
+				DialogResult = DialogResult.OK;
 				Close();
 			}
 		}

@@ -1,17 +1,20 @@
-﻿namespace WF_Phonebook.Models
+﻿using System.ComponentModel;
+using System.Runtime.Serialization;
+
+namespace WF_Phonebook.Models
 {
 	public class Address
 	{
-		private static int _nextId = 1;
-		public int Id { get; set; }
+		[Browsable(true)]
 		public string Street { get; set; }
+		[Browsable(true)]
 		public int HouseNo { get; set; }
+		[Browsable(true)]
 		public int ApartmentNo { get; set; }
 
         public Address() { }
         public Address(string street, int houseNo, int apartmentNo)
 		{
-			Id = _nextId++;
 			Street = street;
 			HouseNo = houseNo;
 			ApartmentNo = apartmentNo;
