@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 using WF_Phonebook.Models;
 
@@ -7,8 +6,8 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormAddressData : Form
 	{
+		public Mode CurrentMode { get; }
 		public Address Address { get; set; }
-		public Mode CurrentMode { get; set; }
 
 		public FormAddressData(Mode mode, Address address = null)
 		{
@@ -34,14 +33,7 @@ namespace WF_Phonebook.Forms
 			}
 			else
 			{
-				if (CurrentMode == Mode.Add)
-				{
-					Address = new Address(tbStreet.Text, Convert.ToInt32(tbHouse.Text), Convert.ToInt32(tbApartment.Text));
-				}
-				else if (CurrentMode == Mode.Edit)
-				{
-					Address = new Address(tbStreet.Text, Convert.ToInt32(tbHouse.Text), Convert.ToInt32(tbApartment.Text));
-				}
+				Address = new Address(tbStreet.Text, Convert.ToInt32(tbHouse.Text), Convert.ToInt32(tbApartment.Text));
 
 				DialogResult = DialogResult.OK;
 				Close();
@@ -65,6 +57,15 @@ namespace WF_Phonebook.Forms
 			// Checking if a symbol is a number
 			if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
 				e.Handled = true;
+		}
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape)
+			{
+				Close();
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 	}
 }

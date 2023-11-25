@@ -8,7 +8,7 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormContact : Form
 	{
-		public Mode CurrentMode { get; set; }
+		public Mode CurrentMode { get; }
 
 		public BindingList<Contact> Contacts { get; set; }
 		public BindingList<Person> Persons { get; set; }
@@ -30,24 +30,16 @@ namespace WF_Phonebook.Forms
 
 			CurrentMode = mode;
 			Contacts = contacts;
-			CurrentContact = contact;
-			CurrentContactIndex = contactIndex;
 			Persons = persons;
 			Addresses = addresses;
 			Phones = phones;
+			CurrentContact = contact;
+			CurrentContactIndex = contactIndex;
 
-			InitComponents();
+			InitializeControls();
 		}
 
-		public void UpdateTextBox(string textBoxName, string text)
-		{
-			// Get textBoxes by their name.
-			if (Controls.Find(textBoxName, true).FirstOrDefault() is TextBox textBox)
-			{
-				textBox.Text = text;
-			}
-		}
-		private void InitComponents()
+		private void InitializeControls()
 		{
 			if (CurrentMode == Mode.Edit)
 			{
@@ -57,12 +49,20 @@ namespace WF_Phonebook.Forms
 				tbEmail.Text = CurrentContact.Email;
 			}
 		}
+		private void UpdateTextBox(string textBoxName, string text)
+		{
+			// Get textBoxes by their name.
+			if (Controls.Find(textBoxName, true).FirstOrDefault() is TextBox textBox)
+			{
+				textBox.Text = text;
+			}
+		}
 
 		private void btnPersonInfo_Click(object sender, EventArgs e)
 		{
 			if (CurrentMode == Mode.Add)
 			{
-				FormPersonList formPersonList = new FormPersonList(Contacts, Persons, CurrentMode);
+				FormPersonList formPersonList = new FormPersonList(Persons);
 				if (formPersonList.ShowDialog() == DialogResult.OK)
 				{
 					Person = formPersonList.Persons[formPersonList.GetSelectedPersonIndex()];
@@ -81,7 +81,7 @@ namespace WF_Phonebook.Forms
 		{
 			if (CurrentMode == Mode.Add)
 			{
-				FormAddressList formAddressList = new FormAddressList(Contacts, Addresses, CurrentMode);
+				FormAddressList formAddressList = new FormAddressList(Addresses);
 				if (formAddressList.ShowDialog() == DialogResult.OK)
 				{
 					Address = formAddressList.Addresses[formAddressList.GetSelectedAddressIndex()];
@@ -100,7 +100,7 @@ namespace WF_Phonebook.Forms
 		{
 			if (CurrentMode == Mode.Add)
 			{
-				FormPhoneList formPhoneList = new FormPhoneList(Contacts, Phones, CurrentMode);
+				FormPhoneList formPhoneList = new FormPhoneList(Phones);
 				if (formPhoneList.ShowDialog() == DialogResult.OK)
 				{
 					Phone = formPhoneList.Phones[formPhoneList.GetSelectedPhoneIndex()];
@@ -131,8 +131,7 @@ namespace WF_Phonebook.Forms
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			TextBox[] textBoxes = new[] { tbPerson, tbAddress, tbPhone, tbEmail };
-			if (textBoxes.Any(tb => tb.Text == string.Empty))
+			if (tbPerson.Text == string.Empty || tbAddress.Text == string.Empty || tbPhone.Text == string.Empty || tbEmail.Text == string.Empty)
 			{
 				MessageBox.Show("Some fields are empty! Please complete them to save.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
@@ -142,7 +141,7 @@ namespace WF_Phonebook.Forms
 			Address = Address ?? CurrentContact.GetAddress();
 			Phone = Phone ?? CurrentContact.GetPhone();
 
-			Contact newContact = new Contact(Contacts.Count, Person, Address, Phone, tbEmail.Text);
+			Contact newContact = new Contact(id: Contacts.Count, Person, Address, Phone, tbEmail.Text);
 
 			if (CurrentMode == Mode.Add)
 			{
@@ -158,8 +157,8 @@ namespace WF_Phonebook.Forms
 		}
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show("The data is not saved! Are you sure to cancel?", "Removal warning",
-				MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+			if (MessageBox.Show("The contact is not saved! Are you sure to cancel?", "Removal warning",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
 				return;
 			Close();
 		}
@@ -188,6 +187,19 @@ namespace WF_Phonebook.Forms
 				}
 
 			}
+		}
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (MessageBox.Show("The contact is not saved! Are you sure to cancel?", "Removal warning",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+			{
+				if (keyData == Keys.Escape)
+				{
+					Close();
+					return true;
+				}
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 	}
 }

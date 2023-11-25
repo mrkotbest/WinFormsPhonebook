@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 using WF_Phonebook.Models;
 
@@ -7,8 +6,8 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPersonData : Form
 	{
+		public Mode CurrentMode { get; }
 		public Person Person { get; set; }
-		public Mode CurrentMode { get; set; }
 
 		public FormPersonData(Mode mode, Person person = null)
 		{
@@ -35,14 +34,7 @@ namespace WF_Phonebook.Forms
 			}
 			else
 			{
-				if (CurrentMode == Mode.Add)
-				{
-					Person = new Person(tbFirstName.Text, tbLastName.Text, tbGender.Text, dpBirthDate.Value.Date);
-				}
-				else if (CurrentMode == Mode.Edit)
-				{
-					Person = new Person(tbFirstName.Text, tbLastName.Text, tbGender.Text, dpBirthDate.Value.Date);
-				}
+				Person = new Person(tbFirstName.Text, tbLastName.Text, tbGender.Text, dpBirthDate.Value.Date);
 
 				DialogResult = DialogResult.OK;
 				Close();
@@ -66,6 +58,15 @@ namespace WF_Phonebook.Forms
 			// Checking if a symbol is a letter or a control symbol (eg "Backspace")
 			if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
 				e.Handled = true;
+		}
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape)
+			{
+				Close();
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 	}
 }

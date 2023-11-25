@@ -7,17 +7,13 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPersonList : Form
 	{
-		public BindingList<Contact> Contacts { get; set; }
 		public BindingList<Person> Persons { get; set; }
-		public Mode CurrentMode { get; set; }
 
-		public FormPersonList(BindingList<Contact> contacts, BindingList<Person> persons, Mode mode)
+		public FormPersonList(BindingList<Person> persons)
 		{
 			InitializeComponent();
 
-			Contacts = contacts;
 			Persons = persons;
-			CurrentMode = mode;
 
 			InitializeControls();
 		}
@@ -30,8 +26,6 @@ namespace WF_Phonebook.Forms
 		{
 			peopleBindingSource.DataSource = Persons;
 
-			LoadPersonData();
-
 			if (Persons != null)
 			{
 				Persons.ListChanged += PersonList_ListChanged;
@@ -39,25 +33,6 @@ namespace WF_Phonebook.Forms
 				btnRemove.Enabled = Persons.Count > 0;
 			}
 		}
-		private void LoadPersonData()
-		{
-			if (Persons != null && Persons.Count == 0)
-			{
-				foreach (Contact contact in Contacts)
-				{
-					Persons.Add(contact.GetPerson());
-				}
-			}
-		}
-		//private Person GetSelectedPerson()
-		//{
-		//	if (peopleDataGridView.SelectedRows.Count == 1)
-		//	{
-		//		int selectedRowIndex = GetSelectedPersonIndex();
-		//		return Persons[selectedRowIndex];
-		//	}
-		//	return null;
-		//}
 
 		private void PersonList_ListChanged(object sender, ListChangedEventArgs e)
 		{
@@ -95,6 +70,15 @@ namespace WF_Phonebook.Forms
 		private void FormPersonList_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			DialogResult = DialogResult.OK;
+		}
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape)
+			{
+				Close();
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 	}
 }

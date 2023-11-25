@@ -7,17 +7,13 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormAddressList : Form
 	{
-		public BindingList<Contact> Contacts { get; set; }
 		public BindingList<Address> Addresses { get; set; }
-		public Mode CurrentMode { get; set; }
 
-		public FormAddressList(BindingList<Contact> contacts, BindingList<Address> addresses, Mode mode)
+		public FormAddressList(BindingList<Address> addresses)
 		{
 			InitializeComponent();
 
-			Contacts = contacts;
 			Addresses = addresses;
-			CurrentMode = mode;
 
 			InitializeControls();
 		}
@@ -30,31 +26,10 @@ namespace WF_Phonebook.Forms
 		{
 			addressListBindingSource.DataSource = Addresses;
 
-			LoadAddressData();
-
 			Addresses.ListChanged += AddressList_ListChanged;
 			btnEdit.Enabled = Addresses.Count > 0;
 			btnRemove.Enabled = Addresses.Count > 0;
 		}
-		private void LoadAddressData()
-		{
-			if (Addresses != null && Addresses.Count == 0)
-			{
-				foreach (Contact contact in Contacts)
-				{
-					Addresses.Add(contact.GetAddress());
-				}
-			}
-		}
-		//private Address GetSelectedAddress()
-		//{
-		//	if (addressListDataGridView.SelectedRows.Count == 1)
-		//	{
-		//		int selectedRowIndex = GetSelectedAddressIndex();
-		//		return Addresses[selectedRowIndex];
-		//	}
-		//	return null;
-		//}
 
 		private void AddressList_ListChanged(object sender, ListChangedEventArgs e)
 		{
@@ -92,6 +67,15 @@ namespace WF_Phonebook.Forms
 		private void FormAddressList_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			DialogResult = DialogResult.OK;
+		}
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape)
+			{
+				Close();
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 	}
 }

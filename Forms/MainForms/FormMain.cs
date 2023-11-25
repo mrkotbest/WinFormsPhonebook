@@ -95,7 +95,7 @@ namespace WF_Phonebook
 			else if (contactsDataGridView.SelectedRows.Count == 1)
 			{
 				if (MessageBox.Show("Are you sure to remove this record?", "Removal warning",
-					MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+					MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
 					int selectedRowIndex = GetSelectedContactIndex();
 					Contacts.RemoveAt(selectedRowIndex);
@@ -131,26 +131,5 @@ namespace WF_Phonebook
 				formatter.Serialize(fs, Contacts);
 			}
 		}
-		//private void InitTestData()
-		//{
-		//	Contacts.Add(new Contact(
-		//		Contacts.Count,
-		//		new Person("Jessica", "ARCANGULA", "female", DateTime.UtcNow),
-		//		new Address("JSSTREET", 23, 2334),
-		//		new Phone("+380686312365", "mobile"),
-		//		"js@gmail.com"));
-		//	Contacts.Add(new Contact(
-		//		Contacts.Count,
-		//		new Person("Jessica", "ARCANGULA", "female", DateTime.UtcNow),
-		//		new Address("JSSTREET", 23, 2334),
-		//		new Phone("+380686312365", "mobile"),
-		//		"js@gmail.com"));
-		//	Contacts.Add(new Contact(
-		//		Contacts.Count,
-		//		new Person("Jessica", "ARCANGULA", "female", DateTime.UtcNow),
-		//		new Address("JSSTREET", 23, 2334),
-		//		new Phone("+380686312365", "mobile"),
-		//		"js@gmail.com"));
-		//}
 	}
 }
