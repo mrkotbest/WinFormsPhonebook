@@ -8,62 +8,61 @@ namespace WF_Phonebook.Forms
 	public partial class FormAddressList : Form
 	{
 		public BindingList<Address> Addresses { get; set; }
+		public int SelectedAddressIndex { get; private set; } = -1;
 
 		public FormAddressList(BindingList<Address> addresses)
 		{
 			InitializeComponent();
-
 			Addresses = addresses;
-
-			InitializeControls();
-		}
-
-		public int GetSelectedAddressIndex()
-		{
-			return addressListDataGridView.SelectedRows[0].Index;
-		}
-		private void InitializeControls()
-		{
-			addressListBindingSource.DataSource = Addresses;
-
-			Addresses.ListChanged += AddressList_ListChanged;
-			btnEdit.Enabled = Addresses.Count > 0;
-			btnRemove.Enabled = Addresses.Count > 0;
-		}
-
-		private void AddressList_ListChanged(object sender, ListChangedEventArgs e)
-		{
-			btnEdit.Enabled = btnRemove.Enabled = Addresses.Count > 0;
 		}
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormAddressData formAddressData = new FormAddressData(Mode.Add, new Address());
-			if (formAddressData.ShowDialog() == DialogResult.OK)
+			FormAddressData form = new FormAddressData(Mode.Add, new Address());
+			if (form.ShowDialog() == DialogResult.OK)
 			{
-				Addresses.Add(formAddressData.Address);
+				Addresses.Add(form.Address);
 			}
 		}
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
-			int selectedIndex = GetSelectedAddressIndex();
-			Address selectedAddress = Addresses[selectedIndex];
+			Address selectedAddress = Addresses[SelectedAddressIndex];
 
-			FormAddressData formAddressData = new FormAddressData(Mode.Edit, selectedAddress);
-			if (formAddressData.ShowDialog() == DialogResult.OK)
+			FormAddressData form = new FormAddressData(Mode.Edit, selectedAddress);
+			if (form.ShowDialog() == DialogResult.OK)
 			{
-				Addresses[selectedIndex] = formAddressData.Address;
+				Addresses[SelectedAddressIndex] = form.Address;
 			}
 		}
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
 			if (addressListDataGridView.SelectedRows.Count > 0)
 			{
-				int selectedIndex = GetSelectedAddressIndex();
-				Addresses.RemoveAt(selectedIndex);
+				Addresses.RemoveAt(SelectedAddressIndex);
 			}
 		}
 
+		private void InitializeControls()
+		{
+			addressListBindingSource.DataSource = Addresses;
+
+			Addresses.ListChanged += AddressList_ListChanged;
+			btnEdit.Enabled = btnRemove.Enabled = Addresses.Count > 0;
+		}
+
+		private void addressListDataGridView_SelectionChanged(object sender, EventArgs e)
+		{
+			SelectedAddressIndex = addressListDataGridView.SelectedRows.Count > 0 ? addressListDataGridView.SelectedRows[0].Index : -1;
+		}
+		private void AddressList_ListChanged(object sender, ListChangedEventArgs e)
+		{
+			btnEdit.Enabled = btnRemove.Enabled = Addresses.Count > 0;
+		}
+
+		private void FormAddressList_Load(object sender, EventArgs e)
+		{
+			InitializeControls();
+		}
 		private void FormAddressList_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			DialogResult = DialogResult.OK;

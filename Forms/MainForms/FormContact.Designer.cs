@@ -175,7 +175,6 @@
 			this.tbEmail.Size = new System.Drawing.Size(275, 20);
 			this.tbEmail.TabIndex = 7;
 			this.tbEmail.TextChanged += new System.EventHandler(this.tbEmail_TextChanged);
-			this.tbEmail.Validating += new System.ComponentModel.CancelEventHandler(this.tbEmail_Validating);
 			// 
 			// lblEmail
 			// 
@@ -231,6 +230,7 @@
 			this.Name = "FormContact";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Contact Data";
+			this.Load += new System.EventHandler(this.FormContact_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

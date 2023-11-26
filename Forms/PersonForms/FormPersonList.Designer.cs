@@ -133,6 +133,7 @@
 			this.peopleDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.peopleDataGridView.Size = new System.Drawing.Size(784, 336);
 			this.peopleDataGridView.TabIndex = 2;
+			this.peopleDataGridView.SelectionChanged += new System.EventHandler(this.peopleDataGridView_SelectionChanged);
 			// 
 			// firstNameDataGridViewTextBoxColumn
 			// 
@@ -177,6 +178,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "List of Person";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormPersonList_FormClosed);
+			this.Load += new System.EventHandler(this.FormPersonList_Load);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.peopleDataGridView)).EndInit();

@@ -60,6 +60,7 @@
     <Compile Include="Forms\AddressForms\FormAddressList.Designer.cs">
       <DependentUpon>FormAddressList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Store.cs" />
     <Compile Include="Forms\MainForms\FormContact.cs">
       <SubType>Form</SubType>
     </Compile>

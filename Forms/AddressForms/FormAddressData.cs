@@ -33,8 +33,7 @@ namespace WF_Phonebook.Forms
 			}
 			else
 			{
-				Address = new Address(tbStreet.Text, Convert.ToInt32(tbHouse.Text), Convert.ToInt32(tbApartment.Text));
-
+				Address = new Address(Convert.ToInt32(tbHouse.Text), Convert.ToInt32(tbApartment.Text), tbStreet.Text);
 				DialogResult = DialogResult.OK;
 				Close();
 			}

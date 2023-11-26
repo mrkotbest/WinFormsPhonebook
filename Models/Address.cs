@@ -1,23 +1,34 @@
-﻿using System.ComponentModel;
-using System.Runtime.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 
 namespace WF_Phonebook.Models
 {
 	public class Address
 	{
-		[Browsable(true)]
-		public string Street { get; set; }
-		[Browsable(true)]
+		private static int _lastId = 0;
+		[XmlIgnore]
+		public int Id { get; set; }
+		[XmlAttribute("Id")]
+		public int SerializableId
+		{
+			get { return Id; }
+			set
+			{
+				Id = value;
+				_lastId = Math.Max(_lastId, Id);
+			}
+		}
 		public int HouseNo { get; set; }
-		[Browsable(true)]
 		public int ApartmentNo { get; set; }
+		public string Street { get; set; }
 
         public Address() { }
-        public Address(string street, int houseNo, int apartmentNo)
+        public Address(int houseNo, int apartmentNo, string street)
 		{
-			Street = street;
+			Id = ++_lastId;
 			HouseNo = houseNo;
 			ApartmentNo = apartmentNo;
+			Street = street;
 		}
 
 		public override string ToString() => $"{Street} {HouseNo}/{ApartmentNo}";

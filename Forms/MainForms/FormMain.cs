@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using WF_Phonebook.Forms;
@@ -15,84 +16,78 @@ namespace WF_Phonebook
 		public BindingList<Address> Addresses { get; set; } = new BindingList<Address>();
 		public BindingList<Phone> Phones { get; set; } = new BindingList<Phone>();
 
-		public FormMain()
-		{
-			InitializeComponent();
-			InitializeControls();
-		}
+		public FormMain() => InitializeComponent();
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
 			SaveData();
-			MessageBox.Show("Saved!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show("Contacts are saved!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			FormContact formContact = new FormContact(Mode.Add, Contacts, Persons, Addresses, Phones);
-
-			if (formContact.ShowDialog() == DialogResult.OK)
-			{
-				Contacts = formContact.Contacts;
-			}
+			formContact.ShowDialog();
 		}
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
 			int selectedContactIndex = GetSelectedContactIndex();
 			Contact selectedContact = GetSelectedContact();
+
 			if (selectedContact != null)
 			{
 				FormContact formContact = new FormContact(Mode.Edit, Contacts, Persons, Addresses, Phones, selectedContact, selectedContactIndex);
-				if (formContact.ShowDialog() == DialogResult.OK)
-				{
-					Contacts = formContact.Contacts;
-				}
+				formContact.ShowDialog();
 			}
 		}
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
 			RemoveItem();
 		}
-		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			SaveData();
-		}
 
-		private void Contacts_ListChanged(object sender, ListChangedEventArgs e)
+		private void LoadData()
 		{
-			btnEdit.Enabled = btnRemove.Enabled = Contacts.Count > 0;
-		}
+			XmlSerializer formatter = new XmlSerializer(typeof(Store));
 
-		private void InitializeControls()
-		{
-
-			LoadData();
-			contactsBindingSource.DataSource = Contacts;
-			
-			Contacts.ListChanged += Contacts_ListChanged;
-			btnEdit.Enabled = Contacts.Count > 0;
-			btnRemove.Enabled = Contacts.Count > 0;
-		}
-
-		private int GetSelectedContactIndex()
-		{
-			return contactsDataGridView.SelectedRows[0].Index;
-		}
-		private Contact GetSelectedContact()
-		{
-			if (contactsDataGridView.SelectedRows.Count == 1)
+			if (File.Exists("contacts.xml") && new FileInfo("contacts.xml").Length > 0)
 			{
-				int selectedRowIndex = GetSelectedContactIndex();
-				return Contacts[selectedRowIndex];
+				using (FileStream fs = new FileStream("contacts.xml", FileMode.OpenOrCreate))
+				{
+					Store store = (Store)formatter.Deserialize(fs);
+					Persons = store.Persons;
+					Addresses = store.Addresses;
+					Phones = store.Phones;
+
+					var personsDict = Persons.ToDictionary(p => p.Id);
+					var addressesDict = Addresses.ToDictionary(a => a.Id);
+					var phonesDict = Phones.ToDictionary(p => p.Id);
+
+					foreach (Contact contact in store.Contacts)
+					{
+						if (personsDict.TryGetValue(contact.PersonId, out var person) &&
+							addressesDict.TryGetValue(contact.AddressId, out var address) &&
+							phonesDict.TryGetValue(contact.PhoneId, out var phone))
+						{
+							Contacts.Add(new Contact(person, address, phone, contact.Email));
+						}
+					}
+				}
 			}
-			return null;
 		}
+		private void SaveData()
+		{
+			Store store = new Store(Contacts, Persons, Addresses, Phones);
+
+			XmlSerializer formatter = new XmlSerializer(typeof(Store));
+
+			using (FileStream fs = new FileStream("contacts.xml", FileMode.Create))
+			{
+				formatter.Serialize(fs, store);
+			}
+		}
+
 		private void RemoveItem()
 		{
-			if (Contacts.Count == 0 || Contacts is null)
-			{
-				MessageBox.Show("There is no item to remove.", "Removal warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
-			else if (contactsDataGridView.SelectedRows.Count == 1)
+			if (contactsDataGridView.SelectedRows.Count == 1)
 			{
 				if (MessageBox.Show("Are you sure to remove this record?", "Removal warning",
 					MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -102,34 +97,37 @@ namespace WF_Phonebook
 				}
 			}
 		}
-
-		private void LoadData()
+		private int GetSelectedContactIndex() => contactsDataGridView.SelectedRows.Count > 0 ? contactsDataGridView.SelectedRows[0].Index : -1;
+		private Contact GetSelectedContact()
 		{
-			XmlSerializer formatter = new XmlSerializer(typeof(BindingList<Contact>));
-
-			if (File.Exists("contacts.xml") && new FileInfo("contacts.xml").Length > 0)
+			if (contactsDataGridView.SelectedRows.Count == 1)
 			{
-				using (FileStream fs = new FileStream("contacts.xml", FileMode.OpenOrCreate))
-				{
-					Contacts = (BindingList<Contact>)formatter.Deserialize(fs);
-				}
-
-				foreach (Contact contact in Contacts)
-				{
-					Persons.Add(contact.GetPerson());
-					Addresses.Add(contact.GetAddress());
-					Phones.Add(contact.GetPhone());
-				}
+				int selectedRowIndex = GetSelectedContactIndex();
+				return Contacts[selectedRowIndex];
 			}
+			return null;
 		}
-		private void SaveData()
-		{
-			XmlSerializer formatter = new XmlSerializer(typeof(BindingList<Contact>));
 
-			using (FileStream fs = new FileStream("contacts.xml", FileMode.Create))
-			{
-				formatter.Serialize(fs, Contacts);
-			}
+		private void InitializeControls()
+		{
+			LoadData();
+			contactsBindingSource.DataSource = Contacts;
+			
+			Contacts.ListChanged += Contacts_ListChanged;
+			btnEdit.Enabled = btnRemove.Enabled = Contacts.Count > 0;
+		}
+
+		private void Contacts_ListChanged(object sender, ListChangedEventArgs e)
+		{
+			btnEdit.Enabled = btnRemove.Enabled = Contacts.Count > 0;
+		}
+		private void FormMain_Load(object sender, EventArgs e)
+		{
+			InitializeControls();
+		}
+		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			SaveData();
 		}
 	}
 }

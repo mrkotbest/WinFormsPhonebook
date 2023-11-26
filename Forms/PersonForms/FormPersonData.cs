@@ -35,7 +35,6 @@ namespace WF_Phonebook.Forms
 			else
 			{
 				Person = new Person(tbFirstName.Text, tbLastName.Text, tbGender.Text, dpBirthDate.Value.Date);
-
 				DialogResult = DialogResult.OK;
 				Close();
 			}

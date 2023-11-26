@@ -8,35 +8,12 @@ namespace WF_Phonebook.Forms
 	public partial class FormPersonList : Form
 	{
 		public BindingList<Person> Persons { get; set; }
+		public int SelectedPersonIndex { get; private set; } = -1;
 
 		public FormPersonList(BindingList<Person> persons)
 		{
 			InitializeComponent();
-
 			Persons = persons;
-
-			InitializeControls();
-		}
-
-		public int GetSelectedPersonIndex()
-		{
-			return peopleDataGridView.SelectedRows[0].Index;
-		}
-		private void InitializeControls()
-		{
-			peopleBindingSource.DataSource = Persons;
-
-			if (Persons != null)
-			{
-				Persons.ListChanged += PersonList_ListChanged;
-				btnEdit.Enabled = Persons.Count > 0;
-				btnRemove.Enabled = Persons.Count > 0;
-			}
-		}
-
-		private void PersonList_ListChanged(object sender, ListChangedEventArgs e)
-		{
-			btnEdit.Enabled = btnRemove.Enabled = Persons.Count > 0;
 		}
 
 		private void btnAdd_Click(object sender, EventArgs e)
@@ -49,24 +26,46 @@ namespace WF_Phonebook.Forms
 		}
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
-			int selectedIndex = GetSelectedPersonIndex();
-			Person selectedPerson = Persons[selectedIndex];
+			Person selectedPerson = Persons[SelectedPersonIndex];
 
 			FormPersonData formPersonData = new FormPersonData(Mode.Edit, selectedPerson);
 			if (formPersonData.ShowDialog() == DialogResult.OK)
 			{
-				Persons[selectedIndex] = formPersonData.Person;
+				Persons[SelectedPersonIndex] = formPersonData.Person;
 			}
 		}
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
 			if (peopleDataGridView.SelectedRows.Count > 0)
 			{
-				int selectedIndex = GetSelectedPersonIndex();
-				Persons.RemoveAt(selectedIndex);
+				Persons.RemoveAt(SelectedPersonIndex);
 			}
 		}
 
+		private void InitializeControls()
+		{
+			peopleBindingSource.DataSource = Persons;
+
+			if (Persons != null)
+			{
+				Persons.ListChanged += PersonList_ListChanged;
+				btnEdit.Enabled = btnRemove.Enabled = Persons.Count > 0;
+			}
+		}
+		
+		private void peopleDataGridView_SelectionChanged(object sender, EventArgs e)
+		{
+			SelectedPersonIndex = peopleDataGridView.SelectedRows.Count > 0 ? peopleDataGridView.SelectedRows[0].Index : -1;
+		}
+		private void PersonList_ListChanged(object sender, ListChangedEventArgs e)
+		{
+			btnEdit.Enabled = btnRemove.Enabled = Persons.Count > 0;
+		}
+
+		private void FormPersonList_Load(object sender, EventArgs e)
+		{
+			InitializeControls();
+		}
 		private void FormPersonList_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			DialogResult = DialogResult.OK;

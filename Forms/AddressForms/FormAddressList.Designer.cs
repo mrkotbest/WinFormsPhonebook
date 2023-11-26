@@ -134,6 +134,7 @@
 			this.addressListDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.addressListDataGridView.Size = new System.Drawing.Size(784, 336);
 			this.addressListDataGridView.TabIndex = 2;
+			this.addressListDataGridView.SelectionChanged += new System.EventHandler(this.addressListDataGridView_SelectionChanged);
 			// 
 			// dataGridViewTextBoxColumn1
 			// 
@@ -167,6 +168,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "List of Address";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormAddressList_FormClosed);
+			this.Load += new System.EventHandler(this.FormAddressList_Load);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.addressListBindingSource)).EndInit();

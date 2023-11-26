@@ -10,20 +10,19 @@ namespace WF_Phonebook.Forms
 	{
 		public Mode CurrentMode { get; }
 
-		public BindingList<Contact> Contacts { get; set; }
-		public BindingList<Person> Persons { get; set; }
-		public BindingList<Address> Addresses { get; set; }
-		public BindingList<Phone> Phones { get; set; }
+		public BindingList<Contact> Contacts { get; }
+		public BindingList<Person> Persons { get; }
+		public BindingList<Address> Addresses { get; }
+		public BindingList<Phone> Phones { get; }
 
-		public Person Person { get; set; }
-		public Address Address { get; set; }
-		public Phone Phone { get; set; }
+		public Person Person { get; private set; }
+		public Address Address { get; private set; }
+		public Phone Phone { get; private set; }
 
-		public int CurrentContactIndex { get; set; }
-		public Contact CurrentContact { get; set; }
+		public int CurrentContactIndex { get; }
+		public Contact CurrentContact { get; }
 
-		public FormContact(Mode mode, BindingList<Contact> contacts,
-			BindingList<Person> persons, BindingList<Address> addresses, BindingList<Phone> phones,
+		public FormContact(Mode mode, BindingList<Contact> contacts, BindingList<Person> persons, BindingList<Address> addresses, BindingList<Phone> phones,
 			Contact contact = null, int contactIndex = 0)
 		{
 			InitializeComponent();
@@ -35,17 +34,15 @@ namespace WF_Phonebook.Forms
 			Phones = phones;
 			CurrentContact = contact;
 			CurrentContactIndex = contactIndex;
-
-			InitializeControls();
 		}
 
 		private void InitializeControls()
 		{
 			if (CurrentMode == Mode.Edit)
 			{
-				tbPerson.Text = CurrentContact.GetPerson().ToString();
-				tbAddress.Text = CurrentContact.GetAddress().ToString();
-				tbPhone.Text = CurrentContact.GetPhone().ToString();
+				tbPerson.Text = Persons[CurrentContactIndex].ToString();
+				tbAddress.Text = Addresses[CurrentContactIndex].ToString();
+				tbPhone.Text = Phones[CurrentContactIndex].ToString();
 				tbEmail.Text = CurrentContact.Email;
 			}
 		}
@@ -60,60 +57,30 @@ namespace WF_Phonebook.Forms
 
 		private void btnPersonInfo_Click(object sender, EventArgs e)
 		{
-			if (CurrentMode == Mode.Add)
+			FormPersonList form = new FormPersonList(Persons);
+			if (form.ShowDialog() == DialogResult.OK && form.SelectedPersonIndex != -1)
 			{
-				FormPersonList formPersonList = new FormPersonList(Persons);
-				if (formPersonList.ShowDialog() == DialogResult.OK)
-				{
-					Person = formPersonList.Persons[formPersonList.GetSelectedPersonIndex()];
-				}
+				Person = form.Persons[form.SelectedPersonIndex];
+				UpdateTextBox("tbPerson", Person.ToString());
 			}
-			else if (CurrentMode == Mode.Edit && CurrentContact != null)
-			{
-				FormPersonData formPersonData = new FormPersonData(CurrentMode, CurrentContact.GetPerson());
-				formPersonData.ShowDialog();
-				Person = formPersonData.Person;
-			}
-			if (Person is null) return;
-			UpdateTextBox("tbPerson", Person.ToString());
 		}
 		private void btnAddressInfo_Click(object sender, EventArgs e)
 		{
-			if (CurrentMode == Mode.Add)
+			FormAddressList form = new FormAddressList(Addresses);
+			if (form.ShowDialog() == DialogResult.OK && form.SelectedAddressIndex != -1)
 			{
-				FormAddressList formAddressList = new FormAddressList(Addresses);
-				if (formAddressList.ShowDialog() == DialogResult.OK)
-				{
-					Address = formAddressList.Addresses[formAddressList.GetSelectedAddressIndex()];
-				}
+				Address = form.Addresses[form.SelectedAddressIndex];
+				UpdateTextBox("tbAddress", Address.ToString());
 			}
-			else if (CurrentMode == Mode.Edit)
-			{
-				FormAddressData formAddressData = new FormAddressData(CurrentMode, CurrentContact.GetAddress());
-				formAddressData.ShowDialog();
-				Address = formAddressData.Address;
-			}
-			if (Address is null) return;
-			UpdateTextBox("tbAddress", Address.ToString());
 		}
 		private void btnPhoneInfo_Click(object sender, EventArgs e)
 		{
-			if (CurrentMode == Mode.Add)
+			FormPhoneList form = new FormPhoneList(Phones);
+			if (form.ShowDialog() == DialogResult.OK && form.SelectedPhoneIndex != -1)
 			{
-				FormPhoneList formPhoneList = new FormPhoneList(Phones);
-				if (formPhoneList.ShowDialog() == DialogResult.OK)
-				{
-					Phone = formPhoneList.Phones[formPhoneList.GetSelectedPhoneIndex()];
-				}
+				Phone = form.Phones[form.SelectedPhoneIndex];
+				UpdateTextBox("tbPhone", Phone.ToString());
 			}
-			else if (CurrentMode == Mode.Edit)
-			{
-				FormPhoneData formPhoneData = new FormPhoneData(CurrentMode, CurrentContact.GetPhone());
-				formPhoneData.ShowDialog();
-				Phone = formPhoneData.Phone;
-			}
-			if (Phone is null) return;
-			UpdateTextBox("tbPhone", Phone.ToString());
 		}
 
 		private void btnPersonRemove_Click(object sender, EventArgs e)
@@ -137,11 +104,11 @@ namespace WF_Phonebook.Forms
 				return;
 			}
 
-			Person = Person ?? CurrentContact.GetPerson();
-			Address = Address ?? CurrentContact.GetAddress();
-			Phone = Phone ?? CurrentContact.GetPhone();
+			Person = Person ?? Persons[CurrentContactIndex];
+			Address = Address ?? Addresses[CurrentContactIndex];
+			Phone = Phone ?? Phones[CurrentContactIndex];
 
-			Contact newContact = new Contact(id: Contacts.Count, Person, Address, Phone, tbEmail.Text);
+			Contact newContact = new Contact(Person, Address, Phone, tbEmail.Text);
 
 			if (CurrentMode == Mode.Add)
 			{
@@ -158,7 +125,7 @@ namespace WF_Phonebook.Forms
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
 			if (MessageBox.Show("The contact is not saved! Are you sure to cancel?", "Removal warning",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 				return;
 			Close();
 		}
@@ -174,32 +141,20 @@ namespace WF_Phonebook.Forms
 				textBox.SelectionStart = textBox.Text.Length;
 			}
 		}
-		private void tbEmail_Validating(object sender, CancelEventArgs e)
-		{
-			if (sender is TextBox textBox)
-			{
-				// Checking for the '@' symbol and the ending ".com".
-				if (!textBox.Text.Contains("@") || !textBox.Text.EndsWith(".com"))
-				{
-					MessageBox.Show("Please enter a valid email address!", "Warning",
-						MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					e.Cancel = true;
-				}
-
-			}
-		}
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			if (MessageBox.Show("The contact is not saved! Are you sure to cancel?", "Removal warning",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+			// Closes the form by pressing 'Escape'.
+			if (keyData == Keys.Escape)
 			{
-				if (keyData == Keys.Escape)
-				{
-					Close();
-					return true;
-				}
+				Close();
+				return true;
 			}
 			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		private void FormContact_Load(object sender, EventArgs e)
+		{
+			InitializeControls();
 		}
 	}
 }

@@ -1,23 +1,33 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace WF_Phonebook.Models
 {
 	public class Person
 	{
-		[Browsable(true)]
+		
+		private static int _lastId = 0;
+		[XmlIgnore]
+		public int Id { get; set; }
+		[XmlAttribute("Id")]
+		public int SerializableId
+		{
+			get { return Id; }
+			set
+			{
+				Id = value;
+				_lastId = Math.Max(_lastId, Id);
+			}
+		}
 		public string FirstName { get; set; }
-		[DataMember]
 		public string LastName { get; set; }
-		[Browsable(true)]
 		public string Gender { get; set; }
-		[Browsable(true)]
 		public DateTime BirthDate { get; set; }
 
 		public Person() { }
 		public Person(string firstName, string lastName, string gender, DateTime birthDate)
 		{
+			Id = ++_lastId;
 			FirstName = firstName;
 			LastName = lastName;
 			Gender = gender;

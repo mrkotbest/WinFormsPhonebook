@@ -32,7 +32,6 @@ namespace WF_Phonebook.Forms
 			else
 			{
 				Phone = new Phone(tbNumber.Text, tbType.Text);
-
 				DialogResult = DialogResult.OK;
 				Close();
 			}

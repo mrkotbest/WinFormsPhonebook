@@ -1,17 +1,30 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Xml.Serialization;
 
 namespace WF_Phonebook.Models
 {
 	public class Phone
 	{
-		[Browsable(true)]
+		private static int _lastId = 0;
+		[XmlIgnore]
+		public int Id { get; set; }
+		[XmlAttribute("Id")]
+		public int SerializableId
+		{
+			get { return Id; }
+			set
+			{
+				Id = value;
+				_lastId = Math.Max(_lastId, Id);
+			}
+		}
 		public string Number { get; set; }
-		[Browsable(true)]
 		public string Type { get; set; }        // Type of the Phone
 
         public Phone() { }
         public Phone(string number, string type)
 		{
+			Id = ++_lastId;
 			Number = number;
 			Type = type;
 		}

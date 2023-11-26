@@ -39,12 +39,11 @@
 			this.btnEdit = new System.Windows.Forms.ToolStripButton();
 			this.btnRemove = new System.Windows.Forms.ToolStripButton();
 			this.contactsDataGridView = new System.Windows.Forms.DataGridView();
-			this.contactsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-			this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.personDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.phoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.contactsBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.contactsDataGridView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.contactsBindingSource)).BeginInit();
@@ -115,7 +114,6 @@
 			this.contactsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.contactsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.contactsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idDataGridViewTextBoxColumn,
             this.personDataGridViewTextBoxColumn,
             this.addressDataGridViewTextBoxColumn,
             this.phoneDataGridViewTextBoxColumn,
@@ -146,18 +144,6 @@
 			this.contactsDataGridView.Size = new System.Drawing.Size(1265, 507);
 			this.contactsDataGridView.TabIndex = 2;
 			// 
-			// contactsBindingSource
-			// 
-			this.contactsBindingSource.DataSource = typeof(WF_Phonebook.Models.Contact);
-			// 
-			// idDataGridViewTextBoxColumn
-			// 
-			this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-			this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-			this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-			this.idDataGridViewTextBoxColumn.ReadOnly = true;
-			this.idDataGridViewTextBoxColumn.Visible = false;
-			// 
 			// personDataGridViewTextBoxColumn
 			// 
 			this.personDataGridViewTextBoxColumn.DataPropertyName = "Person";
@@ -186,6 +172,10 @@
 			this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
 			this.emailDataGridViewTextBoxColumn.ReadOnly = true;
 			// 
+			// contactsBindingSource
+			// 
+			this.contactsBindingSource.DataSource = typeof(WF_Phonebook.Models.Contact);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -200,6 +190,7 @@
 			this.Text = "Phonebook";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.contactsDataGridView)).EndInit();
