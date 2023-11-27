@@ -88,14 +88,17 @@ namespace WF_Phonebook.Forms
 		private void btnPersonRemove_Click(object sender, EventArgs e)
 		{
 			UpdateTextBox("tbPerson", string.Empty);
+			Person = null;
 		}
 		private void btnAddressRemove_Click(object sender, EventArgs e)
 		{
 			UpdateTextBox("tbAddress", string.Empty);
+			Address = null;
 		}
 		private void btnPhoneRemove_Click(object sender, EventArgs e)
 		{
 			UpdateTextBox("tbPhone", string.Empty);
+			Phone = null;
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)

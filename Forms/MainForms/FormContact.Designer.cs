@@ -31,6 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			this.lblPerson = new System.Windows.Forms.Label();
 			this.tbPerson = new System.Windows.Forms.TextBox();
+			this.formContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.btnPersonInfo = new System.Windows.Forms.Button();
 			this.btnPersonRemove = new System.Windows.Forms.Button();
 			this.btnAddressRemove = new System.Windows.Forms.Button();
@@ -45,16 +46,16 @@
 			this.lblEmail = new System.Windows.Forms.Label();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
-			this.formContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.formContactBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// lblPerson
 			// 
 			this.lblPerson.AutoSize = true;
-			this.lblPerson.Location = new System.Drawing.Point(24, 31);
+			this.lblPerson.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lblPerson.Location = new System.Drawing.Point(18, 30);
 			this.lblPerson.Name = "lblPerson";
-			this.lblPerson.Size = new System.Drawing.Size(43, 13);
+			this.lblPerson.Size = new System.Drawing.Size(49, 15);
 			this.lblPerson.TabIndex = 13;
 			this.lblPerson.Text = "Person:";
 			// 
@@ -63,51 +64,68 @@
 			this.tbPerson.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbPerson.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.tbPerson.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formContactBindingSource, "Person", true));
+			this.tbPerson.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbPerson.Location = new System.Drawing.Point(73, 28);
 			this.tbPerson.Name = "tbPerson";
 			this.tbPerson.ReadOnly = true;
-			this.tbPerson.Size = new System.Drawing.Size(275, 20);
+			this.tbPerson.Size = new System.Drawing.Size(275, 22);
 			this.tbPerson.TabIndex = 10;
 			this.tbPerson.TabStop = false;
 			// 
+			// formContactBindingSource
+			// 
+			this.formContactBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormContact);
+			// 
 			// btnPersonInfo
 			// 
+			this.btnPersonInfo.BackColor = System.Drawing.Color.Azure;
+			this.btnPersonInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnPersonInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnPersonInfo.Location = new System.Drawing.Point(365, 28);
 			this.btnPersonInfo.Name = "btnPersonInfo";
 			this.btnPersonInfo.Size = new System.Drawing.Size(35, 22);
 			this.btnPersonInfo.TabIndex = 1;
 			this.btnPersonInfo.Text = "...";
-			this.btnPersonInfo.UseVisualStyleBackColor = true;
+			this.btnPersonInfo.UseVisualStyleBackColor = false;
 			this.btnPersonInfo.Click += new System.EventHandler(this.btnPersonInfo_Click);
 			// 
 			// btnPersonRemove
 			// 
+			this.btnPersonRemove.BackColor = System.Drawing.Color.GhostWhite;
+			this.btnPersonRemove.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnPersonRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnPersonRemove.Location = new System.Drawing.Point(406, 28);
 			this.btnPersonRemove.Name = "btnPersonRemove";
 			this.btnPersonRemove.Size = new System.Drawing.Size(35, 22);
 			this.btnPersonRemove.TabIndex = 2;
 			this.btnPersonRemove.Text = "X";
-			this.btnPersonRemove.UseVisualStyleBackColor = true;
+			this.btnPersonRemove.UseVisualStyleBackColor = false;
 			this.btnPersonRemove.Click += new System.EventHandler(this.btnPersonRemove_Click);
 			// 
 			// btnAddressRemove
 			// 
-			this.btnAddressRemove.Location = new System.Drawing.Point(406, 54);
+			this.btnAddressRemove.BackColor = System.Drawing.Color.GhostWhite;
+			this.btnAddressRemove.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnAddressRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnAddressRemove.Location = new System.Drawing.Point(406, 56);
 			this.btnAddressRemove.Name = "btnAddressRemove";
 			this.btnAddressRemove.Size = new System.Drawing.Size(35, 22);
 			this.btnAddressRemove.TabIndex = 4;
 			this.btnAddressRemove.Text = "X";
-			this.btnAddressRemove.UseVisualStyleBackColor = true;
+			this.btnAddressRemove.UseVisualStyleBackColor = false;
 			this.btnAddressRemove.Click += new System.EventHandler(this.btnAddressRemove_Click);
 			// 
 			// btnAddressInfo
 			// 
-			this.btnAddressInfo.Location = new System.Drawing.Point(365, 54);
+			this.btnAddressInfo.BackColor = System.Drawing.Color.Azure;
+			this.btnAddressInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnAddressInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnAddressInfo.Location = new System.Drawing.Point(365, 56);
 			this.btnAddressInfo.Name = "btnAddressInfo";
 			this.btnAddressInfo.Size = new System.Drawing.Size(35, 22);
 			this.btnAddressInfo.TabIndex = 3;
 			this.btnAddressInfo.Text = "...";
-			this.btnAddressInfo.UseVisualStyleBackColor = true;
+			this.btnAddressInfo.UseVisualStyleBackColor = false;
 			this.btnAddressInfo.Click += new System.EventHandler(this.btnAddressInfo_Click);
 			// 
 			// tbAddress
@@ -115,40 +133,48 @@
 			this.tbAddress.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.tbAddress.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formContactBindingSource, "Address", true));
-			this.tbAddress.Location = new System.Drawing.Point(73, 54);
+			this.tbAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.tbAddress.Location = new System.Drawing.Point(73, 56);
 			this.tbAddress.Name = "tbAddress";
 			this.tbAddress.ReadOnly = true;
-			this.tbAddress.Size = new System.Drawing.Size(275, 20);
+			this.tbAddress.Size = new System.Drawing.Size(275, 22);
 			this.tbAddress.TabIndex = 11;
 			this.tbAddress.TabStop = false;
 			// 
 			// lblAddress
 			// 
 			this.lblAddress.AutoSize = true;
-			this.lblAddress.Location = new System.Drawing.Point(24, 57);
+			this.lblAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lblAddress.Location = new System.Drawing.Point(13, 58);
 			this.lblAddress.Name = "lblAddress";
-			this.lblAddress.Size = new System.Drawing.Size(48, 13);
+			this.lblAddress.Size = new System.Drawing.Size(54, 15);
 			this.lblAddress.TabIndex = 14;
 			this.lblAddress.Text = "Address:";
 			// 
 			// btnPhoneRemove
 			// 
-			this.btnPhoneRemove.Location = new System.Drawing.Point(406, 80);
+			this.btnPhoneRemove.BackColor = System.Drawing.Color.GhostWhite;
+			this.btnPhoneRemove.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnPhoneRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnPhoneRemove.Location = new System.Drawing.Point(406, 84);
 			this.btnPhoneRemove.Name = "btnPhoneRemove";
 			this.btnPhoneRemove.Size = new System.Drawing.Size(35, 22);
 			this.btnPhoneRemove.TabIndex = 6;
 			this.btnPhoneRemove.Text = "X";
-			this.btnPhoneRemove.UseVisualStyleBackColor = true;
+			this.btnPhoneRemove.UseVisualStyleBackColor = false;
 			this.btnPhoneRemove.Click += new System.EventHandler(this.btnPhoneRemove_Click);
 			// 
 			// btnPhoneInfo
 			// 
-			this.btnPhoneInfo.Location = new System.Drawing.Point(365, 80);
+			this.btnPhoneInfo.BackColor = System.Drawing.Color.Azure;
+			this.btnPhoneInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnPhoneInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnPhoneInfo.Location = new System.Drawing.Point(365, 84);
 			this.btnPhoneInfo.Name = "btnPhoneInfo";
 			this.btnPhoneInfo.Size = new System.Drawing.Size(35, 22);
 			this.btnPhoneInfo.TabIndex = 5;
 			this.btnPhoneInfo.Text = "...";
-			this.btnPhoneInfo.UseVisualStyleBackColor = true;
+			this.btnPhoneInfo.UseVisualStyleBackColor = false;
 			this.btnPhoneInfo.Click += new System.EventHandler(this.btnPhoneInfo_Click);
 			// 
 			// tbPhone
@@ -156,69 +182,89 @@
 			this.tbPhone.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbPhone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.tbPhone.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formContactBindingSource, "Phone", true));
-			this.tbPhone.Location = new System.Drawing.Point(73, 80);
+			this.tbPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.tbPhone.Location = new System.Drawing.Point(73, 84);
 			this.tbPhone.Name = "tbPhone";
 			this.tbPhone.ReadOnly = true;
-			this.tbPhone.Size = new System.Drawing.Size(275, 20);
+			this.tbPhone.Size = new System.Drawing.Size(275, 22);
 			this.tbPhone.TabIndex = 12;
 			this.tbPhone.TabStop = false;
 			// 
 			// lblPhone
 			// 
 			this.lblPhone.AutoSize = true;
-			this.lblPhone.Location = new System.Drawing.Point(24, 83);
+			this.lblPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lblPhone.Location = new System.Drawing.Point(21, 86);
 			this.lblPhone.Name = "lblPhone";
-			this.lblPhone.Size = new System.Drawing.Size(41, 13);
+			this.lblPhone.Size = new System.Drawing.Size(46, 15);
 			this.lblPhone.TabIndex = 15;
 			this.lblPhone.Text = "Phone:";
 			// 
 			// tbEmail
 			// 
 			this.tbEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tbEmail.Location = new System.Drawing.Point(73, 108);
+			this.tbEmail.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.tbEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.tbEmail.Location = new System.Drawing.Point(73, 112);
 			this.tbEmail.MaxLength = 35;
 			this.tbEmail.Name = "tbEmail";
-			this.tbEmail.Size = new System.Drawing.Size(275, 20);
+			this.tbEmail.Size = new System.Drawing.Size(275, 22);
 			this.tbEmail.TabIndex = 7;
 			this.tbEmail.TextChanged += new System.EventHandler(this.tbEmail_TextChanged);
 			// 
 			// lblEmail
 			// 
 			this.lblEmail.AutoSize = true;
-			this.lblEmail.Location = new System.Drawing.Point(24, 111);
+			this.lblEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lblEmail.Location = new System.Drawing.Point(25, 114);
 			this.lblEmail.Name = "lblEmail";
-			this.lblEmail.Size = new System.Drawing.Size(35, 13);
+			this.lblEmail.Size = new System.Drawing.Size(42, 15);
 			this.lblEmail.TabIndex = 16;
 			this.lblEmail.Text = "Email:";
 			// 
 			// btnSave
 			// 
-			this.btnSave.Location = new System.Drawing.Point(27, 153);
+			this.btnSave.BackColor = System.Drawing.Color.Ivory;
+			this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.btnSave.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+			this.btnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+			this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+			this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnSave.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.btnSave.Location = new System.Drawing.Point(20, 153);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(105, 35);
 			this.btnSave.TabIndex = 9;
 			this.btnSave.Text = "Save";
-			this.btnSave.UseVisualStyleBackColor = true;
+			this.btnSave.UseVisualStyleBackColor = false;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Location = new System.Drawing.Point(138, 153);
+			this.btnCancel.BackColor = System.Drawing.Color.MistyRose;
+			this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnCancel.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.btnCancel.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+			this.btnCancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+			this.btnCancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnCancel.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.btnCancel.Location = new System.Drawing.Point(136, 153);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(105, 35);
 			this.btnCancel.TabIndex = 8;
 			this.btnCancel.Text = "Cancel";
-			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.UseVisualStyleBackColor = false;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-			// 
-			// formContactBindingSource
-			// 
-			this.formContactBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormContact);
 			// 
 			// FormContact
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.Snow;
 			this.ClientSize = new System.Drawing.Size(464, 211);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnSave);

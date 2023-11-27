@@ -38,6 +38,16 @@ namespace WF_Phonebook.Forms
 			}
 		}
 
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape)
+			{
+				Close();
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
 		private void tbNumber_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			// Checking if a symbol is a number
@@ -68,15 +78,6 @@ namespace WF_Phonebook.Forms
 			// Checking if a symbol is a letter or a control symbol (eg "Backspace")
 			if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
 				e.Handled = true;
-		}
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			if (keyData == Keys.Escape)
-			{
-				Close();
-				return true;
-			}
-			return base.ProcessCmdKey(ref msg, keyData);
 		}
 	}
 }
