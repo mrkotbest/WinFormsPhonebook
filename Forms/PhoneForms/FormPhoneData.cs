@@ -11,20 +11,13 @@ namespace WF_Phonebook.Forms
 		public FormPhoneData(Mode mode, Phone phone = null)
 		{
 			InitializeComponent();
-
 			CurrentMode = mode;
 			Phone = phone;
-
-			if (CurrentMode == Mode.Edit && Phone != null)
-			{
-				tbNumber.Text = Phone.Number;
-				tbType.Text = Phone.Type;
-			}
 		}
 
 		private void btnSave_Click(object sender, System.EventArgs e)
 		{
-			if (tbNumber.Text == string.Empty | tbType.Text == string.Empty)
+			if (string.IsNullOrEmpty(tbNumber.Text) || string.IsNullOrEmpty(tbType.Text))
 			{
 				MessageBox.Show("You need to fill in all the fields!", "Incorrect input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
@@ -34,6 +27,14 @@ namespace WF_Phonebook.Forms
 				Phone = new Phone(tbNumber.Text, tbType.Text);
 				DialogResult = DialogResult.OK;
 				Close();
+			}
+		}
+		
+		private void FormPhoneData_Load(object sender, System.EventArgs e)
+		{
+			if (CurrentMode == Mode.Edit && Phone != null)
+			{
+				phoneListBindingSource.DataSource = Phone;
 			}
 		}
 

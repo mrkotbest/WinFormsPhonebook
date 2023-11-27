@@ -22,8 +22,8 @@ namespace WF_Phonebook.Forms
 		public int CurrentContactIndex { get; }
 		public Contact CurrentContact { get; }
 
-		public FormContact(Mode mode, BindingList<Contact> contacts, BindingList<Person> persons, BindingList<Address> addresses, BindingList<Phone> phones,
-			Contact contact = null, int contactIndex = 0)
+		public FormContact(Mode mode, BindingList<Contact> contacts, BindingList<Person> persons,
+			BindingList<Address> addresses, BindingList<Phone> phones, Contact contact = null, int contactIndex = 0)
 		{
 			InitializeComponent();
 
@@ -40,10 +40,12 @@ namespace WF_Phonebook.Forms
 		{
 			if (CurrentMode == Mode.Edit)
 			{
-				tbPerson.Text = Persons[CurrentContactIndex].ToString();
-				tbAddress.Text = Addresses[CurrentContactIndex].ToString();
-				tbPhone.Text = Phones[CurrentContactIndex].ToString();
+				Person = CurrentContact.Person;
+				Address = CurrentContact.Address;
+				Phone = CurrentContact.Phone;
 				tbEmail.Text = CurrentContact.Email;
+
+				formContactBindingSource.DataSource = CurrentContact;
 			}
 		}
 		private void UpdateTextBox(string textBoxName, string text)
@@ -98,7 +100,8 @@ namespace WF_Phonebook.Forms
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			if (tbPerson.Text == string.Empty || tbAddress.Text == string.Empty || tbPhone.Text == string.Empty || tbEmail.Text == string.Empty)
+			if (string.IsNullOrEmpty(tbPerson.Text) || string.IsNullOrEmpty(tbAddress.Text)
+				|| string.IsNullOrEmpty(tbPhone.Text) || string.IsNullOrEmpty(tbEmail.Text))
 			{
 				MessageBox.Show("Some fields are empty! Please complete them to save.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
@@ -119,7 +122,6 @@ namespace WF_Phonebook.Forms
 				Contacts[CurrentContactIndex] = newContact;
 			}
 
-			DialogResult = DialogResult.OK;
 			Close();
 		}
 		private void btnCancel_Click(object sender, EventArgs e)

@@ -207,10 +207,8 @@
 		private System.Windows.Forms.ToolStripButton btnEdit;
 		private System.Windows.Forms.ToolStripButton btnRemove;
 		private System.Windows.Forms.DataGridView contactsDataGridView;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
 		private System.Windows.Forms.ToolStripButton btnSave;
 		private System.Windows.Forms.BindingSource contactsBindingSource;
-		private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn personDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn phoneDataGridViewTextBoxColumn;

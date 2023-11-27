@@ -12,22 +12,13 @@ namespace WF_Phonebook.Forms
 		public FormPersonData(Mode mode, Person person = null)
 		{
 			InitializeComponent();
-
 			CurrentMode = mode;
 			Person = person;
-
-			if (CurrentMode == Mode.Edit && Person != null)
-			{
-				tbFirstName.Text = Person.FirstName;
-				tbLastName.Text = Person.LastName;
-				tbGender.Text = Person.Gender;
-				dpBirthDate.Value = Person.BirthDate.Date;
-			}
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			if (tbFirstName.Text == string.Empty | tbLastName.Text == string.Empty | tbGender.Text == string.Empty)
+			if (string.IsNullOrEmpty(tbFirstName.Text) || string.IsNullOrEmpty(tbLastName.Text) || string.IsNullOrEmpty(tbGender.Text))
 			{
 				MessageBox.Show("All fields must be filled in.", "Incorrect input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
@@ -37,6 +28,14 @@ namespace WF_Phonebook.Forms
 				Person = new Person(tbFirstName.Text, tbLastName.Text, tbGender.Text, dpBirthDate.Value.Date);
 				DialogResult = DialogResult.OK;
 				Close();
+			}
+		}
+
+		private void FormPersonData_Load(object sender, EventArgs e)
+		{
+			if (CurrentMode == Mode.Edit && Person != null)
+			{
+				formPersonDataBindingSource.DataSource = Person;
 			}
 		}
 

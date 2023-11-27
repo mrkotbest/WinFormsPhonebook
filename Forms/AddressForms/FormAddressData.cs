@@ -12,21 +12,13 @@ namespace WF_Phonebook.Forms
 		public FormAddressData(Mode mode, Address address = null)
 		{
 			InitializeComponent();
-
 			CurrentMode = mode;
 			Address = address;
-
-			if (CurrentMode == Mode.Edit && Address != null)
-			{
-				tbStreet.Text = Address.Street;
-				tbHouse.Text = Address.HouseNo.ToString();
-				tbApartment.Text = Address.ApartmentNo.ToString();
-			}
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			if (tbStreet.Text == string.Empty | tbHouse.Text == string.Empty | tbApartment.Text == string.Empty)
+			if (string.IsNullOrEmpty(tbStreet.Text) || string.IsNullOrEmpty(tbHouse.Text) || string.IsNullOrEmpty(tbApartment.Text))
 			{
 				MessageBox.Show("You need to fill in all the fields!", "Incorrect input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
@@ -36,6 +28,14 @@ namespace WF_Phonebook.Forms
 				Address = new Address(Convert.ToInt32(tbHouse.Text), Convert.ToInt32(tbApartment.Text), tbStreet.Text);
 				DialogResult = DialogResult.OK;
 				Close();
+			}
+		}
+
+		private void FormAddressData_Load(object sender, EventArgs e)
+		{
+			if (CurrentMode == Mode.Edit && Address != null)
+			{
+				formAddressDataBindingSource.DataSource = Address;
 			}
 		}
 

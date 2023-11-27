@@ -63,9 +63,9 @@ namespace WF_Phonebook
 
 					foreach (Contact contact in store.Contacts)
 					{
-						if (personsDict.TryGetValue(contact.PersonId, out var person) &&
-							addressesDict.TryGetValue(contact.AddressId, out var address) &&
-							phonesDict.TryGetValue(contact.PhoneId, out var phone))
+						if (personsDict.TryGetValue(contact.PersonId, out Person person) &&
+							addressesDict.TryGetValue(contact.AddressId, out Address address) &&
+							phonesDict.TryGetValue(contact.PhoneId, out Phone phone))
 						{
 							Contacts.Add(new Contact(person, address, phone, contact.Email));
 						}
@@ -75,13 +75,20 @@ namespace WF_Phonebook
 		}
 		private void SaveData()
 		{
-			Store store = new Store(Contacts, Persons, Addresses, Phones);
-
-			XmlSerializer formatter = new XmlSerializer(typeof(Store));
-
-			using (FileStream fs = new FileStream("contacts.xml", FileMode.Create))
+			try
 			{
-				formatter.Serialize(fs, store);
+				Store store = new Store(Contacts, Persons, Addresses, Phones);
+
+				XmlSerializer formatter = new XmlSerializer(typeof(Store));
+
+				using (FileStream fs = new FileStream("contacts.xml", FileMode.Create))
+				{
+					formatter.Serialize(fs, store);
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"An error occurred while saving data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 

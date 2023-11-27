@@ -139,6 +139,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\DataSources\FormMain.datasource" />
+    <None Include="Properties\DataSources\WF_Phonebook.Forms.FormAddressData.datasource" />
+    <None Include="Properties\DataSources\WF_Phonebook.Forms.FormContact.datasource" />
+    <None Include="Properties\DataSources\WF_Phonebook.Forms.FormPersonData.datasource" />
+    <None Include="Properties\DataSources\WF_Phonebook.Forms.FormPhoneData.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

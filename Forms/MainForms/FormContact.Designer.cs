@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.lblPerson = new System.Windows.Forms.Label();
 			this.tbPerson = new System.Windows.Forms.TextBox();
 			this.btnPersonInfo = new System.Windows.Forms.Button();
@@ -44,6 +45,8 @@
 			this.lblEmail = new System.Windows.Forms.Label();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.formContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
+			((System.ComponentModel.ISupportInitialize)(this.formContactBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// lblPerson
@@ -59,6 +62,7 @@
 			// 
 			this.tbPerson.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbPerson.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.tbPerson.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formContactBindingSource, "Person", true));
 			this.tbPerson.Location = new System.Drawing.Point(73, 28);
 			this.tbPerson.Name = "tbPerson";
 			this.tbPerson.ReadOnly = true;
@@ -110,6 +114,7 @@
 			// 
 			this.tbAddress.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.tbAddress.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formContactBindingSource, "Address", true));
 			this.tbAddress.Location = new System.Drawing.Point(73, 54);
 			this.tbAddress.Name = "tbAddress";
 			this.tbAddress.ReadOnly = true;
@@ -150,6 +155,7 @@
 			// 
 			this.tbPhone.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbPhone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.tbPhone.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formContactBindingSource, "Phone", true));
 			this.tbPhone.Location = new System.Drawing.Point(73, 80);
 			this.tbPhone.Name = "tbPhone";
 			this.tbPhone.ReadOnly = true;
@@ -205,6 +211,10 @@
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
+			// formContactBindingSource
+			// 
+			this.formContactBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormContact);
+			// 
 			// FormContact
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -231,6 +241,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Contact Data";
 			this.Load += new System.EventHandler(this.FormContact_Load);
+			((System.ComponentModel.ISupportInitialize)(this.formContactBindingSource)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -254,5 +265,6 @@
 		private System.Windows.Forms.Label lblEmail;
 		private System.Windows.Forms.Button btnSave;
 		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.BindingSource formContactBindingSource;
 	}
 }
