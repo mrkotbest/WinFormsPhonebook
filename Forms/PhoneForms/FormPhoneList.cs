@@ -18,7 +18,7 @@ namespace WF_Phonebook.Forms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormPhoneData form = new FormPhoneData(Mode.Add, new Phone());
+			FormPhoneData form = new FormPhoneData(new Phone());
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				Phones.Add(form.Phone);
@@ -27,7 +27,7 @@ namespace WF_Phonebook.Forms
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
 			Phone selectedPhone = Phones[SelectedPhoneIndex];
-			FormPhoneData form = new FormPhoneData(Mode.Edit, selectedPhone);
+			FormPhoneData form = new FormPhoneData(selectedPhone);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				Phones[SelectedPhoneIndex] = form.Phone;

@@ -23,17 +23,9 @@ namespace WF_Phonebook.Models
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string Gender { get; set; }
-		public DateTime BirthDate { get; set; }
+		public DateTime BirthDate { get; set; } = DateTime.Today;
 
-		public Person() { }
-		public Person(string firstName, string lastName, string gender, DateTime birthDate)
-		{
-			Id = ++_lastId;
-			FirstName = firstName;
-			LastName = lastName;
-			Gender = gender;
-			BirthDate = birthDate;
-		}
+		public Person() { Id = ++_lastId; }
 
 		public override string ToString() => $"{FirstName} {LastName} [{Gender}] {BirthDate.Date.ToShortDateString()}";
 	}

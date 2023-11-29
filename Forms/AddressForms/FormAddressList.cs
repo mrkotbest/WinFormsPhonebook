@@ -18,7 +18,7 @@ namespace WF_Phonebook.Forms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormAddressData form = new FormAddressData(Mode.Add, new Address());
+			FormAddressData form = new FormAddressData(new Address());
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				Addresses.Add(form.Address);
@@ -27,8 +27,7 @@ namespace WF_Phonebook.Forms
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
 			Address selectedAddress = Addresses[SelectedAddressIndex];
-
-			FormAddressData form = new FormAddressData(Mode.Edit, selectedAddress);
+			FormAddressData form = new FormAddressData(selectedAddress);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				Addresses[SelectedAddressIndex] = form.Address;

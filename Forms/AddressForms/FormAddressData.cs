@@ -6,13 +6,11 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormAddressData : Form
 	{
-		public Mode CurrentMode { get; }
-		public Address Address { get; set; }
+		public Address Address { get; }
 
-		public FormAddressData(Mode mode, Address address = null)
+		public FormAddressData(Address address)
 		{
 			InitializeComponent();
-			CurrentMode = mode;
 			Address = address;
 		}
 
@@ -25,7 +23,6 @@ namespace WF_Phonebook.Forms
 			}
 			else
 			{
-				Address = new Address(Convert.ToInt32(tbHouse.Text), Convert.ToInt32(tbApartment.Text), tbStreet.Text);
 				DialogResult = DialogResult.OK;
 				Close();
 			}
@@ -33,10 +30,7 @@ namespace WF_Phonebook.Forms
 
 		private void FormAddressData_Load(object sender, EventArgs e)
 		{
-			if (CurrentMode == Mode.Edit && Address != null)
-			{
-				formAddressDataBindingSource.DataSource = Address;
-			}
+			formAddressDataBindingSource.DataSource = Address ?? formAddressDataBindingSource.DataSource;
 		}
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -49,21 +43,19 @@ namespace WF_Phonebook.Forms
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
+		// Checking if a symbol is a letter or a control symbol (eg "Backspace").
 		private void tbStreet_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			// Checking if a symbol is a letter or a control symbol (eg "Backspace")
 			if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
 				e.Handled = true;
 		}
 		private void tbHouse_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			// Checking if a symbol is a number
 			if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
 				e.Handled = true;
 		}
 		private void tbApartment_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			// Checking if a symbol is a number
 			if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
 				e.Handled = true;
 		}

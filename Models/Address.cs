@@ -24,14 +24,7 @@ namespace WF_Phonebook.Models
 		public int ApartmentNo { get; set; }
 		public string Street { get; set; }
 
-        public Address() { }
-        public Address(int houseNo, int apartmentNo, string street)
-		{
-			Id = ++_lastId;
-			HouseNo = houseNo;
-			ApartmentNo = apartmentNo;
-			Street = street;
-		}
+        public Address() { Id = ++_lastId; }
 
 		public override string ToString() => $"{Street} {HouseNo}/{ApartmentNo}";
 	}

@@ -31,7 +31,6 @@
 			this.components = new System.ComponentModel.Container();
 			this.lblPerson = new System.Windows.Forms.Label();
 			this.tbPerson = new System.Windows.Forms.TextBox();
-			this.formContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.btnPersonInfo = new System.Windows.Forms.Button();
 			this.btnPersonRemove = new System.Windows.Forms.Button();
 			this.btnAddressRemove = new System.Windows.Forms.Button();
@@ -46,6 +45,7 @@
 			this.lblEmail = new System.Windows.Forms.Label();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.formContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.formContactBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -71,10 +71,6 @@
 			this.tbPerson.Size = new System.Drawing.Size(275, 22);
 			this.tbPerson.TabIndex = 10;
 			this.tbPerson.TabStop = false;
-			// 
-			// formContactBindingSource
-			// 
-			this.formContactBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormContact);
 			// 
 			// btnPersonInfo
 			// 
@@ -259,6 +255,10 @@
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = false;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+			// 
+			// formContactBindingSource
+			// 
+			this.formContactBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormContact);
 			// 
 			// FormContact
 			// 

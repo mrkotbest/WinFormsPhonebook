@@ -6,13 +6,11 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPersonData : Form
 	{
-		public Mode CurrentMode { get; }
-		public Person Person { get; set; }
+		public Person Person { get; }
 
-		public FormPersonData(Mode mode, Person person = null)
+		public FormPersonData(Person person)
 		{
 			InitializeComponent();
-			CurrentMode = mode;
 			Person = person;
 		}
 
@@ -25,7 +23,6 @@ namespace WF_Phonebook.Forms
 			}
 			else
 			{
-				Person = new Person(tbFirstName.Text, tbLastName.Text, tbGender.Text, dpBirthDate.Value.Date);
 				DialogResult = DialogResult.OK;
 				Close();
 			}
@@ -33,10 +30,7 @@ namespace WF_Phonebook.Forms
 
 		private void FormPersonData_Load(object sender, EventArgs e)
 		{
-			if (CurrentMode == Mode.Edit && Person != null)
-			{
-				formPersonDataBindingSource.DataSource = Person;
-			}
+			formPersonDataBindingSource.DataSource = Person ?? formPersonDataBindingSource.DataSource;
 		}
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -49,21 +43,19 @@ namespace WF_Phonebook.Forms
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
+		// Checking if a symbol is a letter or a control symbol (eg "Backspace").
 		private void tbFirstName_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			// Checking if a symbol is a letter or a control symbol (eg "Backspace")
 			if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
 				e.Handled = true;
 		}
 		private void tbLastName_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			// Checking if a symbol is a letter or a control symbol (eg "Backspace")
 			if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
 				e.Handled = true;
 		}
 		private void tbGender_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			// Checking if a symbol is a letter or a control symbol (eg "Backspace")
 			if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
 				e.Handled = true;
 		}

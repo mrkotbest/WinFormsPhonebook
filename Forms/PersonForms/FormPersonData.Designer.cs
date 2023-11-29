@@ -111,6 +111,7 @@
 			this.dpBirthDate.Name = "dpBirthDate";
 			this.dpBirthDate.Size = new System.Drawing.Size(225, 22);
 			this.dpBirthDate.TabIndex = 3;
+			this.dpBirthDate.Value = new System.DateTime(2023, 11, 29, 0, 0, 0, 0);
 			// 
 			// tbFirstName
 			// 

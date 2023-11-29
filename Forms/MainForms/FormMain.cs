@@ -11,6 +11,8 @@ namespace WF_Phonebook
 {
 	public partial class FormMain : Form
 	{
+		private const string _xmlFileName = "contacts.xml";
+
 		public BindingList<Contact> Contacts { get; set; } = new BindingList<Contact>();
 		public BindingList<Person> Persons { get; set; } = new BindingList<Person>();
 		public BindingList<Address> Addresses { get; set; } = new BindingList<Address>();
@@ -48,9 +50,9 @@ namespace WF_Phonebook
 		{
 			XmlSerializer formatter = new XmlSerializer(typeof(Store));
 
-			if (File.Exists("contacts.xml") && new FileInfo("contacts.xml").Length > 0)
+			if (File.Exists(_xmlFileName) && new FileInfo(_xmlFileName).Length > 0)
 			{
-				using (FileStream fs = new FileStream("contacts.xml", FileMode.OpenOrCreate))
+				using (FileStream fs = new FileStream(_xmlFileName, FileMode.OpenOrCreate))
 				{
 					Store store = (Store)formatter.Deserialize(fs);
 					Persons = store.Persons;
@@ -81,7 +83,7 @@ namespace WF_Phonebook
 
 				XmlSerializer formatter = new XmlSerializer(typeof(Store));
 
-				using (FileStream fs = new FileStream("contacts.xml", FileMode.Create))
+				using (FileStream fs = new FileStream(_xmlFileName, FileMode.Create))
 				{
 					formatter.Serialize(fs, store);
 				}

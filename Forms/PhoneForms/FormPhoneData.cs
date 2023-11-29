@@ -5,13 +5,11 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPhoneData : Form
 	{
-		public Mode CurrentMode { get; }
-		public Phone Phone { get; set; }
+		public Phone Phone { get; }
 
-		public FormPhoneData(Mode mode, Phone phone = null)
+		public FormPhoneData(Phone phone)
 		{
 			InitializeComponent();
-			CurrentMode = mode;
 			Phone = phone;
 		}
 
@@ -24,7 +22,6 @@ namespace WF_Phonebook.Forms
 			}
 			else
 			{
-				Phone = new Phone(tbNumber.Text, tbType.Text);
 				DialogResult = DialogResult.OK;
 				Close();
 			}
@@ -32,10 +29,7 @@ namespace WF_Phonebook.Forms
 		
 		private void FormPhoneData_Load(object sender, System.EventArgs e)
 		{
-			if (CurrentMode == Mode.Edit && Phone != null)
-			{
-				phoneListBindingSource.DataSource = Phone;
-			}
+			phoneListBindingSource.DataSource = Phone ?? phoneListBindingSource.DataSource;
 		}
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -50,8 +44,8 @@ namespace WF_Phonebook.Forms
 
 		private void tbNumber_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			// Checking if a symbol is a number
-			if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+			// Checking if a symbol is a number or a symbol "+" or a symbol "-".
+			if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != '+' && e.KeyChar != '-')
 				e.Handled = true;
 		}
 		private void tbNumber_Validated(object sender, System.EventArgs e)
@@ -60,22 +54,22 @@ namespace WF_Phonebook.Forms
 			{
 				if (!string.IsNullOrEmpty(tbNumber.Text))
 				{
-					// If the text in the TextBox starts with "0"
+					// If the text in the TextBox starts with "0".
 					if (textBox.Text.StartsWith("0"))
 					{
 						textBox.Text = "+380" + textBox.Text.Substring(1);
 					}
-					// If the text in the TextBox starts with any digit
-					else if (char.IsDigit(textBox.Text[0]))
+					// If the text in the TextBox starts with "3" or "38" or "380".
+					else if (textBox.Text.StartsWith("3") || textBox.Text.StartsWith("38") || textBox.Text.StartsWith("380"))
 					{
-						textBox.Text = "+" + textBox.Text;
+						textBox.Text = "+" + textBox.Text.Substring(1);
 					}
 				}
 			}
 		}
 		private void tbType_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			// Checking if a symbol is a letter or a control symbol (eg "Backspace")
+			// Checking if a symbol is a letter or a control symbol (eg "Backspace").
 			if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
 				e.Handled = true;
 		}

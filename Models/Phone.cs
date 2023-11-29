@@ -23,13 +23,7 @@ namespace WF_Phonebook.Models
 		public string Number { get; set; }
 		public string Type { get; set; }
 
-        public Phone() { }
-        public Phone(string number, string type)
-		{
-			Id = ++_lastId;
-			Number = number;
-			Type = type;
-		}
+        public Phone() { Id = ++_lastId; }
 
 		public override string ToString() => $"{Number} ({Type})";
 	}

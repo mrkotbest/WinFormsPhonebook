@@ -18,20 +18,19 @@ namespace WF_Phonebook.Forms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormPersonData formPersonData = new FormPersonData(Mode.Add, new Person());
-			if (formPersonData.ShowDialog() == DialogResult.OK)
+			FormPersonData form = new FormPersonData(new Person());
+			if (form.ShowDialog() == DialogResult.OK)
 			{
-				Persons.Add(formPersonData.Person);
+				Persons.Add(form.Person);
 			}
 		}
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
 			Person selectedPerson = Persons[SelectedPersonIndex];
-
-			FormPersonData formPersonData = new FormPersonData(Mode.Edit, selectedPerson);
-			if (formPersonData.ShowDialog() == DialogResult.OK)
+			FormPersonData form = new FormPersonData(selectedPerson);
+			if (form.ShowDialog() == DialogResult.OK)
 			{
-				Persons[SelectedPersonIndex] = formPersonData.Person;
+				Persons[SelectedPersonIndex] = form.Person;
 			}
 		}
 		private void btnRemove_Click(object sender, EventArgs e)
