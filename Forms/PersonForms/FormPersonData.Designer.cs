@@ -35,10 +35,10 @@
 			System.Windows.Forms.Label lblLastName;
 			this.btnSave = new System.Windows.Forms.Button();
 			this.dpBirthDate = new System.Windows.Forms.DateTimePicker();
+			this.formPersonDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.tbFirstName = new System.Windows.Forms.TextBox();
 			this.tbGender = new System.Windows.Forms.TextBox();
 			this.tbLastName = new System.Windows.Forms.TextBox();
-			this.formPersonDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			lblBirthDate = new System.Windows.Forms.Label();
 			lblFirstName = new System.Windows.Forms.Label();
 			lblGender = new System.Windows.Forms.Label();
@@ -113,6 +113,10 @@
 			this.dpBirthDate.TabIndex = 3;
 			this.dpBirthDate.Value = new System.DateTime(2023, 11, 29, 0, 0, 0, 0);
 			// 
+			// formPersonDataBindingSource
+			// 
+			this.formPersonDataBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormPersonData);
+			// 
 			// tbFirstName
 			// 
 			this.tbFirstName.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formPersonDataBindingSource, "Person.FirstName", true));
@@ -145,10 +149,6 @@
 			this.tbLastName.Size = new System.Drawing.Size(225, 22);
 			this.tbLastName.TabIndex = 1;
 			this.tbLastName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbLastName_KeyPress);
-			// 
-			// formPersonDataBindingSource
-			// 
-			this.formPersonDataBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormPersonData);
 			// 
 			// FormPersonData
 			// 
