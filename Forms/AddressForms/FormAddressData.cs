@@ -14,6 +14,9 @@ namespace WF_Phonebook.Forms
 			Address = address;
 		}
 
+		private void FormAddressData_Load(object sender, EventArgs e)
+			=> formAddressDataBindingSource.DataSource = Address ?? formAddressDataBindingSource.DataSource;
+
 		private void btnSave_Click(object sender, EventArgs e)
 		{
 			if (string.IsNullOrEmpty(tbStreet.Text) || string.IsNullOrEmpty(tbHouse.Text) || string.IsNullOrEmpty(tbApartment.Text))
@@ -26,21 +29,6 @@ namespace WF_Phonebook.Forms
 				DialogResult = DialogResult.OK;
 				Close();
 			}
-		}
-
-		private void FormAddressData_Load(object sender, EventArgs e)
-		{
-			formAddressDataBindingSource.DataSource = Address ?? formAddressDataBindingSource.DataSource;
-		}
-
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			if (keyData == Keys.Escape)
-			{
-				Close();
-				return true;
-			}
-			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 		// Checking if a symbol is a letter or a control symbol (eg "Backspace").

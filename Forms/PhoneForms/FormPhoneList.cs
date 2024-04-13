@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using WF_Phonebook.Models;
 
@@ -7,8 +8,8 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPhoneList : Form
 	{
-		public BindingList<Phone> Phones { get; set; }
-		public int SelectedPhoneIndex { get; private set; } = -1;
+		public BindingList<Phone> Phones { get; private set; }
+		public Phone CurrentPhone { get; private set; }
 
 		public FormPhoneList(BindingList<Phone> phones)
 		{
@@ -16,65 +17,64 @@ namespace WF_Phonebook.Forms
 			Phones = phones;
 		}
 
+		private void FormPhoneList_Load(object sender, EventArgs e)
+			=> InitComponents();
+
+		private void InitComponents()
+		{
+			phoneListBindingSource.DataSource = Phones;
+
+			if (Phones != null)
+			{
+				Phones.ListChanged += HandleListChanged;
+				btnEdit.Enabled = btnRemove.Enabled = Phones.Count > 0;
+			}
+		}
+
+		private void HandleListChanged(object sender, ListChangedEventArgs e)
+			=> btnEdit.Enabled = btnRemove.Enabled = Phones.Count > 0;
+
+		private void phoneListDataGridView_SelectionChanged(object sender, EventArgs e)
+			=> CurrentPhone = phoneListDataGridView.SelectedRows.Count > 0 ? Phones[phoneListDataGridView.SelectedRows[0].Index] : null;
+
+		private void phoneListDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex >= 0)
+			{
+				CurrentPhone = Phones[e.RowIndex];
+				DialogResult = DialogResult.OK;
+				Close();
+			}
+		}
+
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			FormPhoneData form = new FormPhoneData(new Phone());
 			if (form.ShowDialog() == DialogResult.OK)
 			{
+				form.Phone.Id = Phones.Any() ? Phones.Max(p => p.Id) + 1 : 0;
 				Phones.Add(form.Phone);
 			}
 		}
+
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
-			Phone selectedPhone = Phones[SelectedPhoneIndex];
-			FormPhoneData form = new FormPhoneData(selectedPhone);
-			if (form.ShowDialog() == DialogResult.OK)
+			if (CurrentPhone != null)
 			{
-				Phones[SelectedPhoneIndex] = form.Phone;
+				FormPhoneData form = new FormPhoneData(CurrentPhone);
+				if (form.ShowDialog() == DialogResult.OK)
+					Phones[phoneListDataGridView.SelectedRows[0].Index] = form.Phone;
 			}
 		}
+
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
+			if (MessageBox.Show("Are you sure to remove the item?", "Removal warning",
+				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+				return;
+
 			if (phoneListDataGridView.SelectedRows.Count > 0)
-			{
-				Phones.RemoveAt(SelectedPhoneIndex);
-			}
-		}
-
-		private void InitializeControls()
-		{
-			phoneListBindingSource.DataSource = Phones;
-
-			Phones.ListChanged += PhoneList_ListChanged;
-			btnEdit.Enabled = btnRemove.Enabled = Phones.Count > 0;
-		}
-
-		private void phoneListDataGridView_SelectionChanged(object sender, EventArgs e)
-		{
-			SelectedPhoneIndex = phoneListDataGridView.SelectedRows.Count > 0 ? phoneListDataGridView.SelectedRows[0].Index : -1;
-		}
-		private void PhoneList_ListChanged(object sender, ListChangedEventArgs e)
-		{
-			btnEdit.Enabled = btnRemove.Enabled = Phones.Count > 0;
-		}
-
-		private void FormPhoneList_Load(object sender, EventArgs e)
-		{
-			InitializeControls();
-		}
-		private void FormPhoneList_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			DialogResult = DialogResult.OK;
-		}
-
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			if (keyData == Keys.Escape)
-			{
-				Close();
-				return true;
-			}
-			return base.ProcessCmdKey(ref msg, keyData);
+				Phones.RemoveAt(phoneListDataGridView.SelectedRows[0].Index);
 		}
 	}
 }

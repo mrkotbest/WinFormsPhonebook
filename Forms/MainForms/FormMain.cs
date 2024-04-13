@@ -18,33 +18,26 @@ namespace WF_Phonebook
 		public BindingList<Address> Addresses { get; set; } = new BindingList<Address>();
 		public BindingList<Phone> Phones { get; set; } = new BindingList<Phone>();
 
-		public FormMain() => InitializeComponent();
+		public Contact CurrentContact { get; set; }
 
-		private void btnSave_Click(object sender, EventArgs e)
-		{
-			SaveData();
-			MessageBox.Show("Contacts are saved!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
-		private void btnAdd_Click(object sender, EventArgs e)
-		{
-			FormContact formContact = new FormContact(Mode.Add, Contacts, Persons, Addresses, Phones);
-			formContact.ShowDialog();
-		}
-		private void btnEdit_Click(object sender, EventArgs e)
-		{
-			int selectedContactIndex = GetSelectedContactIndex();
-			Contact selectedContact = GetSelectedContact();
+		public FormMain()
+			=> InitializeComponent();
 
-			if (selectedContact != null)
-			{
-				FormContact formContact = new FormContact(Mode.Edit, Contacts, Persons, Addresses, Phones, selectedContact, selectedContactIndex);
-				formContact.ShowDialog();
-			}
-		}
-		private void btnRemove_Click(object sender, EventArgs e)
+		private void FormMain_Load(object sender, EventArgs e)
+			=> InitComponents();
+
+		private void InitComponents()
 		{
-			RemoveItem();
+			LoadData();
+
+			contactsBindingSource.DataSource = Contacts;
+
+			Contacts.ListChanged += HandleListChanged;
+			btnEdit.Enabled = btnRemove.Enabled = Contacts.Count > 0;
 		}
+
+		private void HandleListChanged(object sender, ListChangedEventArgs e)
+			=> btnEdit.Enabled = btnRemove.Enabled = Contacts.Count > 0;
 
 		private void LoadData()
 		{
@@ -75,12 +68,12 @@ namespace WF_Phonebook
 				}
 			}
 		}
+
 		private void SaveData()
 		{
 			try
 			{
 				Store store = new Store(Contacts, Persons, Addresses, Phones);
-
 				XmlSerializer formatter = new XmlSerializer(typeof(Store));
 
 				using (FileStream fs = new FileStream(_xmlFileName, FileMode.Create))
@@ -94,49 +87,60 @@ namespace WF_Phonebook
 			}
 		}
 
-		private void RemoveItem()
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			SaveData();
+			MessageBox.Show("Contacts are saved!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void btnAdd_Click(object sender, EventArgs e)
+		{
+			FormContact formContact = new FormContact(Mode.Add, Contacts, Persons, Addresses, Phones);
+			formContact.ShowDialog();
+		}
+
+		private void btnEdit_Click(object sender, EventArgs e)
+		{
+			if (CurrentContact != null)
+			{
+				FormContact formContact = new FormContact(Mode.Edit, Contacts, Persons, Addresses, Phones, CurrentContact);
+				formContact.ShowDialog();
+			}
+		}
+
+		private void btnRemove_Click(object sender, EventArgs e)
 		{
 			if (contactsDataGridView.SelectedRows.Count == 1)
 			{
 				if (MessageBox.Show("Are you sure to remove this record?", "Removal warning",
 					MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
-					int selectedRowIndex = GetSelectedContactIndex();
-					Contacts.RemoveAt(selectedRowIndex);
+					Contacts.RemoveAt(contactsDataGridView.SelectedRows[0].Index);
 				}
 			}
 		}
-		private int GetSelectedContactIndex() => contactsDataGridView.SelectedRows.Count > 0 ? contactsDataGridView.SelectedRows[0].Index : -1;
-		private Contact GetSelectedContact()
-		{
-			if (contactsDataGridView.SelectedRows.Count == 1)
-			{
-				int selectedRowIndex = GetSelectedContactIndex();
-				return Contacts[selectedRowIndex];
-			}
-			return null;
-		}
 
-		private void InitializeControls()
-		{
-			LoadData();
-			contactsBindingSource.DataSource = Contacts;
-			
-			Contacts.ListChanged += Contacts_ListChanged;
-			btnEdit.Enabled = btnRemove.Enabled = Contacts.Count > 0;
-		}
+		public int GetCurrentContactIndex()
+			=> contactsDataGridView.SelectedRows[0].Index;
 
-		private void Contacts_ListChanged(object sender, ListChangedEventArgs e)
-		{
-			btnEdit.Enabled = btnRemove.Enabled = Contacts.Count > 0;
-		}
-		private void FormMain_Load(object sender, EventArgs e)
-		{
-			InitializeControls();
-		}
+		private void contactsDataGridView_SelectionChanged(object sender, EventArgs e)
+			=> CurrentContact = contactsDataGridView.SelectedRows.Count > 0 ? Contacts[contactsDataGridView.SelectedRows[0].Index] : null;
+
+		//private int GetSelectedContactIndex()
+		//	=> contactsDataGridView.SelectedRows.Count > 0 ? contactsDataGridView.SelectedRows[0].Index : -1;
+
+		//private Contact GetSelectedContact()
+		//{
+		//	if (contactsDataGridView.SelectedRows.Count == 1)
+		//	{
+		//		int selectedRowIndex = GetSelectedContactIndex();
+		//		return Contacts[selectedRowIndex];
+		//	}
+		//	return null;
+		//}
+
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			SaveData();
-		}
+			=> SaveData();
+
 	}
 }

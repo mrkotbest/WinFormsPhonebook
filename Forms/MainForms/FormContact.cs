@@ -19,11 +19,10 @@ namespace WF_Phonebook.Forms
 		public Address Address { get; private set; }
 		public Phone Phone { get; private set; }
 
-		public int CurrentContactIndex { get; }
 		public Contact CurrentContact { get; }
 
 		public FormContact(Mode mode, BindingList<Contact> contacts, BindingList<Person> persons,
-			BindingList<Address> addresses, BindingList<Phone> phones, Contact contact = null, int contactIndex = 0)
+			BindingList<Address> addresses, BindingList<Phone> phones, Contact contact = null)
 		{
 			InitializeComponent();
 
@@ -33,10 +32,12 @@ namespace WF_Phonebook.Forms
 			Addresses = addresses;
 			Phones = phones;
 			CurrentContact = contact;
-			CurrentContactIndex = contactIndex;
 		}
 
-		private void InitializeControls()
+		private void FormContact_Load(object sender, EventArgs e)
+			=> InitComponents();
+
+		private void InitComponents()
 		{
 			if (CurrentMode == Mode.Edit)
 			{
@@ -48,57 +49,74 @@ namespace WF_Phonebook.Forms
 				formContactBindingSource.DataSource = CurrentContact;
 			}
 		}
-		private void UpdateTextBox(string textBoxName, string text)
-		{
-			// Get textBoxes by their name.
-			if (Controls.Find(textBoxName, true).FirstOrDefault() is TextBox textBox)
-			{
-				textBox.Text = text;
-			}
-		}
 
 		private void btnPersonInfo_Click(object sender, EventArgs e)
 		{
+			Person = null;
+			string personInfo = string.Empty;
+
 			FormPersonList form = new FormPersonList(Persons);
-			if (form.ShowDialog() == DialogResult.OK && form.SelectedPersonIndex != -1)
+
+			if (form.ShowDialog() == DialogResult.OK && form.CurrentPerson != null)
 			{
-				Person = form.Persons[form.SelectedPersonIndex];
-				UpdateTextBox("tbPerson", Person.ToString());
+				Person = form.CurrentPerson;
+				personInfo = Person.ToString();
 			}
+			UpdateTextBox("tbPerson", personInfo);
 		}
+
 		private void btnAddressInfo_Click(object sender, EventArgs e)
 		{
+			Address = null;
+			string addressInfo = string.Empty;
+
 			FormAddressList form = new FormAddressList(Addresses);
-			if (form.ShowDialog() == DialogResult.OK && form.SelectedAddressIndex != -1)
+
+			if (form.ShowDialog() == DialogResult.OK && form.CurrentAddress != null)
 			{
-				Address = form.Addresses[form.SelectedAddressIndex];
-				UpdateTextBox("tbAddress", Address.ToString());
+				Address = form.CurrentAddress;
+				addressInfo = Address.ToString();
 			}
+			UpdateTextBox("tbAddress", addressInfo);
 		}
+
 		private void btnPhoneInfo_Click(object sender, EventArgs e)
 		{
+			Phone = null;
+			string phoneInfo = string.Empty;
+
 			FormPhoneList form = new FormPhoneList(Phones);
-			if (form.ShowDialog() == DialogResult.OK && form.SelectedPhoneIndex != -1)
+
+			if (form.ShowDialog() == DialogResult.OK && form.CurrentPhone != null)
 			{
-				Phone = form.Phones[form.SelectedPhoneIndex];
-				UpdateTextBox("tbPhone", Phone.ToString());
+				Phone = form.CurrentPhone;
+				phoneInfo = Phone.ToString();
 			}
+			UpdateTextBox("tbPhone", phoneInfo);
 		}
 
 		private void btnPersonRemove_Click(object sender, EventArgs e)
 		{
-			UpdateTextBox("tbPerson", string.Empty);
 			Person = null;
+			UpdateTextBox("tbPerson", string.Empty);
 		}
+
 		private void btnAddressRemove_Click(object sender, EventArgs e)
 		{
-			UpdateTextBox("tbAddress", string.Empty);
 			Address = null;
+			UpdateTextBox("tbAddress", string.Empty);
 		}
+
 		private void btnPhoneRemove_Click(object sender, EventArgs e)
 		{
-			UpdateTextBox("tbPhone", string.Empty);
 			Phone = null;
+			UpdateTextBox("tbPhone", string.Empty);
+		}
+
+		private void UpdateTextBox(string textBoxName, string text)
+		{
+			if (Controls.Find(textBoxName, true).FirstOrDefault() is TextBox textBox)   // Get textBoxes by their name.
+				textBox.Text = text;
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)
@@ -110,23 +128,22 @@ namespace WF_Phonebook.Forms
 				return;
 			}
 
-			Person = Person ?? Persons[CurrentContactIndex];
-			Address = Address ?? Addresses[CurrentContactIndex];
-			Phone = Phone ?? Phones[CurrentContactIndex];
-
 			Contact newContact = new Contact(Person, Address, Phone, tbEmail.Text);
 
-			if (CurrentMode == Mode.Add)
+			switch (CurrentMode)
 			{
-				Contacts.Add(newContact);
+				case Mode.Add:
+					Contacts.Add(newContact);
+					break;
+				case Mode.Edit:
+					Contacts[Contacts.IndexOf(CurrentContact)] = newContact;
+					break;
+				default:
+					break;
 			}
-			else if (CurrentMode == Mode.Edit)
-			{
-				Contacts[CurrentContactIndex] = newContact;
-			}
-
 			Close();
 		}
+
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
 			if (MessageBox.Show("The contact is not saved! Are you sure to cancel?", "Removal warning",
@@ -139,27 +156,9 @@ namespace WF_Phonebook.Forms
 		{
 			if (sender is TextBox textBox)
 			{
-				// Convert text to lowercase.
-				textBox.Text = textBox.Text.ToLower();
-
-				// Place the cursor at the end of the text.
-				textBox.SelectionStart = textBox.Text.Length;
+				textBox.Text = textBox.Text.ToLower();  // Convert text to lowercase.
+				textBox.SelectionStart = textBox.Text.Length;   // Place the cursor at the end of the text.
 			}
-		}
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			// Closes the form by pressing 'Escape'.
-			if (keyData == Keys.Escape)
-			{
-				Close();
-				return true;
-			}
-			return base.ProcessCmdKey(ref msg, keyData);
-		}
-
-		private void FormContact_Load(object sender, EventArgs e)
-		{
-			InitializeControls();
 		}
 	}
 }

@@ -4,8 +4,11 @@ namespace WF_Phonebook.Models
 {
 	public class Contact
 	{
+		[XmlAttribute("PersonId")]
 		public int PersonId { get; set; }
+		[XmlAttribute("AddressId")]
 		public int AddressId { get; set; }
+		[XmlAttribute("PhoneId")]
 		public int PhoneId { get; set; }
 		public string Email { get; set; }
 

@@ -132,6 +132,7 @@
 			this.phoneListDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.phoneListDataGridView.Size = new System.Drawing.Size(784, 336);
 			this.phoneListDataGridView.TabIndex = 1;
+			this.phoneListDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.phoneListDataGridView_CellDoubleClick);
 			this.phoneListDataGridView.SelectionChanged += new System.EventHandler(this.phoneListDataGridView_SelectionChanged);
 			// 
 			// dataGridViewTextBoxColumn1
@@ -164,7 +165,6 @@
 			this.Name = "FormPhoneList";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Phones";
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormPhoneList_FormClosed);
 			this.Load += new System.EventHandler(this.FormPhoneList_Load);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();

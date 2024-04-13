@@ -150,6 +150,7 @@
 			this.contactsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.contactsDataGridView.Size = new System.Drawing.Size(1265, 507);
 			this.contactsDataGridView.TabIndex = 1;
+			this.contactsDataGridView.SelectionChanged += new System.EventHandler(this.contactsDataGridView_SelectionChanged);
 			// 
 			// personDataGridViewTextBoxColumn
 			// 
