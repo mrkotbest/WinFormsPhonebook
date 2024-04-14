@@ -39,7 +39,7 @@ namespace WF_Phonebook.Forms
 
 		private void InitComponents()
 		{
-			if (CurrentMode == Mode.Edit)
+			if (CurrentContact != null && CurrentMode is Mode.Edit)
 			{
 				Person = CurrentContact.Person;
 				Address = CurrentContact.Address;
@@ -52,47 +52,35 @@ namespace WF_Phonebook.Forms
 
 		private void btnPersonInfo_Click(object sender, EventArgs e)
 		{
-			Person = null;
-			string personInfo = string.Empty;
-
 			FormPersonList form = new FormPersonList(Persons);
 
 			if (form.ShowDialog() == DialogResult.OK && form.CurrentPerson != null)
 			{
 				Person = form.CurrentPerson;
-				personInfo = Person.ToString();
+				UpdateTextBox("tbPerson", Person.ToString());
 			}
-			UpdateTextBox("tbPerson", personInfo);
 		}
 
 		private void btnAddressInfo_Click(object sender, EventArgs e)
 		{
-			Address = null;
-			string addressInfo = string.Empty;
-
 			FormAddressList form = new FormAddressList(Addresses);
 
 			if (form.ShowDialog() == DialogResult.OK && form.CurrentAddress != null)
 			{
 				Address = form.CurrentAddress;
-				addressInfo = Address.ToString();
+				UpdateTextBox("tbAddress", Address.ToString());
 			}
-			UpdateTextBox("tbAddress", addressInfo);
 		}
 
 		private void btnPhoneInfo_Click(object sender, EventArgs e)
 		{
-			Phone = null;
-			string phoneInfo = string.Empty;
-
 			FormPhoneList form = new FormPhoneList(Phones);
 
 			if (form.ShowDialog() == DialogResult.OK && form.CurrentPhone != null)
 			{
 				Phone = form.CurrentPhone;
-				phoneInfo = Phone.ToString();
+				UpdateTextBox("tbPhone", Phone.ToString());
 			}
-			UpdateTextBox("tbPhone", phoneInfo);
 		}
 
 		private void btnPersonRemove_Click(object sender, EventArgs e)

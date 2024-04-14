@@ -47,23 +47,31 @@ namespace WF_Phonebook
 			{
 				using (FileStream fs = new FileStream(_xmlFileName, FileMode.OpenOrCreate))
 				{
-					Store store = (Store)formatter.Deserialize(fs);
-					Persons = store.Persons;
-					Addresses = store.Addresses;
-					Phones = store.Phones;
-
-					var personsDict = Persons.ToDictionary(p => p.Id);
-					var addressesDict = Addresses.ToDictionary(a => a.Id);
-					var phonesDict = Phones.ToDictionary(p => p.Id);
-
-					foreach (Contact contact in store.Contacts)
+					try
 					{
-						if (personsDict.TryGetValue(contact.PersonId, out Person person) &&
-							addressesDict.TryGetValue(contact.AddressId, out Address address) &&
-							phonesDict.TryGetValue(contact.PhoneId, out Phone phone))
+						Store store = (Store)formatter.Deserialize(fs);
+
+						Persons = store.Persons;
+						Addresses = store.Addresses;
+						Phones = store.Phones;
+
+						var personsDict = Persons.ToDictionary(p => p.Id);
+						var addressesDict = Addresses.ToDictionary(a => a.Id);
+						var phonesDict = Phones.ToDictionary(p => p.Id);
+
+						foreach (Contact contact in store.Contacts)
 						{
-							Contacts.Add(new Contact(person, address, phone, contact.Email));
+							if (personsDict.TryGetValue(contact.PersonId, out Person person) &&
+								addressesDict.TryGetValue(contact.AddressId, out Address address) &&
+								phonesDict.TryGetValue(contact.PhoneId, out Phone phone))
+							{
+								Contacts.Add(new Contact(person, address, phone, contact.Email));
+							}
 						}
+					}
+					catch (Exception ex)
+					{
+						File.AppendAllText("error.log", $"[{DateTime.Now}] An error occurred while loading data: {ex.Message}\n");
 					}
 				}
 			}
@@ -83,7 +91,7 @@ namespace WF_Phonebook
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"An error occurred while saving data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				File.AppendAllText("error.log", $"[{DateTime.Now}] An error occurred while saving data: {ex.Message}\n");
 			}
 		}
 
@@ -120,27 +128,10 @@ namespace WF_Phonebook
 			}
 		}
 
-		public int GetCurrentContactIndex()
-			=> contactsDataGridView.SelectedRows[0].Index;
-
 		private void contactsDataGridView_SelectionChanged(object sender, EventArgs e)
 			=> CurrentContact = contactsDataGridView.SelectedRows.Count > 0 ? Contacts[contactsDataGridView.SelectedRows[0].Index] : null;
 
-		//private int GetSelectedContactIndex()
-		//	=> contactsDataGridView.SelectedRows.Count > 0 ? contactsDataGridView.SelectedRows[0].Index : -1;
-
-		//private Contact GetSelectedContact()
-		//{
-		//	if (contactsDataGridView.SelectedRows.Count == 1)
-		//	{
-		//		int selectedRowIndex = GetSelectedContactIndex();
-		//		return Contacts[selectedRowIndex];
-		//	}
-		//	return null;
-		//}
-
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 			=> SaveData();
-
 	}
 }
