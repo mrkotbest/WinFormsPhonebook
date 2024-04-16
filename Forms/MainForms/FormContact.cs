@@ -10,7 +10,7 @@ namespace WF_Phonebook.Forms
 	{
 		public Mode CurrentMode { get; }
 
-		public BindingList<Contact> Contacts { get; }
+		public static BindingList<Contact> Contacts { get; private set; }
 		public BindingList<Person> Persons { get; }
 		public BindingList<Address> Addresses { get; }
 		public BindingList<Phone> Phones { get; }
@@ -59,6 +59,11 @@ namespace WF_Phonebook.Forms
 				Person = form.CurrentPerson;
 				UpdateTextBox("tbPerson", Person.ToString());
 			}
+			else if (form.CurrentPerson == null)
+			{
+				Person = null;
+				UpdateTextBox("tbPerson", string.Empty);
+			}
 		}
 
 		private void btnAddressInfo_Click(object sender, EventArgs e)
@@ -105,6 +110,18 @@ namespace WF_Phonebook.Forms
 		{
 			if (Controls.Find(textBoxName, true).FirstOrDefault() is TextBox textBox)   // Get textBoxes by their name.
 				textBox.Text = text;
+		}
+
+		public static bool IsUsedInContacts<T>(T item)
+		{
+			if (item is Person person)
+				return Contacts.Any(contact => contact.Person == person);
+			else if (item is Address address)
+				return Contacts.Any(contact => contact.Address == address);
+			else if (item is Phone phone)
+				return Contacts.Any(contact => contact.Phone == phone);
+			else
+				throw new ArgumentException("Invalid type", nameof(item));
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)

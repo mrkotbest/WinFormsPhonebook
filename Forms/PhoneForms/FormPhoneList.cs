@@ -32,7 +32,15 @@ namespace WF_Phonebook.Forms
 		}
 
 		private void HandleListChanged(object sender, ListChangedEventArgs e)
-			=> btnEdit.Enabled = btnRemove.Enabled = Phones.Count > 0;
+		{
+			btnEdit.Enabled = btnRemove.Enabled = Phones.Count > 0;
+
+			if (e.ListChangedType == ListChangedType.ItemDeleted)
+			{
+				if (CurrentPhone != null && !Phones.Contains(CurrentPhone))
+					CurrentPhone = null;
+			}
+		}
 
 		private void phoneListDataGridView_SelectionChanged(object sender, EventArgs e)
 			=> CurrentPhone = phoneListDataGridView.SelectedRows.Count > 0 ? Phones[phoneListDataGridView.SelectedRows[0].Index] : null;
@@ -74,7 +82,20 @@ namespace WF_Phonebook.Forms
 				return;
 
 			if (phoneListDataGridView.SelectedRows.Count > 0)
-				Phones.RemoveAt(phoneListDataGridView.SelectedRows[0].Index);
+			{
+				Phone phoneToRemove = Phones[phoneListDataGridView.SelectedRows[0].Index];
+
+				bool isUsedInContacts = FormContact.IsUsedInContacts(phoneToRemove);
+
+				if (isUsedInContacts)
+				{
+					MessageBox.Show("This phone data is used in one or more contacts and cannot be removed.", "Error",
+						MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				Phones.Remove(phoneToRemove);
+			}
 		}
 	}
 }

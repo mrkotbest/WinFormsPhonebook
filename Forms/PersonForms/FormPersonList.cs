@@ -32,7 +32,15 @@ namespace WF_Phonebook.Forms
 		}
 
 		private void HandleListChanged(object sender, ListChangedEventArgs e)
-			=> btnEdit.Enabled = btnRemove.Enabled = Persons.Count > 0;
+		{
+			btnEdit.Enabled = btnRemove.Enabled = Persons.Count > 0;
+
+			if (e.ListChangedType == ListChangedType.ItemDeleted)
+			{
+				if (CurrentPerson != null && !Persons.Contains(CurrentPerson))
+					CurrentPerson = null;
+			}
+		}
 
 		private void peopleDataGridView_SelectionChanged(object sender, EventArgs e)
 			=> CurrentPerson = peopleDataGridView.SelectedRows.Count > 0 ? Persons[peopleDataGridView.SelectedRows[0].Index] : null;
@@ -74,7 +82,20 @@ namespace WF_Phonebook.Forms
 				return;
 
 			if (peopleDataGridView.SelectedRows.Count > 0)
-				Persons.RemoveAt(peopleDataGridView.SelectedRows[0].Index);
+			{
+				Person personToRemove = Persons[peopleDataGridView.SelectedRows[0].Index];
+
+				bool isUsedInContacts = FormContact.IsUsedInContacts(personToRemove);
+
+				if (isUsedInContacts)
+				{
+					MessageBox.Show("This person data is used in one or more contacts and cannot be removed.", "Error",
+						MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				Persons.Remove(personToRemove);
+			}
 		}
 	}
 }

@@ -32,7 +32,15 @@ namespace WF_Phonebook.Forms
 		}
 
 		private void HandleListChanged(object sender, ListChangedEventArgs e)
-			=> btnEdit.Enabled = btnRemove.Enabled = Addresses.Count > 0;
+		{
+			btnEdit.Enabled = btnRemove.Enabled = Addresses.Count > 0;
+
+			if (e.ListChangedType == ListChangedType.ItemDeleted)
+			{
+				if (CurrentAddress != null && !Addresses.Contains(CurrentAddress))
+					CurrentAddress = null;
+			}
+		}
 
 		private void addressListDataGridView_SelectionChanged(object sender, EventArgs e)
 			=> CurrentAddress = addressListDataGridView.SelectedRows.Count > 0 ? Addresses[addressListDataGridView.SelectedRows[0].Index] : null;
@@ -74,7 +82,20 @@ namespace WF_Phonebook.Forms
 				return;
 
 			if (addressListDataGridView.SelectedRows.Count > 0)
-				Addresses.RemoveAt(addressListDataGridView.SelectedRows[0].Index);
+			{
+				Address addressToRemove = Addresses[addressListDataGridView.SelectedRows[0].Index];
+
+				bool isUsedInContacts = FormContact.IsUsedInContacts(addressToRemove);
+
+				if (isUsedInContacts)
+				{
+					MessageBox.Show("This address data is used in one or more contacts and cannot be removed.", "Error",
+						MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				Addresses.Remove(addressToRemove);
+			}
 		}
 	}
 }
