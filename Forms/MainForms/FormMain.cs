@@ -13,10 +13,10 @@ namespace WF_Phonebook
 	{
 		private const string _xmlFileName = "contacts.xml";
 
-		public BindingList<Contact> Contacts { get; set; } = new BindingList<Contact>();
-		public BindingList<Person> Persons { get; set; } = new BindingList<Person>();
-		public BindingList<Address> Addresses { get; set; } = new BindingList<Address>();
-		public BindingList<Phone> Phones { get; set; } = new BindingList<Phone>();
+		public BindingList<Contact> Contacts { get; set; }
+		public BindingList<Person> Persons { get; set; }
+		public BindingList<Address> Addresses { get; set; }
+		public BindingList<Phone> Phones { get; set; }
 
 		public Contact CurrentContact { get; set; }
 
@@ -28,6 +28,11 @@ namespace WF_Phonebook
 
 		private void InitComponents()
 		{
+			Contacts = new BindingList<Contact>();
+			Persons = new BindingList<Person>();
+			Addresses = new BindingList<Address>();
+			Phones = new BindingList<Phone>();
+
 			LoadData();
 
 			contactsBindingSource.DataSource = Contacts;
@@ -103,7 +108,8 @@ namespace WF_Phonebook
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormContact formContact = new FormContact(Mode.Add, Contacts, Persons, Addresses, Phones);
+			Store store = new Store(Contacts, Persons, Addresses, Phones);
+			FormContact formContact = new FormContact(Mode.Add, ref store);
 			formContact.ShowDialog();
 		}
 
@@ -111,7 +117,8 @@ namespace WF_Phonebook
 		{
 			if (CurrentContact != null)
 			{
-				FormContact formContact = new FormContact(Mode.Edit, Contacts, Persons, Addresses, Phones, CurrentContact);
+				Store store = new Store(Contacts, Persons, Addresses, Phones);
+				FormContact formContact = new FormContact(Mode.Edit, ref store, CurrentContact);
 				formContact.ShowDialog();
 			}
 		}

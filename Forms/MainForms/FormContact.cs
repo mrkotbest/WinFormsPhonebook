@@ -21,16 +21,15 @@ namespace WF_Phonebook.Forms
 
 		public Contact CurrentContact { get; }
 
-		public FormContact(Mode mode, BindingList<Contact> contacts, BindingList<Person> persons,
-			BindingList<Address> addresses, BindingList<Phone> phones, Contact contact = null)
+		public FormContact(Mode mode, ref Store store, Contact contact = null)
 		{
 			InitializeComponent();
 
 			CurrentMode = mode;
-			Contacts = contacts;
-			Persons = persons;
-			Addresses = addresses;
-			Phones = phones;
+			Contacts = store.Contacts;
+			Persons = store.Persons;
+			Addresses = store.Addresses;
+			Phones = store.Phones;
 			CurrentContact = contact;
 		}
 
@@ -53,57 +52,51 @@ namespace WF_Phonebook.Forms
 		private void btnPersonInfo_Click(object sender, EventArgs e)
 		{
 			FormPersonList form = new FormPersonList(Persons);
+			if (form.ShowDialog() != DialogResult.OK)
+				return;
 
-			if (form.ShowDialog() == DialogResult.OK && form.CurrentPerson != null)
-			{
-				Person = form.CurrentPerson;
-				UpdateTextBox("tbPerson", Person.ToString());
-			}
-			else if (form.CurrentPerson == null)
-			{
-				Person = null;
-				UpdateTextBox("tbPerson", string.Empty);
-			}
+			Person = form.CurrentPerson;
+			string personInfo = Person != null ? Person.ToString() : string.Empty;
+			UpdateTextBox("tbPerson", personInfo);
 		}
 
 		private void btnAddressInfo_Click(object sender, EventArgs e)
 		{
 			FormAddressList form = new FormAddressList(Addresses);
 
-			if (form.ShowDialog() == DialogResult.OK && form.CurrentAddress != null)
-			{
-				Address = form.CurrentAddress;
-				UpdateTextBox("tbAddress", Address.ToString());
-			}
+			if (form.ShowDialog() != DialogResult.OK)
+				return;
+
+			Address = form.CurrentAddress;
+			string addressInfo = Address != null ? Address.ToString() : string.Empty;
+			UpdateTextBox("tbAddress", addressInfo);
 		}
 
 		private void btnPhoneInfo_Click(object sender, EventArgs e)
 		{
 			FormPhoneList form = new FormPhoneList(Phones);
 
-			if (form.ShowDialog() == DialogResult.OK && form.CurrentPhone != null)
-			{
-				Phone = form.CurrentPhone;
-				UpdateTextBox("tbPhone", Phone.ToString());
-			}
+			if (form.ShowDialog() != DialogResult.OK)
+				return;
+
+			Phone = form.CurrentPhone;
+			string phoneInfo = Phone != null ? Phone.ToString() : string.Empty; 
+			UpdateTextBox("tbPhone", phoneInfo);
 		}
 
 		private void btnPersonRemove_Click(object sender, EventArgs e)
-		{
-			Person = null;
-			UpdateTextBox("tbPerson", string.Empty);
-		}
+			=> RemoveItem(() => Person = null, "tbPerson");
 
 		private void btnAddressRemove_Click(object sender, EventArgs e)
-		{
-			Address = null;
-			UpdateTextBox("tbAddress", string.Empty);
-		}
+			=> RemoveItem(() => Address = null, "tbAddress");
 
 		private void btnPhoneRemove_Click(object sender, EventArgs e)
+			=> RemoveItem(() => Phone = null, "tbPhone");
+
+		private void RemoveItem(Action removeAction, string textBoxName)
 		{
-			Phone = null;
-			UpdateTextBox("tbPhone", string.Empty);
+			removeAction();
+			UpdateTextBox(textBoxName, string.Empty);
 		}
 
 		private void UpdateTextBox(string textBoxName, string text)
