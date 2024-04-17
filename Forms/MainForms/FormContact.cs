@@ -53,11 +53,14 @@ namespace WF_Phonebook.Forms
 		{
 			FormPersonList form = new FormPersonList(Persons);
 			if (form.ShowDialog() != DialogResult.OK)
+			{
+				RemoveItemAndUpdateTextBox(() => Person = null, nameof(tbPerson));
 				return;
+			}
 
 			Person = form.CurrentPerson;
 			string personInfo = Person != null ? Person.ToString() : string.Empty;
-			UpdateTextBox("tbPerson", personInfo);
+			UpdateTextBox(nameof(tbPerson), personInfo);
 		}
 
 		private void btnAddressInfo_Click(object sender, EventArgs e)
@@ -65,11 +68,14 @@ namespace WF_Phonebook.Forms
 			FormAddressList form = new FormAddressList(Addresses);
 
 			if (form.ShowDialog() != DialogResult.OK)
+			{
+				RemoveItemAndUpdateTextBox(() => Address = null, nameof(tbAddress));
 				return;
+			}
 
 			Address = form.CurrentAddress;
 			string addressInfo = Address != null ? Address.ToString() : string.Empty;
-			UpdateTextBox("tbAddress", addressInfo);
+			UpdateTextBox(nameof(tbAddress), addressInfo);
 		}
 
 		private void btnPhoneInfo_Click(object sender, EventArgs e)
@@ -77,23 +83,26 @@ namespace WF_Phonebook.Forms
 			FormPhoneList form = new FormPhoneList(Phones);
 
 			if (form.ShowDialog() != DialogResult.OK)
+			{
+				RemoveItemAndUpdateTextBox(() => Phone = null, nameof(tbPhone));
 				return;
+			}
 
 			Phone = form.CurrentPhone;
 			string phoneInfo = Phone != null ? Phone.ToString() : string.Empty; 
-			UpdateTextBox("tbPhone", phoneInfo);
+			UpdateTextBox(nameof(tbPhone), phoneInfo);
 		}
 
 		private void btnPersonRemove_Click(object sender, EventArgs e)
-			=> RemoveItem(() => Person = null, "tbPerson");
+			=> RemoveItemAndUpdateTextBox(() => Person = null, nameof(tbPerson));
 
 		private void btnAddressRemove_Click(object sender, EventArgs e)
-			=> RemoveItem(() => Address = null, "tbAddress");
+			=> RemoveItemAndUpdateTextBox(() => Address = null, nameof(tbAddress));
 
 		private void btnPhoneRemove_Click(object sender, EventArgs e)
-			=> RemoveItem(() => Phone = null, "tbPhone");
+			=> RemoveItemAndUpdateTextBox(() => Phone = null, nameof(tbPhone));
 
-		private void RemoveItem(Action removeAction, string textBoxName)
+		private void RemoveItemAndUpdateTextBox(Action removeAction, string textBoxName)
 		{
 			removeAction();
 			UpdateTextBox(textBoxName, string.Empty);
