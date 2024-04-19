@@ -125,10 +125,8 @@
     <Compile Include="Forms\PhoneForms\FormPhoneList.Designer.cs">
       <DependentUpon>FormPhoneList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Mode.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Contact.cs" />
-    <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Program.cs" />

@@ -1,22 +1,19 @@
 ﻿using System.Windows.Forms;
-using WF_Phonebook.Models;
 
 namespace WF_Phonebook.Forms.EmailForms
 {
 	public partial class FormEmail : Form
 	{
-		private readonly Email _tempEmail;
-		public Email Email { get; set; } 
+		public string Email { get; private set; } 
 
-		public FormEmail(Email email)
+		public FormEmail(string email)
 		{
 			InitializeComponent();
 			Email = email;
-			_tempEmail = email.Clone();
 		}
 
 		private void FormEmail_Load(object sender, System.EventArgs e)
-			=> emailBS.DataSource = _tempEmail ?? emailBS.DataSource;
+			=> tbEmail.Text = Email ?? tbEmail.Text;
 
 		private void btnSave_Click(object sender, System.EventArgs e)
 		{
@@ -27,7 +24,7 @@ namespace WF_Phonebook.Forms.EmailForms
 			}
 			else
 			{
-				Email.CopyFrom(_tempEmail);
+				Email = tbEmail.Text;
 
 				DialogResult = DialogResult.OK;
 				Close();

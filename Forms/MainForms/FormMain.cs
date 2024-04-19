@@ -18,7 +18,7 @@ namespace WF_Phonebook
 		public BindingList<Person> Persons { get; set; }
 		public BindingList<Address> Addresses { get; set; }
 		public BindingList<Phone> Phones { get; set; }
-		public Email Email { get; set; }
+		public string Email { get; private set; }
 
 		public Contact CurrentContact { get; set; }
 
@@ -34,7 +34,6 @@ namespace WF_Phonebook
 			Persons = new BindingList<Person>();
 			Addresses = new BindingList<Address>();
 			Phones = new BindingList<Phone>();
-			Email = new Email();
 
 			LoadData();
 
@@ -111,8 +110,8 @@ namespace WF_Phonebook
 		private void btnSave_Click(object sender, EventArgs e)
 		{
 			if (SaveData())
-				MessageBox.Show("Contacts are saved!\n\n(Saving occurs automatically when you exit the application)", "Success",
-					MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Contacts are saved!\n\n(Saving occurs automatically when you exit the application)",
+								"Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void btnAdd_Click(object sender, EventArgs e)
@@ -167,14 +166,12 @@ namespace WF_Phonebook
 		private void tsEmailItem_Click(object sender, EventArgs e)
 		{
 			RefreshCurrentContactFromDGV();
-			Email.EmailStr = CurrentContact.Email;
+			Email = CurrentContact.Email;
 
 			FormEmail form = new FormEmail(Email);
 			if (form.ShowDialog() == DialogResult.OK)
-			{
-				var email = form.Email;
-				Contacts[contactsDataGridView.SelectedRows[0].Index].Email = email.EmailStr;
-			}
+				Contacts[contactsDataGridView.SelectedRows[0].Index].Email = form.Email;
+
 			contactsDataGridView.Refresh();
 		}
 

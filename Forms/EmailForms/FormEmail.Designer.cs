@@ -28,13 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.Label lblEmail;
 			this.tbEmail = new System.Windows.Forms.TextBox();
 			this.btnSave = new System.Windows.Forms.Button();
-			this.emailBS = new System.Windows.Forms.BindingSource(this.components);
 			lblEmail = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.emailBS)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// lblEmail
@@ -50,7 +47,6 @@
 			// tbEmail
 			// 
 			this.tbEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tbEmail.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.emailBS, "Email.EmailStr", true));
 			this.tbEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbEmail.Location = new System.Drawing.Point(74, 39);
 			this.tbEmail.MaxLength = 50;
@@ -73,10 +69,6 @@
 			this.btnSave.UseVisualStyleBackColor = false;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
-			// emailBS
-			// 
-			this.emailBS.DataSource = typeof(WF_Phonebook.FormMain);
-			// 
 			// FormEmail
 			// 
 			this.ClientSize = new System.Drawing.Size(314, 161);
@@ -88,15 +80,12 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Email Input";
 			this.Load += new System.EventHandler(this.FormEmail_Load);
-			((System.ComponentModel.ISupportInitialize)(this.emailBS)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.BindingSource emailBS;
 		private System.Windows.Forms.TextBox tbEmail;
 		private System.Windows.Forms.Button btnSave;
 	}

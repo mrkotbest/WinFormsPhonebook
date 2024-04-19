@@ -16,8 +16,6 @@ namespace WF_Phonebook.Forms
 		public Address Address { get; private set; }
 		public Phone Phone { get; private set; }
 
-		public Contact CurrentContact { get; }
-
 		public FormContact(ref Store store)
 		{
 			InitializeComponent();

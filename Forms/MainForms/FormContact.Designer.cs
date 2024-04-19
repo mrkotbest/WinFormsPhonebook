@@ -28,10 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this.lblPerson = new System.Windows.Forms.Label();
 			this.tbPerson = new System.Windows.Forms.TextBox();
-			this.formContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.btnPersonInfo = new System.Windows.Forms.Button();
 			this.btnPersonRemove = new System.Windows.Forms.Button();
 			this.btnAddressRemove = new System.Windows.Forms.Button();
@@ -46,7 +44,6 @@
 			this.lblEmail = new System.Windows.Forms.Label();
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
-			((System.ComponentModel.ISupportInitialize)(this.formContactBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// lblPerson
@@ -63,7 +60,6 @@
 			// 
 			this.tbPerson.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbPerson.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tbPerson.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formContactBindingSource, "Person", true));
 			this.tbPerson.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbPerson.Location = new System.Drawing.Point(73, 28);
 			this.tbPerson.Name = "tbPerson";
@@ -71,10 +67,6 @@
 			this.tbPerson.Size = new System.Drawing.Size(275, 22);
 			this.tbPerson.TabIndex = 10;
 			this.tbPerson.TabStop = false;
-			// 
-			// formContactBindingSource
-			// 
-			this.formContactBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormContact);
 			// 
 			// btnPersonInfo
 			// 
@@ -132,7 +124,6 @@
 			// 
 			this.tbAddress.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tbAddress.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formContactBindingSource, "Address", true));
 			this.tbAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbAddress.Location = new System.Drawing.Point(73, 56);
 			this.tbAddress.Name = "tbAddress";
@@ -181,7 +172,6 @@
 			// 
 			this.tbPhone.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.tbPhone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tbPhone.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formContactBindingSource, "Phone", true));
 			this.tbPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbPhone.Location = new System.Drawing.Point(73, 84);
 			this.tbPhone.Name = "tbPhone";
@@ -286,7 +276,6 @@
 			this.Name = "FormContact";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "New Contact";
-			((System.ComponentModel.ISupportInitialize)(this.formContactBindingSource)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -310,6 +299,5 @@
 		private System.Windows.Forms.Label lblEmail;
 		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.BindingSource formContactBindingSource;
 	}
 }
