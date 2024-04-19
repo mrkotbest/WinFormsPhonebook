@@ -5,26 +5,30 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPhoneData : Form
 	{
+		private readonly Phone _tempPhone;
 		public Phone Phone { get; }
 
 		public FormPhoneData(Phone phone)
 		{
 			InitializeComponent();
 			Phone = phone;
+			_tempPhone = phone.Clone();
 		}
 
 		private void FormPhoneData_Load(object sender, System.EventArgs e)
-			=> phoneListBindingSource.DataSource = Phone ?? phoneListBindingSource.DataSource;
+			=> phoneListBindingSource.DataSource = _tempPhone ?? phoneListBindingSource.DataSource;
 
 		private void btnSave_Click(object sender, System.EventArgs e)
 		{
 			if (string.IsNullOrEmpty(tbNumber.Text) || string.IsNullOrEmpty(tbType.Text))
 			{
-				MessageBox.Show("You need to fill in all the fields!", "Incorrect input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show("All fields must be filled in!", "Incorrect input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 			else
 			{
+				Phone.CopyFrom(_tempPhone);
+
 				DialogResult = DialogResult.OK;
 				Close();
 			}

@@ -56,6 +56,7 @@
             this.btnRemove});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
+			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
 			this.toolStrip1.Size = new System.Drawing.Size(784, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
@@ -91,6 +92,7 @@
 			// 
 			this.phoneListDataGridView.AllowUserToAddRows = false;
 			this.phoneListDataGridView.AllowUserToDeleteRows = false;
+			this.phoneListDataGridView.AllowUserToResizeRows = false;
 			this.phoneListDataGridView.AutoGenerateColumns = false;
 			this.phoneListDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.phoneListDataGridView.BackgroundColor = System.Drawing.Color.Snow;
@@ -118,6 +120,8 @@
 			this.phoneListDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
 			this.phoneListDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.phoneListDataGridView.Location = new System.Drawing.Point(0, 25);
+			this.phoneListDataGridView.Margin = new System.Windows.Forms.Padding(5);
+			this.phoneListDataGridView.MultiSelect = false;
 			this.phoneListDataGridView.Name = "phoneListDataGridView";
 			this.phoneListDataGridView.ReadOnly = true;
 			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -129,6 +133,7 @@
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.phoneListDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this.phoneListDataGridView.RowHeadersVisible = false;
+			this.phoneListDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.phoneListDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.phoneListDataGridView.Size = new System.Drawing.Size(784, 336);
 			this.phoneListDataGridView.TabIndex = 1;
@@ -139,6 +144,7 @@
 			// 
 			this.dataGridViewTextBoxColumn1.DataPropertyName = "Number";
 			this.dataGridViewTextBoxColumn1.HeaderText = "Number";
+			this.dataGridViewTextBoxColumn1.MinimumWidth = 330;
 			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
 			this.dataGridViewTextBoxColumn1.ReadOnly = true;
 			// 
@@ -146,6 +152,7 @@
 			// 
 			this.dataGridViewTextBoxColumn2.DataPropertyName = "Type";
 			this.dataGridViewTextBoxColumn2.HeaderText = "Type";
+			this.dataGridViewTextBoxColumn2.MinimumWidth = 330;
 			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
 			this.dataGridViewTextBoxColumn2.ReadOnly = true;
 			// 
@@ -162,6 +169,7 @@
 			this.Controls.Add(this.phoneListDataGridView);
 			this.Controls.Add(this.toolStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "FormPhoneList";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Phones";

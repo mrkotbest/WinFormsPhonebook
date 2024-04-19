@@ -6,26 +6,30 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormAddressData : Form
 	{
+		private readonly Address _tempAddress;
 		public Address Address { get; }
 
 		public FormAddressData(Address address)
 		{
 			InitializeComponent();
 			Address = address;
+			_tempAddress = address.Clone();
 		}
 
 		private void FormAddressData_Load(object sender, EventArgs e)
-			=> formAddressDataBindingSource.DataSource = Address ?? formAddressDataBindingSource.DataSource;
+			=> formAddressDataBindingSource.DataSource = _tempAddress ?? formAddressDataBindingSource.DataSource;
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
 			if (string.IsNullOrEmpty(tbStreet.Text) || string.IsNullOrEmpty(tbHouse.Text) || string.IsNullOrEmpty(tbApartment.Text))
 			{
-				MessageBox.Show("You need to fill in all the fields!", "Incorrect input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show("All fields must be filled in!", "Incorrect input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 			else
 			{
+				Address.CopyFrom(_tempAddress);
+
 				DialogResult = DialogResult.OK;
 				Close();
 			}

@@ -10,6 +10,18 @@ namespace WF_Phonebook.Models
 		public int ApartmentNo { get; set; }
 		public string Street { get; set; }
 
-		public override string ToString() => $"{Street} {HouseNo}/{ApartmentNo}";
+		public override string ToString()
+			=> $"{Street} {HouseNo}/{ApartmentNo}";
+
+		public Address Clone()
+			=> (Address)MemberwiseClone();
+
+		public void CopyFrom(Address other)
+		{
+			Id = other.Id;
+			HouseNo = other.HouseNo;
+			ApartmentNo = other.ApartmentNo;
+			Street = other.Street;
+		}
 	}
 }

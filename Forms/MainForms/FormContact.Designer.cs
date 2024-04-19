@@ -31,6 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			this.lblPerson = new System.Windows.Forms.Label();
 			this.tbPerson = new System.Windows.Forms.TextBox();
+			this.formContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.btnPersonInfo = new System.Windows.Forms.Button();
 			this.btnPersonRemove = new System.Windows.Forms.Button();
 			this.btnAddressRemove = new System.Windows.Forms.Button();
@@ -43,9 +44,8 @@
 			this.lblPhone = new System.Windows.Forms.Label();
 			this.tbEmail = new System.Windows.Forms.TextBox();
 			this.lblEmail = new System.Windows.Forms.Label();
-			this.btnSave = new System.Windows.Forms.Button();
+			this.btnAdd = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
-			this.formContactBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.formContactBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -71,6 +71,10 @@
 			this.tbPerson.Size = new System.Drawing.Size(275, 22);
 			this.tbPerson.TabIndex = 10;
 			this.tbPerson.TabStop = false;
+			// 
+			// formContactBindingSource
+			// 
+			this.formContactBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormContact);
 			// 
 			// btnPersonInfo
 			// 
@@ -218,24 +222,24 @@
 			this.lblEmail.TabIndex = 16;
 			this.lblEmail.Text = "Email:";
 			// 
-			// btnSave
+			// btnAdd
 			// 
-			this.btnSave.BackColor = System.Drawing.Color.Ivory;
-			this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			this.btnSave.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
-			this.btnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-			this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
-			this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.btnSave.ForeColor = System.Drawing.SystemColors.Desktop;
-			this.btnSave.Location = new System.Drawing.Point(20, 153);
-			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(105, 35);
-			this.btnSave.TabIndex = 9;
-			this.btnSave.Text = "Save";
-			this.btnSave.UseVisualStyleBackColor = false;
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			this.btnAdd.BackColor = System.Drawing.Color.Ivory;
+			this.btnAdd.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnAdd.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.btnAdd.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+			this.btnAdd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+			this.btnAdd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+			this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnAdd.ForeColor = System.Drawing.SystemColors.Desktop;
+			this.btnAdd.Location = new System.Drawing.Point(20, 153);
+			this.btnAdd.Name = "btnAdd";
+			this.btnAdd.Size = new System.Drawing.Size(105, 35);
+			this.btnAdd.TabIndex = 9;
+			this.btnAdd.Text = "Add";
+			this.btnAdd.UseVisualStyleBackColor = false;
+			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
 			// btnCancel
 			// 
@@ -256,10 +260,6 @@
 			this.btnCancel.UseVisualStyleBackColor = false;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
-			// formContactBindingSource
-			// 
-			this.formContactBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormContact);
-			// 
 			// FormContact
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -267,7 +267,7 @@
 			this.BackColor = System.Drawing.Color.Snow;
 			this.ClientSize = new System.Drawing.Size(464, 211);
 			this.Controls.Add(this.btnCancel);
-			this.Controls.Add(this.btnSave);
+			this.Controls.Add(this.btnAdd);
 			this.Controls.Add(this.tbEmail);
 			this.Controls.Add(this.lblEmail);
 			this.Controls.Add(this.btnPhoneRemove);
@@ -285,8 +285,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "FormContact";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Contact Data";
-			this.Load += new System.EventHandler(this.FormContact_Load);
+			this.Text = "New Contact";
 			((System.ComponentModel.ISupportInitialize)(this.formContactBindingSource)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -309,7 +308,7 @@
 		private System.Windows.Forms.Label lblPhone;
 		private System.Windows.Forms.TextBox tbEmail;
 		private System.Windows.Forms.Label lblEmail;
-		private System.Windows.Forms.Button btnSave;
+		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.BindingSource formContactBindingSource;
 	}

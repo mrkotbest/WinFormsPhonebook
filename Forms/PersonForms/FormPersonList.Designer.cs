@@ -58,6 +58,7 @@
             this.btnRemove});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
+			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
 			this.toolStrip1.Size = new System.Drawing.Size(784, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
@@ -93,6 +94,7 @@
 			// 
 			this.peopleDataGridView.AllowUserToAddRows = false;
 			this.peopleDataGridView.AllowUserToDeleteRows = false;
+			this.peopleDataGridView.AllowUserToResizeRows = false;
 			this.peopleDataGridView.AutoGenerateColumns = false;
 			this.peopleDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.peopleDataGridView.BackgroundColor = System.Drawing.Color.Snow;
@@ -122,6 +124,7 @@
 			this.peopleDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
 			this.peopleDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.peopleDataGridView.Location = new System.Drawing.Point(0, 25);
+			this.peopleDataGridView.Margin = new System.Windows.Forms.Padding(5);
 			this.peopleDataGridView.MultiSelect = false;
 			this.peopleDataGridView.Name = "peopleDataGridView";
 			this.peopleDataGridView.ReadOnly = true;
@@ -134,6 +137,7 @@
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.peopleDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this.peopleDataGridView.RowHeadersVisible = false;
+			this.peopleDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.peopleDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.peopleDataGridView.Size = new System.Drawing.Size(784, 336);
 			this.peopleDataGridView.TabIndex = 1;
@@ -144,6 +148,7 @@
 			// 
 			this.firstNameDataGridViewTextBoxColumn.DataPropertyName = "FirstName";
 			this.firstNameDataGridViewTextBoxColumn.HeaderText = "First Name";
+			this.firstNameDataGridViewTextBoxColumn.MinimumWidth = 150;
 			this.firstNameDataGridViewTextBoxColumn.Name = "firstNameDataGridViewTextBoxColumn";
 			this.firstNameDataGridViewTextBoxColumn.ReadOnly = true;
 			// 
@@ -151,6 +156,7 @@
 			// 
 			this.lastNameDataGridViewTextBoxColumn.DataPropertyName = "LastName";
 			this.lastNameDataGridViewTextBoxColumn.HeaderText = "Last Name";
+			this.lastNameDataGridViewTextBoxColumn.MinimumWidth = 150;
 			this.lastNameDataGridViewTextBoxColumn.Name = "lastNameDataGridViewTextBoxColumn";
 			this.lastNameDataGridViewTextBoxColumn.ReadOnly = true;
 			// 
@@ -158,6 +164,7 @@
 			// 
 			this.genderDataGridViewTextBoxColumn.DataPropertyName = "Gender";
 			this.genderDataGridViewTextBoxColumn.HeaderText = "Gender";
+			this.genderDataGridViewTextBoxColumn.MinimumWidth = 150;
 			this.genderDataGridViewTextBoxColumn.Name = "genderDataGridViewTextBoxColumn";
 			this.genderDataGridViewTextBoxColumn.ReadOnly = true;
 			// 
@@ -165,6 +172,7 @@
 			// 
 			this.birthDateDataGridViewTextBoxColumn.DataPropertyName = "BirthDate";
 			this.birthDateDataGridViewTextBoxColumn.HeaderText = "Date of Birth";
+			this.birthDateDataGridViewTextBoxColumn.MinimumWidth = 150;
 			this.birthDateDataGridViewTextBoxColumn.Name = "birthDateDataGridViewTextBoxColumn";
 			this.birthDateDataGridViewTextBoxColumn.ReadOnly = true;
 			// 
@@ -181,6 +189,7 @@
 			this.Controls.Add(this.peopleDataGridView);
 			this.Controls.Add(this.toolStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "FormPersonList";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "People";

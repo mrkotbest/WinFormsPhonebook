@@ -85,7 +85,7 @@ namespace WF_Phonebook.Forms
 			{
 				Person personToRemove = Persons[peopleDataGridView.SelectedRows[0].Index];
 
-				bool isUsedInContacts = FormContact.IsUsedInContacts(personToRemove);
+				bool isUsedInContacts = FormMain.IsUsedInContacts(personToRemove);
 
 				if (isUsedInContacts)
 				{

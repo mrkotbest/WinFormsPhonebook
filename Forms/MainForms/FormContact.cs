@@ -8,9 +8,6 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormContact : Form
 	{
-		public Mode CurrentMode { get; }
-
-		public static BindingList<Contact> Contacts { get; private set; }
 		public BindingList<Person> Persons { get; }
 		public BindingList<Address> Addresses { get; }
 		public BindingList<Phone> Phones { get; }
@@ -21,32 +18,13 @@ namespace WF_Phonebook.Forms
 
 		public Contact CurrentContact { get; }
 
-		public FormContact(Mode mode, ref Store store, Contact contact = null)
+		public FormContact(ref Store store)
 		{
 			InitializeComponent();
 
-			CurrentMode = mode;
-			Contacts = store.Contacts;
 			Persons = store.Persons;
 			Addresses = store.Addresses;
 			Phones = store.Phones;
-			CurrentContact = contact;
-		}
-
-		private void FormContact_Load(object sender, EventArgs e)
-			=> InitComponents();
-
-		private void InitComponents()
-		{
-			if (CurrentContact != null && CurrentMode is Mode.Edit)
-			{
-				Person = CurrentContact.Person;
-				Address = CurrentContact.Address;
-				Phone = CurrentContact.Phone;
-				tbEmail.Text = CurrentContact.Email;
-
-				formContactBindingSource.DataSource = CurrentContact;
-			}
 		}
 
 		private void btnPersonInfo_Click(object sender, EventArgs e)
@@ -93,6 +71,12 @@ namespace WF_Phonebook.Forms
 			UpdateTextBox(nameof(tbPhone), phoneInfo);
 		}
 
+		private void UpdateTextBox(string textBoxName, string text)
+		{
+			if (Controls.Find(textBoxName, true).FirstOrDefault() is TextBox textBox)   // Get textBoxes by their name.
+				textBox.Text = text;
+		}
+
 		private void btnPersonRemove_Click(object sender, EventArgs e)
 			=> RemoveItemAndUpdateTextBox(() => Person = null, nameof(tbPerson));
 
@@ -108,47 +92,26 @@ namespace WF_Phonebook.Forms
 			UpdateTextBox(textBoxName, string.Empty);
 		}
 
-		private void UpdateTextBox(string textBoxName, string text)
+		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			if (Controls.Find(textBoxName, true).FirstOrDefault() is TextBox textBox)   // Get textBoxes by their name.
-				textBox.Text = text;
-		}
-
-		public static bool IsUsedInContacts<T>(T item)
-		{
-			if (item is Person person)
-				return Contacts.Any(contact => contact.Person == person);
-			else if (item is Address address)
-				return Contacts.Any(contact => contact.Address == address);
-			else if (item is Phone phone)
-				return Contacts.Any(contact => contact.Phone == phone);
-			else
-				throw new ArgumentException("Invalid type", nameof(item));
-		}
-
-		private void btnSave_Click(object sender, EventArgs e)
-		{
-			if (string.IsNullOrEmpty(tbPerson.Text) || string.IsNullOrEmpty(tbAddress.Text)
-				|| string.IsNullOrEmpty(tbPhone.Text) || string.IsNullOrEmpty(tbEmail.Text))
-			{
-				MessageBox.Show("Some fields are empty! Please complete them to save.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			if (!ValidateField(tbPerson, "Person field is empty! Please complete it to add new contact.") ||
+				!ValidateField(tbAddress, "Address field is empty! Please complete it to add new contact.") ||
+				!ValidateField(tbPhone, "Phone field is empty! Please complete it to add new contact.") ||
+				!ValidateField(tbEmail, "Email field is empty! Please complete it to add new contact."))
 				return;
-			}
 
-			Contact newContact = new Contact(Person, Address, Phone, tbEmail.Text);
-
-			switch (CurrentMode)
-			{
-				case Mode.Add:
-					Contacts.Add(newContact);
-					break;
-				case Mode.Edit:
-					Contacts[Contacts.IndexOf(CurrentContact)] = newContact;
-					break;
-				default:
-					break;
-			}
+			FormMain.Contacts.Add(new Contact(Person, Address, Phone, tbEmail.Text));
 			Close();
+		}
+
+		private bool ValidateField(TextBox field, string errorMessage)
+		{
+			if (string.IsNullOrEmpty(field.Text))
+			{
+				MessageBox.Show(errorMessage, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
+			return true;
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e)

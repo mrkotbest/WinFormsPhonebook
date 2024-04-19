@@ -6,26 +6,30 @@ namespace WF_Phonebook.Forms
 {
 	public partial class FormPersonData : Form
 	{
+		private readonly Person _tempPerson;
 		public Person Person { get; } 
 
 		public FormPersonData(Person person)
 		{
 			InitializeComponent();
 			Person = person;
+			_tempPerson = person.Clone();
 		}
 
 		private void FormPersonData_Load(object sender, EventArgs e)
-			=> formPersonDataBindingSource.DataSource = Person ?? formPersonDataBindingSource.DataSource;
+			=> formPersonDataBindingSource.DataSource = _tempPerson ?? formPersonDataBindingSource.DataSource;
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
 			if (string.IsNullOrEmpty(tbFirstName.Text) || string.IsNullOrEmpty(tbLastName.Text) || string.IsNullOrEmpty(tbGender.Text))
 			{
-				MessageBox.Show("All fields must be filled in.", "Incorrect input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show("All fields must be filled in!", "Incorrect input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 			else
 			{
+				Person.CopyFrom(_tempPerson);
+
 				DialogResult = DialogResult.OK;
 				Close();
 			}

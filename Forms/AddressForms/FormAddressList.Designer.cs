@@ -57,6 +57,7 @@
             this.btnRemove});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
+			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
 			this.toolStrip1.Size = new System.Drawing.Size(784, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
@@ -92,6 +93,7 @@
 			// 
 			this.addressListDataGridView.AllowUserToAddRows = false;
 			this.addressListDataGridView.AllowUserToDeleteRows = false;
+			this.addressListDataGridView.AllowUserToResizeRows = false;
 			this.addressListDataGridView.AutoGenerateColumns = false;
 			this.addressListDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.addressListDataGridView.BackgroundColor = System.Drawing.Color.Snow;
@@ -120,6 +122,8 @@
 			this.addressListDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
 			this.addressListDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.addressListDataGridView.Location = new System.Drawing.Point(0, 25);
+			this.addressListDataGridView.Margin = new System.Windows.Forms.Padding(5);
+			this.addressListDataGridView.MultiSelect = false;
 			this.addressListDataGridView.Name = "addressListDataGridView";
 			this.addressListDataGridView.ReadOnly = true;
 			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -131,6 +135,7 @@
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.addressListDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this.addressListDataGridView.RowHeadersVisible = false;
+			this.addressListDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.addressListDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.addressListDataGridView.Size = new System.Drawing.Size(784, 336);
 			this.addressListDataGridView.TabIndex = 1;
@@ -141,6 +146,7 @@
 			// 
 			this.dataGridViewTextBoxColumn1.DataPropertyName = "Street";
 			this.dataGridViewTextBoxColumn1.HeaderText = "Street";
+			this.dataGridViewTextBoxColumn1.MinimumWidth = 200;
 			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
 			this.dataGridViewTextBoxColumn1.ReadOnly = true;
 			// 
@@ -148,6 +154,7 @@
 			// 
 			this.dataGridViewTextBoxColumn2.DataPropertyName = "HouseNo";
 			this.dataGridViewTextBoxColumn2.HeaderText = "House Number";
+			this.dataGridViewTextBoxColumn2.MinimumWidth = 200;
 			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
 			this.dataGridViewTextBoxColumn2.ReadOnly = true;
 			// 
@@ -155,6 +162,7 @@
 			// 
 			this.dataGridViewTextBoxColumn3.DataPropertyName = "ApartmentNo";
 			this.dataGridViewTextBoxColumn3.HeaderText = "Apartment Number";
+			this.dataGridViewTextBoxColumn3.MinimumWidth = 200;
 			this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
 			this.dataGridViewTextBoxColumn3.ReadOnly = true;
 			// 
@@ -171,7 +179,9 @@
 			this.Controls.Add(this.addressListDataGridView);
 			this.Controls.Add(this.toolStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "FormAddressList";
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Addresses";
 			this.Load += new System.EventHandler(this.FormAddressList_Load);

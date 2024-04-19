@@ -82,6 +82,12 @@
     <Compile Include="Forms\AddressForms\FormAddressList.Designer.cs">
       <DependentUpon>FormAddressList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\EmailForms\FormEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EmailForms\FormEmail.Designer.cs">
+      <DependentUpon>FormEmail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Store.cs" />
     <Compile Include="Forms\MainForms\FormContact.cs">
       <SubType>Form</SubType>
@@ -122,6 +128,7 @@
     <Compile Include="Forms\Mode.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Program.cs" />
@@ -131,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddressForms\FormAddressList.resx">
       <DependentUpon>FormAddressList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EmailForms\FormEmail.resx">
+      <DependentUpon>FormEmail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\FormContact.resx">
       <DependentUpon>FormContact.cs</DependentUpon>
@@ -152,14 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\DataSources\FormMain.datasource" />
     <None Include="Properties\DataSources\WF_Phonebook.Forms.FormAddressData.datasource" />
     <None Include="Properties\DataSources\WF_Phonebook.Forms.FormContact.datasource" />
@@ -169,6 +174,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -190,6 +200,5 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
