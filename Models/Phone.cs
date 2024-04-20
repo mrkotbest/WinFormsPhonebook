@@ -2,7 +2,7 @@
 
 namespace WF_Phonebook.Models
 {
-	public class Phone
+	public sealed class Phone
 	{
 		[XmlAttribute("Id")]
 		public int Id { get; set; }

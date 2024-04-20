@@ -2,11 +2,15 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using WF_Phonebook.Forms.AddressForms;
+using WF_Phonebook.Forms.PersonForms;
+using WF_Phonebook.Forms.PhoneForms;
 using WF_Phonebook.Models;
+using WF_Phonebook.Services;
 
-namespace WF_Phonebook.Forms
+namespace WF_Phonebook.Forms.MainForms
 {
-	public partial class FormContact : Form
+	public partial class ContactForm : Form
 	{
 		public BindingList<Person> Persons { get; }
 		public BindingList<Address> Addresses { get; }
@@ -16,7 +20,7 @@ namespace WF_Phonebook.Forms
 		public Address Address { get; private set; }
 		public Phone Phone { get; private set; }
 
-		public FormContact(ref Store store)
+		public ContactForm(ref PhonebookStore store)
 		{
 			InitializeComponent();
 
@@ -27,7 +31,7 @@ namespace WF_Phonebook.Forms
 
 		private void btnPersonInfo_Click(object sender, EventArgs e)
 		{
-			FormPersonList form = new FormPersonList(Persons);
+			PersonListForm form = new PersonListForm(Persons);
 			if (form.ShowDialog() != DialogResult.OK)
 			{
 				RemoveItemAndUpdateTextBox(() => Person = null, nameof(tbPerson));
@@ -41,7 +45,7 @@ namespace WF_Phonebook.Forms
 
 		private void btnAddressInfo_Click(object sender, EventArgs e)
 		{
-			FormAddressList form = new FormAddressList(Addresses);
+			AddressListForm form = new AddressListForm(Addresses);
 
 			if (form.ShowDialog() != DialogResult.OK)
 			{
@@ -56,7 +60,7 @@ namespace WF_Phonebook.Forms
 
 		private void btnPhoneInfo_Click(object sender, EventArgs e)
 		{
-			FormPhoneList form = new FormPhoneList(Phones);
+			PhoneListForm form = new PhoneListForm(Phones);
 
 			if (form.ShowDialog() != DialogResult.OK)
 			{
@@ -98,7 +102,7 @@ namespace WF_Phonebook.Forms
 				!ValidateField(tbEmail, "Email field is empty! Please complete it to add new contact."))
 				return;
 
-			FormMain.Contacts.Add(new Contact(Person, Address, Phone, tbEmail.Text));
+			MainForm.Contacts.Add(new Contact(Person, Address, Phone, tbEmail.Text));
 			Close();
 		}
 

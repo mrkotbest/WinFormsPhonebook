@@ -2,16 +2,17 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using WF_Phonebook.Forms.MainForms;
 using WF_Phonebook.Models;
 
-namespace WF_Phonebook.Forms
+namespace WF_Phonebook.Forms.PersonForms
 {
-	public partial class FormPersonList : Form
+	public partial class PersonListForm : Form
 	{
 		public BindingList<Person> Persons { get; private set; }
 		public Person CurrentPerson { get; private set; }
 
-		public FormPersonList(BindingList<Person> persons)
+		public PersonListForm(BindingList<Person> persons)
 		{
 			InitializeComponent();
 			Persons = persons;
@@ -57,7 +58,7 @@ namespace WF_Phonebook.Forms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormPersonData form = new FormPersonData(new Person());
+			PersonDataForm form = new PersonDataForm(new Person());
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				form.Person.Id = Persons.Any() ? Persons.Max(p => p.Id) + 1 : 0;
@@ -69,7 +70,7 @@ namespace WF_Phonebook.Forms
 		{
 			if (CurrentPerson != null)
 			{
-				FormPersonData form = new FormPersonData(CurrentPerson);
+				PersonDataForm form = new PersonDataForm(CurrentPerson);
 				if (form.ShowDialog() == DialogResult.OK)
 					Persons[peopleDataGridView.SelectedRows[0].Index] = form.Person;
 			}
@@ -85,7 +86,7 @@ namespace WF_Phonebook.Forms
 			{
 				Person personToRemove = Persons[peopleDataGridView.SelectedRows[0].Index];
 
-				bool isUsedInContacts = FormMain.IsUsedInContacts(personToRemove);
+				bool isUsedInContacts = MainForm.IsUsedInContacts(personToRemove);
 
 				if (isUsedInContacts)
 				{

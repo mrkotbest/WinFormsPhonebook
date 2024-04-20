@@ -2,14 +2,14 @@
 using System.Windows.Forms;
 using WF_Phonebook.Models;
 
-namespace WF_Phonebook.Forms
+namespace WF_Phonebook.Forms.AddressForms
 {
-	public partial class FormAddressData : Form
+	public partial class AddressDataForm : Form
 	{
 		private readonly Address _tempAddress;
 		public Address Address { get; }
 
-		public FormAddressData(Address address)
+		public AddressDataForm(Address address)
 		{
 			InitializeComponent();
 			Address = address;

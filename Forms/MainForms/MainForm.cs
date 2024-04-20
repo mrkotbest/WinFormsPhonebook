@@ -4,13 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using WF_Phonebook.Forms;
+using WF_Phonebook.Forms.AddressForms;
 using WF_Phonebook.Forms.EmailForms;
+using WF_Phonebook.Forms.PersonForms;
+using WF_Phonebook.Forms.PhoneForms;
 using WF_Phonebook.Models;
+using WF_Phonebook.Services;
 
-namespace WF_Phonebook
+namespace WF_Phonebook.Forms.MainForms
 {
-	public partial class FormMain : Form
+	public partial class MainForm : Form
 	{
 		private const string _xmlFileName = "contacts.xml";
 
@@ -22,7 +25,7 @@ namespace WF_Phonebook
 
 		public Contact CurrentContact { get; set; }
 
-		public FormMain()
+		public MainForm()
 			=> InitializeComponent();
 
 		private void FormMain_Load(object sender, EventArgs e)
@@ -54,9 +57,9 @@ namespace WF_Phonebook
 				{
 					using (FileStream fs = new FileStream(_xmlFileName, FileMode.OpenOrCreate))
 					{
-						XmlSerializer formatter = new XmlSerializer(typeof(Store));
+						XmlSerializer formatter = new XmlSerializer(typeof(PhonebookStore));
 
-						if (formatter.Deserialize(fs) is Store store)
+						if (formatter.Deserialize(fs) is PhonebookStore store)
 						{
 							Persons = store.Persons;
 							Addresses = store.Addresses;
@@ -90,8 +93,8 @@ namespace WF_Phonebook
 		{
 			try
 			{
-				var store = new Store(Contacts, Persons, Addresses, Phones);
-				XmlSerializer formatter = new XmlSerializer(typeof(Store));
+				var store = new PhonebookStore(Contacts, Persons, Addresses, Phones);
+				XmlSerializer formatter = new XmlSerializer(typeof(PhonebookStore));
 
 				using (FileStream fs = new FileStream(_xmlFileName, FileMode.Create))
 				{
@@ -116,14 +119,14 @@ namespace WF_Phonebook
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			Store store = new Store(Contacts, Persons, Addresses, Phones);
-			FormContact formContact = new FormContact(ref store);
+			PhonebookStore store = new PhonebookStore(Contacts, Persons, Addresses, Phones);
+			ContactForm formContact = new ContactForm(ref store);
 			formContact.ShowDialog();
 		}
 
 		private void tsPersonItem_Click(object sender, EventArgs e)
 		{
-			FormPersonList form = new FormPersonList(Persons);
+			PersonListForm form = new PersonListForm(Persons);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				RefreshCurrentContactFromDGV();
@@ -137,7 +140,7 @@ namespace WF_Phonebook
 
 		private void tsAddressItem_Click(object sender, EventArgs e)
 		{
-			FormAddressList form = new FormAddressList(Addresses);
+			AddressListForm form = new AddressListForm(Addresses);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				RefreshCurrentContactFromDGV();
@@ -151,7 +154,7 @@ namespace WF_Phonebook
 
 		private void tsPhoneItem_Click(object sender, EventArgs e)
 		{
-			FormPhoneList form = new FormPhoneList(Phones);
+			PhoneListForm form = new PhoneListForm(Phones);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				RefreshCurrentContactFromDGV();
@@ -168,7 +171,7 @@ namespace WF_Phonebook
 			RefreshCurrentContactFromDGV();
 			Email = CurrentContact.Email;
 
-			FormEmail form = new FormEmail(Email);
+			EmailForm form = new EmailForm(Email);
 			if (form.ShowDialog() == DialogResult.OK)
 				Contacts[contactsDataGridView.SelectedRows[0].Index].Email = form.Email;
 

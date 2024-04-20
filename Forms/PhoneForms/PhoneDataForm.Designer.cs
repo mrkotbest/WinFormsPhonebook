@@ -1,6 +1,6 @@
-﻿namespace WF_Phonebook.Forms
+﻿namespace WF_Phonebook.Forms.PhoneForms
 {
-	partial class FormPhoneData
+	partial class PhoneDataForm
 	{
 		/// <summary>
 		/// Required designer variable.

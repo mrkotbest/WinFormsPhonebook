@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace WF_Phonebook.Models
 {
-	public class Person
+	public sealed class Person
 	{
 		[XmlAttribute("Id")]
 		public int Id { get; set; }

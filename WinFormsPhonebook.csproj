@@ -70,60 +70,60 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\AddressForms\FormAddressData.cs">
+    <Compile Include="Forms\AddressForms\AddressDataForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AddressForms\FormAddressData.Designer.cs">
-      <DependentUpon>FormAddressData.cs</DependentUpon>
+    <Compile Include="Forms\AddressForms\AddressDataForm.Designer.cs">
+      <DependentUpon>AddressDataForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AddressForms\FormAddressList.cs">
+    <Compile Include="Forms\AddressForms\AddressListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AddressForms\FormAddressList.Designer.cs">
-      <DependentUpon>FormAddressList.cs</DependentUpon>
+    <Compile Include="Forms\AddressForms\AddressListForm.Designer.cs">
+      <DependentUpon>AddressListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\EmailForms\FormEmail.cs">
+    <Compile Include="Forms\EmailForms\EmailForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\EmailForms\FormEmail.Designer.cs">
-      <DependentUpon>FormEmail.cs</DependentUpon>
+      <DependentUpon>EmailForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Store.cs" />
-    <Compile Include="Forms\MainForms\FormContact.cs">
+    <Compile Include="Services\PhonebookStore.cs" />
+    <Compile Include="Forms\MainForms\ContactForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForms\FormContact.Designer.cs">
-      <DependentUpon>FormContact.cs</DependentUpon>
+    <Compile Include="Forms\MainForms\ContactForm.Designer.cs">
+      <DependentUpon>ContactForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MainForms\FormMain.cs">
+    <Compile Include="Forms\MainForms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForms\FormMain.Designer.cs">
-      <DependentUpon>FormMain.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PersonForms\FormPersonData.cs">
+    <Compile Include="Forms\PersonForms\PersonDataForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\PersonForms\FormPersonData.Designer.cs">
-      <DependentUpon>FormPersonData.cs</DependentUpon>
+    <Compile Include="Forms\PersonForms\PersonDataForm.Designer.cs">
+      <DependentUpon>PersonDataForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PersonForms\FormPersonList.cs">
+    <Compile Include="Forms\PersonForms\PersonListForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\PersonForms\FormPersonList.Designer.cs">
-      <DependentUpon>FormPersonList.cs</DependentUpon>
+      <DependentUpon>PersonListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PhoneForms\FormPhoneData.cs">
+    <Compile Include="Forms\PhoneForms\PhoneDataForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\PhoneForms\FormPhoneData.Designer.cs">
-      <DependentUpon>FormPhoneData.cs</DependentUpon>
+    <Compile Include="Forms\PhoneForms\PhoneDataForm.Designer.cs">
+      <DependentUpon>PhoneDataForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PhoneForms\FormPhoneList.cs">
+    <Compile Include="Forms\PhoneForms\PhoneListForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\PhoneForms\FormPhoneList.Designer.cs">
-      <DependentUpon>FormPhoneList.cs</DependentUpon>
+      <DependentUpon>PhoneListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Contact.cs" />
@@ -131,32 +131,32 @@
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\AddressForms\FormAddressData.resx">
-      <DependentUpon>FormAddressData.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AddressForms\AddressDataForm.resx">
+      <DependentUpon>AddressDataForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddressForms\FormAddressList.resx">
-      <DependentUpon>FormAddressList.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AddressForms\AddressListForm.resx">
+      <DependentUpon>AddressListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EmailForms\FormEmail.resx">
-      <DependentUpon>FormEmail.cs</DependentUpon>
+      <DependentUpon>EmailForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForms\FormContact.resx">
-      <DependentUpon>FormContact.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\MainForms\ContactForm.resx">
+      <DependentUpon>ContactForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\FormMain.resx">
-      <DependentUpon>FormMain.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PersonForms\FormPersonData.resx">
-      <DependentUpon>FormPersonData.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\PersonForms\PersonDataForm.resx">
+      <DependentUpon>PersonDataForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PersonForms\FormPersonList.resx">
-      <DependentUpon>FormPersonList.cs</DependentUpon>
+      <DependentUpon>PersonListForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PhoneForms\FormPhoneData.resx">
-      <DependentUpon>FormPhoneData.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\PhoneForms\PhoneDataForm.resx">
+      <DependentUpon>PhoneDataForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PhoneForms\FormPhoneList.resx">
-      <DependentUpon>FormPhoneList.cs</DependentUpon>
+      <DependentUpon>PhoneListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -2,14 +2,14 @@
 using System.Windows.Forms;
 using WF_Phonebook.Models;
 
-namespace WF_Phonebook.Forms
+namespace WF_Phonebook.Forms.PersonForms
 {
-	public partial class FormPersonData : Form
+	public partial class PersonDataForm : Form
 	{
 		private readonly Person _tempPerson;
 		public Person Person { get; } 
 
-		public FormPersonData(Person person)
+		public PersonDataForm(Person person)
 		{
 			InitializeComponent();
 			Person = person;

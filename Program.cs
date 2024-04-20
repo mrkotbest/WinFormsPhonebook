@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using WF_Phonebook.Forms.MainForms;
 
 namespace WF_Phonebook
 {
@@ -10,7 +11,7 @@ namespace WF_Phonebook
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new FormMain());
+			Application.Run(new MainForm());
 		}
 	}
 }

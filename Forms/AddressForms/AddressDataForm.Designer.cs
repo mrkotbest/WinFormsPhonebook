@@ -1,6 +1,6 @@
-﻿namespace WF_Phonebook.Forms
+﻿namespace WF_Phonebook.Forms.AddressForms
 {
-	partial class FormAddressData
+	partial class AddressDataForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -122,7 +122,7 @@
 			// 
 			// formAddressDataBindingSource
 			// 
-			this.formAddressDataBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormAddressData);
+			this.formAddressDataBindingSource.DataSource = typeof(WF_Phonebook.Forms.AddressForms.AddressDataForm);
 			// 
 			// FormAddressData
 			// 

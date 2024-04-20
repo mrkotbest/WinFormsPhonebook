@@ -1,6 +1,6 @@
-﻿namespace WF_Phonebook.Forms
+﻿namespace WF_Phonebook.Forms.PersonForms
 {
-	partial class FormPersonData
+	partial class PersonDataForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -115,7 +115,7 @@
 			// 
 			// formPersonDataBindingSource
 			// 
-			this.formPersonDataBindingSource.DataSource = typeof(WF_Phonebook.Forms.FormPersonData);
+			this.formPersonDataBindingSource.DataSource = typeof(WF_Phonebook.Forms.PersonForms.PersonDataForm);
 			// 
 			// tbFirstName
 			// 

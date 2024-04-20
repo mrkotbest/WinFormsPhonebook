@@ -1,6 +1,6 @@
 ﻿namespace WF_Phonebook.Forms.EmailForms
 {
-	partial class FormEmail
+	partial class EmailForm
 	{
 		/// <summary>
 		/// Обязательная переменная конструктора.

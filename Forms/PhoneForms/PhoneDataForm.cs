@@ -1,14 +1,14 @@
 ﻿using System.Windows.Forms;
 using WF_Phonebook.Models;
 
-namespace WF_Phonebook.Forms
+namespace WF_Phonebook.Forms.PhoneForms
 {
-	public partial class FormPhoneData : Form
+	public partial class PhoneDataForm : Form
 	{
 		private readonly Phone _tempPhone;
 		public Phone Phone { get; }
 
-		public FormPhoneData(Phone phone)
+		public PhoneDataForm(Phone phone)
 		{
 			InitializeComponent();
 			Phone = phone;

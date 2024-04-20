@@ -2,11 +2,11 @@
 
 namespace WF_Phonebook.Forms.EmailForms
 {
-	public partial class FormEmail : Form
+	public partial class EmailForm : Form
 	{
 		public string Email { get; private set; } 
 
-		public FormEmail(string email)
+		public EmailForm(string email)
 		{
 			InitializeComponent();
 			Email = email;

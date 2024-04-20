@@ -2,16 +2,17 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using WF_Phonebook.Forms.MainForms;
 using WF_Phonebook.Models;
 
-namespace WF_Phonebook.Forms
+namespace WF_Phonebook.Forms.AddressForms
 {
-	public partial class FormAddressList : Form
+	public partial class AddressListForm : Form
 	{
 		public BindingList<Address> Addresses { get; private set; }
 		public Address CurrentAddress { get; private set; }
 
-		public FormAddressList(BindingList<Address> addresses)
+		public AddressListForm(BindingList<Address> addresses)
 		{
 			InitializeComponent();
 			Addresses = addresses;
@@ -57,7 +58,7 @@ namespace WF_Phonebook.Forms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			FormAddressData form = new FormAddressData(new Address());
+			AddressDataForm form = new AddressDataForm(new Address());
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				form.Address.Id = Addresses.Any() ? Addresses.Max(p => p.Id) + 1 : 0;
@@ -69,7 +70,7 @@ namespace WF_Phonebook.Forms
 		{
 			if (CurrentAddress != null)
 			{
-				FormAddressData form = new FormAddressData(CurrentAddress);
+				AddressDataForm form = new AddressDataForm(CurrentAddress);
 				if (form.ShowDialog() == DialogResult.OK)
 					Addresses[addressListDataGridView.SelectedRows[0].Index] = form.Address;
 			}
@@ -85,7 +86,7 @@ namespace WF_Phonebook.Forms
 			{
 				Address addressToRemove = Addresses[addressListDataGridView.SelectedRows[0].Index];
 
-				bool isUsedInContacts = FormMain.IsUsedInContacts(addressToRemove);
+				bool isUsedInContacts = MainForm.IsUsedInContacts(addressToRemove);
 
 				if (isUsedInContacts)
 				{
