@@ -118,7 +118,6 @@
 			this.tbStreet.Name = "tbStreet";
 			this.tbStreet.Size = new System.Drawing.Size(201, 22);
 			this.tbStreet.TabIndex = 0;
-			this.tbStreet.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbStreet_KeyPress);
 			// 
 			// formAddressDataBindingSource
 			// 

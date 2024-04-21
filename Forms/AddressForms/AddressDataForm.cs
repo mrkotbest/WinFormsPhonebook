@@ -36,11 +36,6 @@ namespace WF_Phonebook.Forms.AddressForms
 		}
 
 		// Checking if a symbol is a letter or a control symbol (eg "Backspace").
-		private void tbStreet_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
-				e.Handled = true;
-		}
 		private void tbHouse_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))

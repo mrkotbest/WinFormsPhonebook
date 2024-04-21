@@ -83,8 +83,7 @@
 			this.tbNumber.Name = "tbNumber";
 			this.tbNumber.Size = new System.Drawing.Size(199, 22);
 			this.tbNumber.TabIndex = 0;
-			this.tbNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbNumber_KeyPress);
-			this.tbNumber.Validated += new System.EventHandler(this.tbNumber_Validated);
+			this.tbNumber.Leave += new System.EventHandler(this.tbNumber_Leave);
 			// 
 			// phoneListBindingSource
 			// 
@@ -101,7 +100,7 @@
 			this.tbType.TabIndex = 1;
 			this.tbType.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbType_KeyPress);
 			// 
-			// FormPhoneData
+			// PhoneDataForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -113,7 +112,7 @@
 			this.Controls.Add(this.tbType);
 			this.Controls.Add(this.btnSave);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Name = "FormPhoneData";
+			this.Name = "PhoneDataForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Phone Input";
 			this.Load += new System.EventHandler(this.FormPhoneData_Load);

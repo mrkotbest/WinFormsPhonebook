@@ -105,7 +105,7 @@ namespace WF_Phonebook.Forms.MainForms
 				!ValidateField(tbEmail, "Email field is empty! Please complete it to add new contact."))
 				return;
 
-			if (!System.Text.RegularExpressions.Regex.IsMatch(tbEmail.Text, _emailPattern))
+			if (System.Text.RegularExpressions.Regex.IsMatch(tbEmail.Text, _emailPattern))
 			{
 				MainForm.Contacts.Add(new Contact(Person, Address, Phone, tbEmail.Text));
 				Close();

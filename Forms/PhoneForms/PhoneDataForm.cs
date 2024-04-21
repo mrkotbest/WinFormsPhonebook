@@ -34,24 +34,21 @@ namespace WF_Phonebook.Forms.PhoneForms
 			}
 		}
 
-		private void tbNumber_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != '+' && e.KeyChar != '-') // Checking if a symbol is a number or a symbol "+" or a symbol "-".
-				e.Handled = true;
-		}
-		private void tbNumber_Validated(object sender, System.EventArgs e)
+		private void tbNumber_Leave(object sender, System.EventArgs e)
 		{
 			if (sender is TextBox textBox)
 			{
-				if (!string.IsNullOrEmpty(tbNumber.Text))
+				string pattern = @"^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$";
+				if (System.Text.RegularExpressions.Regex.IsMatch(textBox.Text, pattern))
 				{
-					if (textBox.Text.StartsWith("0"))   // If the text in the TextBox starts with "0".
+					if (textBox.Text.StartsWith("0"))
 						textBox.Text = "+380" + textBox.Text.Substring(1);
-					else if (textBox.Text.StartsWith("3") || textBox.Text.StartsWith("38") || textBox.Text.StartsWith("380"))   // If the text in the TextBox starts with "3" or "38" or "380".
-						textBox.Text = "+" + textBox.Text.Substring(1);
+					else if (!textBox.Text.StartsWith("+") && textBox.Text.StartsWith("380"))
+						textBox.Text = "+" + textBox.Text;
 				}
 			}
 		}
+
 		private void tbType_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
