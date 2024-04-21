@@ -94,7 +94,7 @@
 			this.tbType.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.phoneListBindingSource, "Type", true));
 			this.tbType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbType.Location = new System.Drawing.Point(83, 54);
-			this.tbType.MaxLength = 10;
+			this.tbType.MaxLength = 9;
 			this.tbType.Name = "tbType";
 			this.tbType.Size = new System.Drawing.Size(199, 22);
 			this.tbType.TabIndex = 1;

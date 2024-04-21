@@ -122,7 +122,7 @@
 			this.tbFirstName.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formPersonDataBindingSource, "Person.FirstName", true));
 			this.tbFirstName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbFirstName.Location = new System.Drawing.Point(96, 22);
-			this.tbFirstName.MaxLength = 25;
+			this.tbFirstName.MaxLength = 15;
 			this.tbFirstName.Name = "tbFirstName";
 			this.tbFirstName.Size = new System.Drawing.Size(225, 22);
 			this.tbFirstName.TabIndex = 0;
@@ -133,7 +133,7 @@
 			this.tbGender.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formPersonDataBindingSource, "Person.Gender", true));
 			this.tbGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbGender.Location = new System.Drawing.Point(96, 84);
-			this.tbGender.MaxLength = 6;
+			this.tbGender.MaxLength = 7;
 			this.tbGender.Name = "tbGender";
 			this.tbGender.Size = new System.Drawing.Size(225, 22);
 			this.tbGender.TabIndex = 2;
@@ -144,7 +144,7 @@
 			this.tbLastName.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formPersonDataBindingSource, "Person.LastName", true));
 			this.tbLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbLastName.Location = new System.Drawing.Point(96, 53);
-			this.tbLastName.MaxLength = 30;
+			this.tbLastName.MaxLength = 25;
 			this.tbLastName.Name = "tbLastName";
 			this.tbLastName.Size = new System.Drawing.Size(225, 22);
 			this.tbLastName.TabIndex = 1;

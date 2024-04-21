@@ -49,7 +49,7 @@
 			this.tbEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.tbEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbEmail.Location = new System.Drawing.Point(74, 39);
-			this.tbEmail.MaxLength = 50;
+			this.tbEmail.MaxLength = 25;
 			this.tbEmail.Name = "tbEmail";
 			this.tbEmail.Size = new System.Drawing.Size(211, 21);
 			this.tbEmail.TabIndex = 2;

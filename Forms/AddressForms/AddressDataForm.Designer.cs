@@ -114,7 +114,7 @@
 			this.tbStreet.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formAddressDataBindingSource, "Address.Street", true));
 			this.tbStreet.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.tbStreet.Location = new System.Drawing.Point(115, 26);
-			this.tbStreet.MaxLength = 50;
+			this.tbStreet.MaxLength = 30;
 			this.tbStreet.Name = "tbStreet";
 			this.tbStreet.Size = new System.Drawing.Size(201, 22);
 			this.tbStreet.TabIndex = 0;
