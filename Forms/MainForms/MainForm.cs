@@ -23,7 +23,7 @@ namespace WF_Phonebook.Forms.MainForms
 		public BindingList<Phone> Phones { get; set; }
 		public string Email { get; private set; }
 
-		public Contact CurrentContact { get; set; }
+		public Contact CurrentContact { get; private set; }
 
 		public MainForm()
 			=> InitializeComponent();
@@ -61,6 +61,10 @@ namespace WF_Phonebook.Forms.MainForms
 
 						if (formatter.Deserialize(fs) is PhonebookStore store)
 						{
+							if (store.Persons.Count == 0 && store.Addresses.Count == 0 &&
+								store.Phones.Count == 0 && store.Contacts.Count == 0)
+								return;
+
 							Persons = store.Persons;
 							Addresses = store.Addresses;
 							Phones = store.Phones;

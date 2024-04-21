@@ -83,6 +83,7 @@
 			this.tbNumber.Name = "tbNumber";
 			this.tbNumber.Size = new System.Drawing.Size(199, 22);
 			this.tbNumber.TabIndex = 0;
+			this.tbNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbNumber_KeyPress);
 			this.tbNumber.Leave += new System.EventHandler(this.tbNumber_Leave);
 			// 
 			// phoneListBindingSource
