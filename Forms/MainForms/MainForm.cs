@@ -16,6 +16,7 @@ namespace WF_Phonebook.Forms.MainForms
 	public partial class MainForm : Form
 	{
 		private const string _xmlFileName = "contacts.xml";
+		private const string _backupFileName = _xmlFileName + ".bak";
 
 		public static BindingList<Contact> Contacts { get; set; }
 		public BindingList<Person> Persons { get; set; }
@@ -61,17 +62,16 @@ namespace WF_Phonebook.Forms.MainForms
 
 						if (formatter.Deserialize(fs) is PhonebookStore store)
 						{
-							if (store.Persons.Count == 0 && store.Addresses.Count == 0 &&
-								store.Phones.Count == 0 && store.Contacts.Count == 0)
+							if (store.Persons.Count == 0 && store.Addresses.Count == 0 && store.Phones.Count == 0)
 								return;
 
 							Persons = store.Persons;
 							Addresses = store.Addresses;
 							Phones = store.Phones;
 
-							var personsDict = Persons.ToDictionary(p => p.Id);
-							var addressesDict = Addresses.ToDictionary(a => a.Id);
-							var phonesDict = Phones.ToDictionary(p => p.Id);
+							var personsDict = store.Persons.ToDictionary(p => p.Id);
+							var addressesDict = store.Addresses.ToDictionary(a => a.Id);
+							var phonesDict = store.Phones.ToDictionary(p => p.Id);
 
 							foreach (Contact contact in store.Contacts)
 							{
@@ -81,14 +81,25 @@ namespace WF_Phonebook.Forms.MainForms
 								{
 									Contacts.Add(new Contact(person, address, phone, contact.Email));
 								}
+								else
+									throw new Exception("Invalid data in XML file.");
 							}
 						}
 					}
 				}
 				catch (Exception ex)
 				{
-					File.AppendAllText("error.log", $"[{DateTime.Now}] An error occurred while loading data: {ex.Message}\n");
-					MessageBox.Show("An error occurred while loading..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					File.AppendAllText("error.log", $"[{DateTime.Now}] loading data error: {ex.Message}\n");
+
+					if (File.Exists(_backupFileName))
+					{
+						File.Copy(_backupFileName, _xmlFileName, true);
+						MessageBox.Show($"An error occurred while loading: {ex.Message}\n\nThe data has been restored from the latest backup.",
+							"Backup", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						LoadData();
+					}
+					else
+						MessageBox.Show("An error occurred while loading..","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}
@@ -104,11 +115,13 @@ namespace WF_Phonebook.Forms.MainForms
 				{
 					formatter.Serialize(fs, store);
 				}
+
+				File.Copy(_xmlFileName, _backupFileName, true);
 				return true;
 			}
 			catch (Exception ex)
 			{
-				File.AppendAllText("error.log", $"[{DateTime.Now}] An error occurred while saving data: {ex.Message}\n");
+				File.AppendAllText("error.log", $"[{DateTime.Now}] saving data error: {ex.Message}\n");
 				MessageBox.Show("An error occurred while saving..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}

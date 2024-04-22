@@ -53,7 +53,6 @@
 			this.tbEmail.Name = "tbEmail";
 			this.tbEmail.Size = new System.Drawing.Size(211, 21);
 			this.tbEmail.TabIndex = 2;
-			this.tbEmail.TextChanged += new System.EventHandler(this.tbEmail_TextChanged);
 			// 
 			// btnSave
 			// 

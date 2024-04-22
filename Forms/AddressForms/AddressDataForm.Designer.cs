@@ -34,9 +34,9 @@
 			System.Windows.Forms.Label lblStreet;
 			this.btnSave = new System.Windows.Forms.Button();
 			this.tbApartment = new System.Windows.Forms.TextBox();
+			this.formAddressDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.tbHouse = new System.Windows.Forms.TextBox();
 			this.tbStreet = new System.Windows.Forms.TextBox();
-			this.formAddressDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			lblApartment = new System.Windows.Forms.Label();
 			lblHouse = new System.Windows.Forms.Label();
 			lblStreet = new System.Windows.Forms.Label();
@@ -47,7 +47,7 @@
 			// 
 			lblApartment.AutoSize = true;
 			lblApartment.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			lblApartment.Location = new System.Drawing.Point(30, 86);
+			lblApartment.Location = new System.Drawing.Point(24, 86);
 			lblApartment.Name = "lblApartment";
 			lblApartment.Size = new System.Drawing.Size(85, 15);
 			lblApartment.TabIndex = 6;
@@ -57,7 +57,7 @@
 			// 
 			lblHouse.AutoSize = true;
 			lblHouse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			lblHouse.Location = new System.Drawing.Point(50, 57);
+			lblHouse.Location = new System.Drawing.Point(44, 58);
 			lblHouse.Name = "lblHouse";
 			lblHouse.Size = new System.Drawing.Size(65, 15);
 			lblHouse.TabIndex = 5;
@@ -67,7 +67,7 @@
 			// 
 			lblStreet.AutoSize = true;
 			lblStreet.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			lblStreet.Location = new System.Drawing.Point(74, 28);
+			lblStreet.Location = new System.Drawing.Point(67, 28);
 			lblStreet.Name = "lblStreet";
 			lblStreet.Size = new System.Drawing.Size(42, 15);
 			lblStreet.TabIndex = 4;
@@ -98,6 +98,10 @@
 			this.tbApartment.TabIndex = 2;
 			this.tbApartment.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbApartment_KeyPress);
 			// 
+			// formAddressDataBindingSource
+			// 
+			this.formAddressDataBindingSource.DataSource = typeof(WF_Phonebook.Forms.AddressForms.AddressDataForm);
+			// 
 			// tbHouse
 			// 
 			this.tbHouse.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.formAddressDataBindingSource, "Address.HouseNo", true));
@@ -119,11 +123,7 @@
 			this.tbStreet.Size = new System.Drawing.Size(201, 22);
 			this.tbStreet.TabIndex = 0;
 			// 
-			// formAddressDataBindingSource
-			// 
-			this.formAddressDataBindingSource.DataSource = typeof(WF_Phonebook.Forms.AddressForms.AddressDataForm);
-			// 
-			// FormAddressData
+			// AddressDataForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -137,7 +137,7 @@
 			this.Controls.Add(this.tbStreet);
 			this.Controls.Add(this.btnSave);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Name = "FormAddressData";
+			this.Name = "AddressDataForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Address Input";
 			this.Load += new System.EventHandler(this.FormAddressData_Load);
