@@ -23,12 +23,15 @@ namespace WF_Phonebook.Forms.PersonForms
 
 		private void InitComponents()
 		{
-			peopleBindingSource.DataSource = Persons;
-
 			if (Persons != null)
 			{
+				peopleBindingSource.DataSource = Persons;
+
 				Persons.ListChanged += HandleListChanged;
 				btnEdit.Enabled = btnRemove.Enabled = Persons.Count > 0;
+
+				if (MainForm.CurrentContact != null)
+					SelectRowByPerson(peopleDataGridView, MainForm.CurrentContact.Person);
 			}
 		}
 
@@ -41,6 +44,15 @@ namespace WF_Phonebook.Forms.PersonForms
 				if (CurrentPerson != null && !Persons.Contains(CurrentPerson))
 					CurrentPerson = null;
 			}
+		}
+
+		private void SelectRowByPerson(DataGridView dataGrid, Person person)
+		{
+			var selectedRow = dataGrid.Rows
+				.Cast<DataGridViewRow>()
+				.FirstOrDefault(row => row.DataBoundItem == person);
+
+			selectedRow.Selected = true;
 		}
 
 		private void peopleDataGridView_SelectionChanged(object sender, EventArgs e)

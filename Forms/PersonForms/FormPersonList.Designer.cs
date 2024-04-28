@@ -180,7 +180,7 @@
 			// 
 			this.peopleBindingSource.DataSource = typeof(WF_Phonebook.Models.Person);
 			// 
-			// FormPersonList
+			// PersonListForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -190,7 +190,7 @@
 			this.Controls.Add(this.toolStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MinimumSize = new System.Drawing.Size(800, 400);
-			this.Name = "FormPersonList";
+			this.Name = "PersonListForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "People";
 			this.Load += new System.EventHandler(this.FormPersonList_Load);

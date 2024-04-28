@@ -23,12 +23,15 @@ namespace WF_Phonebook.Forms.AddressForms
 
 		private void InitComponents()
 		{
-			addressListBindingSource.DataSource = Addresses;
-
 			if (Addresses != null)
 			{
+				addressListBindingSource.DataSource = Addresses;
+
 				Addresses.ListChanged += HandleListChanged;
 				btnEdit.Enabled = btnRemove.Enabled = Addresses.Count > 0;
+
+				if (MainForm.CurrentContact != null)
+					SelectRowByAddress(addressListDataGridView, MainForm.CurrentContact.Address);
 			}
 		}
 
@@ -41,6 +44,15 @@ namespace WF_Phonebook.Forms.AddressForms
 				if (CurrentAddress != null && !Addresses.Contains(CurrentAddress))
 					CurrentAddress = null;
 			}
+		}
+
+		private void SelectRowByAddress(DataGridView dataGrid, Address address)
+		{
+			var selectedRow = dataGrid.Rows
+				.Cast<DataGridViewRow>()
+				.FirstOrDefault(row => row.DataBoundItem == address);
+
+			selectedRow.Selected = true;
 		}
 
 		private void addressListDataGridView_SelectionChanged(object sender, EventArgs e)

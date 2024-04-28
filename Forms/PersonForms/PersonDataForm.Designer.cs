@@ -106,7 +106,7 @@
 			this.dpBirthDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.dpBirthDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.dpBirthDate.Location = new System.Drawing.Point(96, 117);
-			this.dpBirthDate.MaxDate = new System.DateTime(2100, 1, 1, 0, 0, 0, 0);
+			this.dpBirthDate.MaxDate = new System.DateTime(2100, 12, 31, 0, 0, 0, 0);
 			this.dpBirthDate.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
 			this.dpBirthDate.Name = "dpBirthDate";
 			this.dpBirthDate.Size = new System.Drawing.Size(225, 22);
@@ -150,7 +150,7 @@
 			this.tbLastName.TabIndex = 1;
 			this.tbLastName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbLastName_KeyPress);
 			// 
-			// FormPersonData
+			// PersonDataForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -166,7 +166,7 @@
 			this.Controls.Add(this.tbLastName);
 			this.Controls.Add(this.btnSave);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Name = "FormPersonData";
+			this.Name = "PersonDataForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Person Input";
 			this.Load += new System.EventHandler(this.FormPersonData_Load);

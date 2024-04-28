@@ -43,10 +43,10 @@
 			this.tsEmailItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnRemove = new System.Windows.Forms.ToolStripButton();
 			this.contactsDataGridView = new System.Windows.Forms.DataGridView();
-			this.personDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.phoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.personDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.phoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.contactsBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.contactsDataGridView)).BeginInit();
@@ -195,6 +195,7 @@
 			this.contactsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.contactsDataGridView.Size = new System.Drawing.Size(1184, 486);
 			this.contactsDataGridView.TabIndex = 1;
+			this.contactsDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.contactsDataGridView_CellContentClick);
 			this.contactsDataGridView.SelectionChanged += new System.EventHandler(this.contactsDataGridView_SelectionChanged);
 			// 
 			// personDataGridViewTextBoxColumn
@@ -204,6 +205,8 @@
 			this.personDataGridViewTextBoxColumn.MinimumWidth = 250;
 			this.personDataGridViewTextBoxColumn.Name = "personDataGridViewTextBoxColumn";
 			this.personDataGridViewTextBoxColumn.ReadOnly = true;
+			this.personDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.personDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
 			// 
 			// addressDataGridViewTextBoxColumn
 			// 
@@ -212,6 +215,8 @@
 			this.addressDataGridViewTextBoxColumn.MinimumWidth = 250;
 			this.addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
 			this.addressDataGridViewTextBoxColumn.ReadOnly = true;
+			this.addressDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.addressDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
 			// 
 			// phoneDataGridViewTextBoxColumn
 			// 
@@ -220,6 +225,8 @@
 			this.phoneDataGridViewTextBoxColumn.MinimumWidth = 250;
 			this.phoneDataGridViewTextBoxColumn.Name = "phoneDataGridViewTextBoxColumn";
 			this.phoneDataGridViewTextBoxColumn.ReadOnly = true;
+			this.phoneDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.phoneDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
 			// 
 			// emailDataGridViewTextBoxColumn
 			// 
@@ -229,12 +236,13 @@
 			this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
 			this.emailDataGridViewTextBoxColumn.ReadOnly = true;
 			this.emailDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.emailDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
 			// 
 			// contactsBindingSource
 			// 
 			this.contactsBindingSource.DataSource = typeof(WF_Phonebook.Models.Contact);
 			// 
-			// FormMain
+			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -243,10 +251,9 @@
 			this.Controls.Add(this.contactsDataGridView);
 			this.Controls.Add(this.toolStrip1);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.MinimumSize = new System.Drawing.Size(1200, 550);
-			this.Name = "FormMain";
+			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Phonebook";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
@@ -265,18 +272,18 @@
 		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.ToolStripButton btnAdd;
 		private System.Windows.Forms.ToolStripButton btnRemove;
-		private System.Windows.Forms.DataGridView contactsDataGridView;
 		private System.Windows.Forms.ToolStripButton btnSave;
 		private System.Windows.Forms.BindingSource contactsBindingSource;
 		private System.Windows.Forms.ToolStripDropDownButton btnEdit;
 		private System.Windows.Forms.ToolStripMenuItem tsPersonItem;
 		private System.Windows.Forms.ToolStripMenuItem tsAddressItem;
 		private System.Windows.Forms.ToolStripMenuItem tsPhoneItem;
-		private System.Windows.Forms.DataGridViewTextBoxColumn personDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn phoneDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
 		private System.Windows.Forms.ToolStripMenuItem tsEmailItem;
+		private System.Windows.Forms.DataGridView contactsDataGridView;
+		private System.Windows.Forms.DataGridViewButtonColumn personDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewButtonColumn addressDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewButtonColumn phoneDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewButtonColumn emailDataGridViewTextBoxColumn;
 	}
 }
 

@@ -23,12 +23,15 @@ namespace WF_Phonebook.Forms.PhoneForms
 
 		private void InitComponents()
 		{
-			phoneListBindingSource.DataSource = Phones;
-
 			if (Phones != null)
 			{
+				phoneListBindingSource.DataSource = Phones;
+
 				Phones.ListChanged += HandleListChanged;
 				btnEdit.Enabled = btnRemove.Enabled = Phones.Count > 0;
+
+				if (MainForm.CurrentContact != null)
+					SelectRowByPhone(phoneListDataGridView, MainForm.CurrentContact.Phone);
 			}
 		}
 
@@ -41,6 +44,15 @@ namespace WF_Phonebook.Forms.PhoneForms
 				if (CurrentPhone != null && !Phones.Contains(CurrentPhone))
 					CurrentPhone = null;
 			}
+		}
+
+		private void SelectRowByPhone(DataGridView dataGrid, Phone phone)
+		{
+			var selectedRow = dataGrid.Rows
+				.Cast<DataGridViewRow>()
+				.FirstOrDefault(row => row.DataBoundItem == phone);
+
+			selectedRow.Selected = true;
 		}
 
 		private void phoneListDataGridView_SelectionChanged(object sender, EventArgs e)

@@ -170,7 +170,7 @@
 			// 
 			this.addressListBindingSource.DataSource = typeof(WF_Phonebook.Models.Address);
 			// 
-			// FormAddressList
+			// AddressListForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -180,7 +180,7 @@
 			this.Controls.Add(this.toolStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MinimumSize = new System.Drawing.Size(800, 400);
-			this.Name = "FormAddressList";
+			this.Name = "AddressListForm";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Addresses";

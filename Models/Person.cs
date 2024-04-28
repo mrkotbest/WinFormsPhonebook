@@ -15,7 +15,7 @@ namespace WF_Phonebook.Models
 		public override string ToString()
 			=> $"{FirstName} {LastName} [{Gender}] {BirthDate.Date.ToShortDateString()}";
 
-		public Person Clone()
+        public Person Clone()
 			=> (Person)MemberwiseClone();
 
 		public void CopyFrom(Person other)

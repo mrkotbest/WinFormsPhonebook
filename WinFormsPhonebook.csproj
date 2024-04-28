@@ -143,19 +143,19 @@
     <EmbeddedResource Include="Forms\MainForms\ContactForm.resx">
       <DependentUpon>ContactForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForms\FormMain.resx">
+    <EmbeddedResource Include="Forms\MainForms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PersonForms\PersonDataForm.resx">
       <DependentUpon>PersonDataForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PersonForms\FormPersonList.resx">
+    <EmbeddedResource Include="Forms\PersonForms\PersonListForm.resx">
       <DependentUpon>PersonListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PhoneForms\PhoneDataForm.resx">
       <DependentUpon>PhoneDataForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PhoneForms\FormPhoneList.resx">
+    <EmbeddedResource Include="Forms\PhoneForms\PhoneListForm.resx">
       <DependentUpon>PhoneListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

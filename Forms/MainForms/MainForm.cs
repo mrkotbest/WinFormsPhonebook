@@ -19,12 +19,12 @@ namespace WF_Phonebook.Forms.MainForms
 		private const string _backupFileName = _xmlFileName + ".bak";
 
 		public static BindingList<Contact> Contacts { get; set; }
+		public static Contact CurrentContact { get; private set; }
+
 		public BindingList<Person> Persons { get; set; }
 		public BindingList<Address> Addresses { get; set; }
 		public BindingList<Phone> Phones { get; set; }
 		public string Email { get; private set; }
-
-		public Contact CurrentContact { get; private set; }
 
 		public MainForm()
 			=> InitializeComponent();
@@ -142,12 +142,23 @@ namespace WF_Phonebook.Forms.MainForms
 		}
 
 		private void tsPersonItem_Click(object sender, EventArgs e)
+			=> OpenPersonListForm();
+
+		private void tsAddressItem_Click(object sender, EventArgs e)
+			=> OpenAddressListForm();
+
+		private void tsPhoneItem_Click(object sender, EventArgs e)
+			=> OpenPhoneListForm();
+
+		private void tsEmailItem_Click(object sender, EventArgs e)
+			=> OpenEmailForm();
+
+		private void OpenPersonListForm()
 		{
+			RefreshCurrentContactFromDGV();
 			PersonListForm form = new PersonListForm(Persons);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
-				RefreshCurrentContactFromDGV();
-
 				var person = form.CurrentPerson;
 				Contacts[contactsDataGridView.SelectedRows[0].Index].Person = person;
 				Contacts[contactsDataGridView.SelectedRows[0].Index].PersonId = person.Id;
@@ -155,13 +166,12 @@ namespace WF_Phonebook.Forms.MainForms
 			contactsDataGridView.Refresh();
 		}
 
-		private void tsAddressItem_Click(object sender, EventArgs e)
+		private void OpenAddressListForm()
 		{
-			AddressListForm form = new AddressListForm(Addresses);
+			RefreshCurrentContactFromDGV();
+			var form = new AddressListForm(Addresses);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
-				RefreshCurrentContactFromDGV();
-
 				var address = form.CurrentAddress;
 				Contacts[contactsDataGridView.SelectedRows[0].Index].Address = address;
 				Contacts[contactsDataGridView.SelectedRows[0].Index].AddressId = address.Id;
@@ -169,13 +179,12 @@ namespace WF_Phonebook.Forms.MainForms
 			contactsDataGridView.Refresh();
 		}
 
-		private void tsPhoneItem_Click(object sender, EventArgs e)
+		private void OpenPhoneListForm()
 		{
+			RefreshCurrentContactFromDGV();
 			PhoneListForm form = new PhoneListForm(Phones);
 			if (form.ShowDialog() == DialogResult.OK)
 			{
-				RefreshCurrentContactFromDGV();
-
 				var phone = form.CurrentPhone;
 				Contacts[contactsDataGridView.SelectedRows[0].Index].Phone = phone;
 				Contacts[contactsDataGridView.SelectedRows[0].Index].PhoneId = phone.Id;
@@ -183,7 +192,7 @@ namespace WF_Phonebook.Forms.MainForms
 			contactsDataGridView.Refresh();
 		}
 
-		private void tsEmailItem_Click(object sender, EventArgs e)
+		private void OpenEmailForm()
 		{
 			RefreshCurrentContactFromDGV();
 			Email = CurrentContact.Email;
@@ -203,6 +212,9 @@ namespace WF_Phonebook.Forms.MainForms
 					MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
 					Contacts.RemoveAt(contactsDataGridView.SelectedRows[0].Index);
+
+					if (contactsDataGridView.Rows.Count > 0)
+						contactsDataGridView.FirstDisplayedCell.Selected = true;
 				}
 			}
 		}
@@ -226,6 +238,30 @@ namespace WF_Phonebook.Forms.MainForms
 				return Contacts.Any(contact => contact.Phone == phone);
 			else
 				throw new ArgumentException("Invalid type", nameof(item));
+		}
+
+		private void contactsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && contactsDataGridView.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+			{
+				switch (e.ColumnIndex)
+				{
+					case 0:	// person column
+						OpenPersonListForm();
+						break;
+					case 1:	// address column
+						OpenAddressListForm();
+						break;
+					case 2:	// phone column
+						OpenPhoneListForm();
+						break;
+					case 3:	// email column
+						OpenEmailForm();
+						break;
+					default:
+						break;
+				}
+			}
 		}
 	}
 }
