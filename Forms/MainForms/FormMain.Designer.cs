@@ -43,11 +43,11 @@
 			this.tsEmailItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnRemove = new System.Windows.Forms.ToolStripButton();
 			this.contactsDataGridView = new System.Windows.Forms.DataGridView();
+			this.contactsBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.personDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.phoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
 			this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
-			this.contactsBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.contactsDataGridView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.contactsBindingSource)).BeginInit();
@@ -152,11 +152,12 @@
 			this.contactsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.contactsDataGridView.BackgroundColor = System.Drawing.Color.Snow;
 			this.contactsDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.contactsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
 			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Thistle;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkSeaGreen;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Thistle;
 			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.contactsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
@@ -171,7 +172,7 @@
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkSeaGreen;
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.contactsDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
@@ -186,7 +187,7 @@
 			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
 			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkSeaGreen;
 			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.contactsDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
@@ -198,9 +199,14 @@
 			this.contactsDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.contactsDataGridView_CellContentClick);
 			this.contactsDataGridView.SelectionChanged += new System.EventHandler(this.contactsDataGridView_SelectionChanged);
 			// 
+			// contactsBindingSource
+			// 
+			this.contactsBindingSource.DataSource = typeof(WF_Phonebook.Models.Contact);
+			// 
 			// personDataGridViewTextBoxColumn
 			// 
 			this.personDataGridViewTextBoxColumn.DataPropertyName = "Person";
+			this.personDataGridViewTextBoxColumn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.personDataGridViewTextBoxColumn.HeaderText = "Person";
 			this.personDataGridViewTextBoxColumn.MinimumWidth = 250;
 			this.personDataGridViewTextBoxColumn.Name = "personDataGridViewTextBoxColumn";
@@ -211,6 +217,7 @@
 			// addressDataGridViewTextBoxColumn
 			// 
 			this.addressDataGridViewTextBoxColumn.DataPropertyName = "Address";
+			this.addressDataGridViewTextBoxColumn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.addressDataGridViewTextBoxColumn.HeaderText = "Address";
 			this.addressDataGridViewTextBoxColumn.MinimumWidth = 250;
 			this.addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
@@ -221,6 +228,7 @@
 			// phoneDataGridViewTextBoxColumn
 			// 
 			this.phoneDataGridViewTextBoxColumn.DataPropertyName = "Phone";
+			this.phoneDataGridViewTextBoxColumn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.phoneDataGridViewTextBoxColumn.HeaderText = "Phone";
 			this.phoneDataGridViewTextBoxColumn.MinimumWidth = 250;
 			this.phoneDataGridViewTextBoxColumn.Name = "phoneDataGridViewTextBoxColumn";
@@ -231,16 +239,13 @@
 			// emailDataGridViewTextBoxColumn
 			// 
 			this.emailDataGridViewTextBoxColumn.DataPropertyName = "Email";
+			this.emailDataGridViewTextBoxColumn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
 			this.emailDataGridViewTextBoxColumn.MinimumWidth = 250;
 			this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
 			this.emailDataGridViewTextBoxColumn.ReadOnly = true;
 			this.emailDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.emailDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			// 
-			// contactsBindingSource
-			// 
-			this.contactsBindingSource.DataSource = typeof(WF_Phonebook.Models.Contact);
 			// 
 			// MainForm
 			// 
@@ -251,6 +256,7 @@
 			this.Controls.Add(this.contactsDataGridView);
 			this.Controls.Add(this.toolStrip1);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.MinimumSize = new System.Drawing.Size(1200, 550);
 			this.Name = "MainForm";
