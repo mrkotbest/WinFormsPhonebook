@@ -240,22 +240,22 @@ namespace WF_Phonebook.Forms.MainForms
 				throw new ArgumentException("Invalid type", nameof(item));
 		}
 
-		private void contactsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		private void contactsDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
-			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && contactsDataGridView.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && contactsDataGridView.Columns[e.ColumnIndex] is DataGridViewTextBoxColumn)
 			{
 				switch (e.ColumnIndex)
 				{
-					case 0:	// person column
+					case 0: // person column
 						OpenPersonListForm();
 						break;
-					case 1:	// address column
+					case 1: // address column
 						OpenAddressListForm();
 						break;
-					case 2:	// phone column
+					case 2: // phone column
 						OpenPhoneListForm();
 						break;
-					case 3:	// email column
+					case 3: // email column
 						OpenEmailForm();
 						break;
 					default:
