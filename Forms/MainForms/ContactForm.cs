@@ -31,46 +31,50 @@ namespace WF_Phonebook.Forms.MainForms
 
 		private void btnPersonInfo_Click(object sender, EventArgs e)
 		{
-			PersonListForm form = new PersonListForm(Persons);
-			if (form.ShowDialog() != DialogResult.OK)
+			using (var form = new PersonListForm(Persons))
 			{
-				RemoveItemAndUpdateTextBox(() => Person = null, nameof(tbPerson));
-				return;
-			}
+				if (form.ShowDialog() != DialogResult.OK)
+				{
+					RemoveItemAndUpdateTextBox(() => Person = null, nameof(tbPerson));
+					return;
+				}
 
-			Person = form.CurrentPerson;
-			string personInfo = Person != null ? Person.ToString() : string.Empty;
-			UpdateTextBox(nameof(tbPerson), personInfo);
+				Person = form.CurrentPerson;
+				string personInfo = Person != null ? Person.ToString() : string.Empty;
+				UpdateTextBox(nameof(tbPerson), personInfo);
+			}
 		}
 
 		private void btnAddressInfo_Click(object sender, EventArgs e)
 		{
-			AddressListForm form = new AddressListForm(Addresses);
-
-			if (form.ShowDialog() != DialogResult.OK)
+			using (var form = new AddressListForm(Addresses))
 			{
-				RemoveItemAndUpdateTextBox(() => Address = null, nameof(tbAddress));
-				return;
-			}
+				if (form.ShowDialog() != DialogResult.OK)
+				{
+					RemoveItemAndUpdateTextBox(() => Address = null, nameof(tbAddress));
+					return;
+				}
 
-			Address = form.CurrentAddress;
-			string addressInfo = Address != null ? Address.ToString() : string.Empty;
-			UpdateTextBox(nameof(tbAddress), addressInfo);
+				Address = form.CurrentAddress;
+				string addressInfo = Address != null ? Address.ToString() : string.Empty;
+				UpdateTextBox(nameof(tbAddress), addressInfo);
+			}
 		}
 
 		private void btnPhoneInfo_Click(object sender, EventArgs e)
 		{
-			PhoneListForm form = new PhoneListForm(Phones);
-
-			if (form.ShowDialog() != DialogResult.OK)
+			using (var form = new PhoneListForm(Phones))
 			{
-				RemoveItemAndUpdateTextBox(() => Phone = null, nameof(tbPhone));
-				return;
-			}
+				if (form.ShowDialog() != DialogResult.OK)
+				{
+					RemoveItemAndUpdateTextBox(() => Phone = null, nameof(tbPhone));
+					return;
+				}
 
-			Phone = form.CurrentPhone;
-			string phoneInfo = Phone != null ? Phone.ToString() : string.Empty; 
-			UpdateTextBox(nameof(tbPhone), phoneInfo);
+				Phone = form.CurrentPhone;
+				string phoneInfo = Phone != null ? Phone.ToString() : string.Empty; 
+				UpdateTextBox(nameof(tbPhone), phoneInfo);
+			}
 		}
 
 		private void UpdateTextBox(string textBoxName, string text)
@@ -102,7 +106,8 @@ namespace WF_Phonebook.Forms.MainForms
 				!ValidateField(tbEmail, "Email field is empty! Please complete it to add new contact."))
 				return;
 
-			MainForm.Contacts.Add(new Contact(Person, Address, Phone, tbEmail.Text));
+			var newContactId = MainForm.Contacts.Any() ? MainForm.Contacts.Max(c => c.ContactId) + 1 : 0;
+			MainForm.Contacts.Add(new Contact(newContactId, Person, Address, Phone, tbEmail.Text));
 			Close();
 		}
 

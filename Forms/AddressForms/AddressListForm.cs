@@ -48,11 +48,18 @@ namespace WF_Phonebook.Forms.AddressForms
 
 		private void SelectRowByAddress(DataGridView dataGrid, Address address)
 		{
+			if (dataGrid == null || address == null)
+				return;
+
 			var selectedRow = dataGrid.Rows
 				.Cast<DataGridViewRow>()
-				.FirstOrDefault(row => row.DataBoundItem == address);
+				.FirstOrDefault(row => row.DataBoundItem is Address a && a.Id == address.Id);
 
-			selectedRow.Selected = true;
+			if (selectedRow != null)
+			{
+				dataGrid.ClearSelection();
+				selectedRow.Selected = true;
+			}
 		}
 
 		private void addressListDataGridView_SelectionChanged(object sender, EventArgs e)
@@ -70,11 +77,13 @@ namespace WF_Phonebook.Forms.AddressForms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			AddressDataForm form = new AddressDataForm(new Address());
-			if (form.ShowDialog() == DialogResult.OK)
+			using (AddressDataForm form = new AddressDataForm(new Address()))
 			{
-				form.Address.Id = Addresses.Any() ? Addresses.Max(p => p.Id) + 1 : 0;
-				Addresses.Add(form.Address);
+				if (form.ShowDialog() == DialogResult.OK)
+				{
+					form.Address.Id = Addresses.Any() ? Addresses.Max(p => p.Id) + 1 : 0;
+					Addresses.Add(form.Address);
+				}
 			}
 		}
 
@@ -82,9 +91,11 @@ namespace WF_Phonebook.Forms.AddressForms
 		{
 			if (CurrentAddress != null)
 			{
-				AddressDataForm form = new AddressDataForm(CurrentAddress);
-				if (form.ShowDialog() == DialogResult.OK)
-					Addresses[addressListDataGridView.SelectedRows[0].Index] = form.Address;
+				using (AddressDataForm form = new AddressDataForm(CurrentAddress))
+				{
+					if (form.ShowDialog() == DialogResult.OK)
+						Addresses[addressListDataGridView.SelectedRows[0].Index] = form.Address;
+				}
 			}
 		}
 
@@ -97,17 +108,35 @@ namespace WF_Phonebook.Forms.AddressForms
 			if (addressListDataGridView.SelectedRows.Count > 0)
 			{
 				Address addressToRemove = Addresses[addressListDataGridView.SelectedRows[0].Index];
-
-				bool isUsedInContacts = MainForm.IsUsedInContacts(addressToRemove);
-
-				if (isUsedInContacts)
+				try
 				{
-					MessageBox.Show("This address data is used in one or more contacts and cannot be removed.", "Error",
-						MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return;
-				}
+					if (addressToRemove == null)
+					{
+						MessageBox.Show("The selected address is invalid. Please select a valid address to remove.", "Error",
+							MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+					}
 
-				Addresses.Remove(addressToRemove);
+					bool isUsedInContacts = MainForm.IsUsedInContacts(addressToRemove, Addresses);
+
+					if (isUsedInContacts)
+					{
+						MessageBox.Show(this, "This address is used in one or more contacts and cannot be removed.", "Error",
+							MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+					}
+
+					if (Addresses.Contains(addressToRemove))
+						Addresses.Remove(addressToRemove);
+				}
+				catch (ArgumentException ex)
+				{
+					MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 	}

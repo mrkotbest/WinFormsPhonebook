@@ -48,11 +48,18 @@ namespace WF_Phonebook.Forms.PersonForms
 
 		private void SelectRowByPerson(DataGridView dataGrid, Person person)
 		{
+			if (dataGrid == null || person == null)
+				return;
+
 			var selectedRow = dataGrid.Rows
 				.Cast<DataGridViewRow>()
-				.FirstOrDefault(row => row.DataBoundItem == person);
+				.FirstOrDefault(row => row.DataBoundItem is Person p && p.Id == person.Id);
 
-			selectedRow.Selected = true;
+			if (selectedRow != null)
+			{
+				dataGrid.ClearSelection();
+				selectedRow.Selected = true;
+			}
 		}
 
 		private void peopleDataGridView_SelectionChanged(object sender, EventArgs e)
@@ -70,11 +77,13 @@ namespace WF_Phonebook.Forms.PersonForms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			PersonDataForm form = new PersonDataForm(new Person());
-			if (form.ShowDialog() == DialogResult.OK)
+			using (PersonDataForm form = new PersonDataForm(new Person()))
 			{
-				form.Person.Id = Persons.Any() ? Persons.Max(p => p.Id) + 1 : 0;
-				Persons.Add(form.Person);
+				if (form.ShowDialog() == DialogResult.OK)
+				{
+					form.Person.Id = Persons.Any() ? Persons.Max(p => p.Id) + 1 : 0;
+					Persons.Add(form.Person);
+				}
 			}
 		}
 
@@ -82,9 +91,11 @@ namespace WF_Phonebook.Forms.PersonForms
 		{
 			if (CurrentPerson != null)
 			{
-				PersonDataForm form = new PersonDataForm(CurrentPerson);
-				if (form.ShowDialog() == DialogResult.OK)
-					Persons[peopleDataGridView.SelectedRows[0].Index] = form.Person;
+				using (PersonDataForm form = new PersonDataForm(CurrentPerson))
+				{
+					if (form.ShowDialog() == DialogResult.OK)
+						Persons[peopleDataGridView.SelectedRows[0].Index] = form.Person;
+				}
 			}
 		}
 
@@ -97,17 +108,35 @@ namespace WF_Phonebook.Forms.PersonForms
 			if (peopleDataGridView.SelectedRows.Count > 0)
 			{
 				Person personToRemove = Persons[peopleDataGridView.SelectedRows[0].Index];
-
-				bool isUsedInContacts = MainForm.IsUsedInContacts(personToRemove);
-
-				if (isUsedInContacts)
+				try
 				{
-					MessageBox.Show("This person data is used in one or more contacts and cannot be removed.", "Error",
-						MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return;
-				}
+					if (personToRemove == null)
+					{
+						MessageBox.Show("The selected person is invalid. Please select a valid person to remove.", "Error",
+							MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+					}
 
-				Persons.Remove(personToRemove);
+					bool isUsedInContacts = MainForm.IsUsedInContacts(personToRemove, Persons);
+
+					if (isUsedInContacts)
+					{
+						MessageBox.Show(this, "This person is used in one or more contacts and cannot be removed.", "Error",
+							MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+					}
+
+					if (Persons.Contains(personToRemove))
+						Persons.Remove(personToRemove);
+				}
+				catch(ArgumentException ex)
+				{
+					MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 	}

@@ -1,10 +1,7 @@
-﻿using System.Xml.Serialization;
-
-namespace WF_Phonebook.Models
+﻿namespace WF_Phonebook.Models
 {
 	public sealed class Address
 	{
-		[XmlAttribute("Id")]
 		public int Id { get; set; }
 		public int HouseNo { get; set; }
 		public int ApartmentNo { get; set; }

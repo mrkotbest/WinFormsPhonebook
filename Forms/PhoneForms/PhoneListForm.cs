@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows.Forms;
 using WF_Phonebook.Forms.MainForms;
 using WF_Phonebook.Models;
@@ -48,11 +49,18 @@ namespace WF_Phonebook.Forms.PhoneForms
 
 		private void SelectRowByPhone(DataGridView dataGrid, Phone phone)
 		{
+			if (dataGrid == null || phone == null)
+				return;
+
 			var selectedRow = dataGrid.Rows
 				.Cast<DataGridViewRow>()
-				.FirstOrDefault(row => row.DataBoundItem == phone);
+				.FirstOrDefault(row => row.DataBoundItem is Phone ph && ph.Id == phone.Id);
 
-			selectedRow.Selected = true;
+			if (selectedRow != null)
+			{
+				dataGrid.ClearSelection();
+				selectedRow.Selected = true;
+			}
 		}
 
 		private void phoneListDataGridView_SelectionChanged(object sender, EventArgs e)
@@ -70,11 +78,13 @@ namespace WF_Phonebook.Forms.PhoneForms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			PhoneDataForm form = new PhoneDataForm(new Phone());
-			if (form.ShowDialog() == DialogResult.OK)
+			using (PhoneDataForm form = new PhoneDataForm(new Phone()))
 			{
-				form.Phone.Id = Phones.Any() ? Phones.Max(p => p.Id) + 1 : 0;
-				Phones.Add(form.Phone);
+				if (form.ShowDialog() == DialogResult.OK)
+				{
+					form.Phone.Id = Phones.Any() ? Phones.Max(p => p.Id) + 1 : 0;
+					Phones.Add(form.Phone);
+				}
 			}
 		}
 
@@ -82,9 +92,11 @@ namespace WF_Phonebook.Forms.PhoneForms
 		{
 			if (CurrentPhone != null)
 			{
-				PhoneDataForm form = new PhoneDataForm(CurrentPhone);
-				if (form.ShowDialog() == DialogResult.OK)
-					Phones[phoneListDataGridView.SelectedRows[0].Index] = form.Phone;
+				using (PhoneDataForm form = new PhoneDataForm(CurrentPhone))
+				{
+					if (form.ShowDialog() == DialogResult.OK)
+						Phones[phoneListDataGridView.SelectedRows[0].Index] = form.Phone;
+				}
 			}
 		}
 
@@ -97,17 +109,35 @@ namespace WF_Phonebook.Forms.PhoneForms
 			if (phoneListDataGridView.SelectedRows.Count > 0)
 			{
 				Phone phoneToRemove = Phones[phoneListDataGridView.SelectedRows[0].Index];
-
-				bool isUsedInContacts = MainForm.IsUsedInContacts(phoneToRemove);
-
-				if (isUsedInContacts)
+				try
 				{
-					MessageBox.Show("This phone data is used in one or more contacts and cannot be removed.", "Error",
-						MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return;
-				}
+					if (phoneToRemove == null)
+					{
+						MessageBox.Show("The selected phone is invalid. Please select a valid phone to remove.", "Error",
+							MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+					}
 
-				Phones.Remove(phoneToRemove);
+					bool isUsedInContacts = MainForm.IsUsedInContacts(phoneToRemove, Phones);
+
+					if (isUsedInContacts)
+					{
+						MessageBox.Show(this, "This phone is used in one or more contacts and cannot be removed.", "Error",
+							MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+					}
+
+					if (Phones.Contains(phoneToRemove))
+						Phones.Remove(phoneToRemove);
+				}
+				catch (ArgumentException ex)
+				{
+					MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 	}

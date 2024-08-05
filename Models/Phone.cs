@@ -1,10 +1,7 @@
-﻿using System.Xml.Serialization;
-
-namespace WF_Phonebook.Models
+﻿namespace WF_Phonebook.Models
 {
 	public sealed class Phone
 	{
-		[XmlAttribute("Id")]
 		public int Id { get; set; }
 		public string Number { get; set; }
 		public string Type { get; set; }

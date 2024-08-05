@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Xml.Serialization;
 
 namespace WF_Phonebook.Models
 {
 	public sealed class Person
 	{
-		[XmlAttribute("Id")]
 		public int Id { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
