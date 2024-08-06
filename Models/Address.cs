@@ -3,8 +3,8 @@
 	public sealed class Address
 	{
 		public int Id { get; set; }
-		public int HouseNo { get; set; }
-		public int ApartmentNo { get; set; }
+		public int HouseNo { get; set; } = 1;
+		public int ApartmentNo { get; set; } = 1;
 		public string Street { get; set; }
 
 		public override string ToString()

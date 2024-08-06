@@ -66,13 +66,21 @@ namespace WF_Phonebook.Forms.MainForms
 
 			try
 			{
-				using (var fs = new FileStream(_xmlFileName, FileMode.OpenOrCreate))
+				using (var fs = new FileStream(_xmlFileName, FileMode.Open))
 				{
 					var formatter = new XmlSerializer(typeof(PhonebookStore));
 					var store = formatter.Deserialize(fs) as PhonebookStore;
 
 					if (store is null)
 						return;
+
+					bool hasInvalidAttributes = store.Contacts.Any(HasInvalidContactAttributes) ||
+												store.Persons.Any(HasInvalidPersonAttributes) ||
+												store.Addresses.Any(HasInvalidAddressAttributes) ||
+												store.Phones.Any(HasInvalidPhoneAttributes);
+
+					if (hasInvalidAttributes)
+						throw new ArgumentException("Data contains entities with missing or invalid attributes.");
 
 					_store = new PhonebookStore(store.Contacts, store.Persons, store.Addresses, store.Phones);
 					InitLists(_store);
@@ -94,6 +102,44 @@ namespace WF_Phonebook.Forms.MainForms
 					MessageBox.Show("An error occurred while loading..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
+		}
+
+		private bool HasInvalidContactAttributes(Contact contact)
+		{
+			return contact.Person == null ||
+				   string.IsNullOrWhiteSpace(contact.Person.FirstName) ||
+				   string.IsNullOrWhiteSpace(contact.Person.LastName) ||
+				   string.IsNullOrWhiteSpace(contact.Person.Gender) ||
+				   contact.Person.BirthDate == default ||
+				   contact.Address == null ||
+				   string.IsNullOrWhiteSpace(contact.Address.Street) ||
+				   contact.Address.HouseNo <= 0 ||
+				   contact.Address.ApartmentNo <= 0 ||
+				   contact.Phone == null ||
+				   string.IsNullOrWhiteSpace(contact.Phone.Number) ||
+				   string.IsNullOrWhiteSpace(contact.Phone.Type) ||
+				   string.IsNullOrWhiteSpace(contact.Email);
+		}
+
+		private bool HasInvalidPersonAttributes(Person person)
+		{
+			return string.IsNullOrWhiteSpace(person.FirstName) ||
+				   string.IsNullOrWhiteSpace(person.LastName) ||
+				   string.IsNullOrWhiteSpace(person.Gender) ||
+				   person.BirthDate == default;
+		}
+
+		private bool HasInvalidAddressAttributes(Address address)
+		{
+			return string.IsNullOrWhiteSpace(address.Street) ||
+				   address.HouseNo <= 0 ||
+				   address.ApartmentNo <= 0;
+		}
+
+		private bool HasInvalidPhoneAttributes(Phone phone)
+		{
+			return string.IsNullOrWhiteSpace(phone.Number) ||
+				   string.IsNullOrWhiteSpace(phone.Type);
 		}
 
 		private bool SaveData()
