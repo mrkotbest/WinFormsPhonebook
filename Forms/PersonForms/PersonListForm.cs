@@ -76,7 +76,7 @@ namespace WF_Phonebook.Forms.PersonForms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			using (PersonDataForm form = new PersonDataForm(new Person()))
+			using (var form = new PersonDataForm(new Person()))
 			{
 				if (form.ShowDialog() == DialogResult.OK)
 				{
@@ -90,7 +90,7 @@ namespace WF_Phonebook.Forms.PersonForms
 		{
 			if (CurrentPerson != null)
 			{
-				using (PersonDataForm form = new PersonDataForm(CurrentPerson))
+				using (var form = new PersonDataForm(CurrentPerson))
 				{
 					if (form.ShowDialog() == DialogResult.OK)
 						Persons[peopleDataGridView.SelectedRows[0].Index] = form.Person;
@@ -106,7 +106,7 @@ namespace WF_Phonebook.Forms.PersonForms
 
 			if (peopleDataGridView.SelectedRows.Count > 0)
 			{
-				Person personToRemove = Persons[peopleDataGridView.SelectedRows[0].Index];
+				var personToRemove = Persons[peopleDataGridView.SelectedRows[0].Index];
 				try
 				{
 					if (personToRemove == null)

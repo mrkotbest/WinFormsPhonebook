@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Windows.Forms;
 using WF_Phonebook.Forms.MainForms;
 using WF_Phonebook.Models;
@@ -77,7 +76,7 @@ namespace WF_Phonebook.Forms.PhoneForms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			using (PhoneDataForm form = new PhoneDataForm(new Phone()))
+			using (var form = new PhoneDataForm(new Phone()))
 			{
 				if (form.ShowDialog() == DialogResult.OK)
 				{
@@ -91,7 +90,7 @@ namespace WF_Phonebook.Forms.PhoneForms
 		{
 			if (CurrentPhone != null)
 			{
-				using (PhoneDataForm form = new PhoneDataForm(CurrentPhone))
+				using (var form = new PhoneDataForm(CurrentPhone))
 				{
 					if (form.ShowDialog() == DialogResult.OK)
 						Phones[phoneListDataGridView.SelectedRows[0].Index] = form.Phone;
@@ -107,7 +106,7 @@ namespace WF_Phonebook.Forms.PhoneForms
 
 			if (phoneListDataGridView.SelectedRows.Count > 0)
 			{
-				Phone phoneToRemove = Phones[phoneListDataGridView.SelectedRows[0].Index];
+				var phoneToRemove = Phones[phoneListDataGridView.SelectedRows[0].Index];
 				try
 				{
 					if (phoneToRemove == null)

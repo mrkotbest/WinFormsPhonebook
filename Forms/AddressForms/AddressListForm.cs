@@ -76,7 +76,7 @@ namespace WF_Phonebook.Forms.AddressForms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			using (AddressDataForm form = new AddressDataForm(new Address()))
+			using (var form = new AddressDataForm(new Address()))
 			{
 				if (form.ShowDialog() == DialogResult.OK)
 				{
@@ -90,7 +90,7 @@ namespace WF_Phonebook.Forms.AddressForms
 		{
 			if (CurrentAddress != null)
 			{
-				using (AddressDataForm form = new AddressDataForm(CurrentAddress))
+				using (var form = new AddressDataForm(CurrentAddress))
 				{
 					if (form.ShowDialog() == DialogResult.OK)
 						Addresses[addressListDataGridView.SelectedRows[0].Index] = form.Address;
@@ -106,7 +106,7 @@ namespace WF_Phonebook.Forms.AddressForms
 
 			if (addressListDataGridView.SelectedRows.Count > 0)
 			{
-				Address addressToRemove = Addresses[addressListDataGridView.SelectedRows[0].Index];
+				var addressToRemove = Addresses[addressListDataGridView.SelectedRows[0].Index];
 				try
 				{
 					if (addressToRemove == null)

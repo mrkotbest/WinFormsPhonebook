@@ -10,7 +10,6 @@ using WF_Phonebook.Forms.PersonForms;
 using WF_Phonebook.Forms.PhoneForms;
 using WF_Phonebook.Models;
 using WF_Phonebook.Services;
-using static System.ActivationContext;
 
 namespace WF_Phonebook.Forms.MainForms
 {
@@ -139,7 +138,7 @@ namespace WF_Phonebook.Forms.MainForms
 			RefreshCurrentContactFromDGV();
 			using (var form = new PersonListForm(_store.Persons))
 			{
-				if (form.ShowDialog() == DialogResult.OK)
+				if (form.ShowDialog() == DialogResult.OK || _store.Contacts[contactsDataGridView.SelectedRows[0].Index].Person.Id == form.CurrentPerson.Id)
 					_store.Contacts[contactsDataGridView.SelectedRows[0].Index].Person = form.CurrentPerson;
 				contactsDataGridView.Refresh();
 			}
@@ -150,7 +149,7 @@ namespace WF_Phonebook.Forms.MainForms
 			RefreshCurrentContactFromDGV();
 			using (var form = new AddressListForm(_store.Addresses))
 			{
-				if (form.ShowDialog() == DialogResult.OK)
+				if (form.ShowDialog() == DialogResult.OK || _store.Contacts[contactsDataGridView.SelectedRows[0].Index].Address.Id == form.CurrentAddress.Id)
 					_store.Contacts[contactsDataGridView.SelectedRows[0].Index].Address = form.CurrentAddress;
 				contactsDataGridView.Refresh();
 			}
@@ -161,7 +160,7 @@ namespace WF_Phonebook.Forms.MainForms
 			RefreshCurrentContactFromDGV();
 			using (var form = new PhoneListForm(_store.Phones))
 			{
-				if (form.ShowDialog() == DialogResult.OK)
+				if (form.ShowDialog() == DialogResult.OK || _store.Contacts[contactsDataGridView.SelectedRows[0].Index].Phone.Id == form.CurrentPhone.Id)
 					_store.Contacts[contactsDataGridView.SelectedRows[0].Index].Phone = form.CurrentPhone;
 				contactsDataGridView.Refresh();
 			}
