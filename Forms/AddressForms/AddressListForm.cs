@@ -27,7 +27,7 @@ namespace WF_Phonebook.Forms.AddressForms
 			{
 				addressListBindingSource.DataSource = Addresses;
 
-				Addresses.ListChanged += HandleListChanged;
+				Addresses.ListChanged += OnListChanged;
 				btnEdit.Enabled = btnRemove.Enabled = Addresses.Count > 0;
 
 				if (MainForm.CurrentContact != null)
@@ -35,10 +35,9 @@ namespace WF_Phonebook.Forms.AddressForms
 			}
 		}
 
-		private void HandleListChanged(object sender, ListChangedEventArgs e)
+		private void OnListChanged(object sender, ListChangedEventArgs e)
 		{
 			btnEdit.Enabled = btnRemove.Enabled = Addresses.Count > 0;
-
 			if (e.ListChangedType == ListChangedType.ItemDeleted)
 			{
 				if (CurrentAddress != null && !Addresses.Contains(CurrentAddress))

@@ -20,7 +20,9 @@ namespace WF_Phonebook.Forms.MainForms
 		public Address Address { get; private set; }
 		public Phone Phone { get; private set; }
 
-		public ContactForm(ref PhonebookStore store)
+		public Contact CreatedNewContact { get; private set; }
+
+		public ContactForm(PhonebookStore store)
 		{
 			InitializeComponent();
 
@@ -38,7 +40,6 @@ namespace WF_Phonebook.Forms.MainForms
 					RemoveItemAndUpdateTextBox(() => Person = null, nameof(tbPerson));
 					return;
 				}
-
 				Person = form.CurrentPerson;
 				string personInfo = Person != null ? Person.ToString() : string.Empty;
 				UpdateTextBox(nameof(tbPerson), personInfo);
@@ -54,7 +55,6 @@ namespace WF_Phonebook.Forms.MainForms
 					RemoveItemAndUpdateTextBox(() => Address = null, nameof(tbAddress));
 					return;
 				}
-
 				Address = form.CurrentAddress;
 				string addressInfo = Address != null ? Address.ToString() : string.Empty;
 				UpdateTextBox(nameof(tbAddress), addressInfo);
@@ -70,7 +70,6 @@ namespace WF_Phonebook.Forms.MainForms
 					RemoveItemAndUpdateTextBox(() => Phone = null, nameof(tbPhone));
 					return;
 				}
-
 				Phone = form.CurrentPhone;
 				string phoneInfo = Phone != null ? Phone.ToString() : string.Empty; 
 				UpdateTextBox(nameof(tbPhone), phoneInfo);
@@ -106,8 +105,8 @@ namespace WF_Phonebook.Forms.MainForms
 				!ValidateField(tbEmail, "Email field is empty! Please complete it to add new contact."))
 				return;
 
-			var newContactId = MainForm.Contacts.Any() ? MainForm.Contacts.Max(c => c.ContactId) + 1 : 0;
-			MainForm.Contacts.Add(new Contact(newContactId, Person, Address, Phone, tbEmail.Text));
+			CreatedNewContact = new Contact(MainForm.GenerateNewContactId(), Person, Address, Phone, tbEmail.Text);
+			DialogResult = DialogResult.OK;
 			Close();
 		}
 
@@ -126,6 +125,7 @@ namespace WF_Phonebook.Forms.MainForms
 			if (MessageBox.Show("The contact is not saved! Are you sure to cancel?", "Removal warning",
 				MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 				return;
+			DialogResult = DialogResult.Cancel;
 			Close();
 		}
 	}

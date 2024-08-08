@@ -28,7 +28,7 @@ namespace WF_Phonebook.Forms.PhoneForms
 			{
 				phoneListBindingSource.DataSource = Phones;
 
-				Phones.ListChanged += HandleListChanged;
+				Phones.ListChanged += OnListChanged;
 				btnEdit.Enabled = btnRemove.Enabled = Phones.Count > 0;
 
 				if (MainForm.CurrentContact != null)
@@ -36,10 +36,9 @@ namespace WF_Phonebook.Forms.PhoneForms
 			}
 		}
 
-		private void HandleListChanged(object sender, ListChangedEventArgs e)
+		private void OnListChanged(object sender, ListChangedEventArgs e)
 		{
 			btnEdit.Enabled = btnRemove.Enabled = Phones.Count > 0;
-
 			if (e.ListChangedType == ListChangedType.ItemDeleted)
 			{
 				if (CurrentPhone != null && !Phones.Contains(CurrentPhone))

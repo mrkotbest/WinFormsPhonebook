@@ -10,6 +10,7 @@ using WF_Phonebook.Forms.PersonForms;
 using WF_Phonebook.Forms.PhoneForms;
 using WF_Phonebook.Models;
 using WF_Phonebook.Services;
+using static System.ActivationContext;
 
 namespace WF_Phonebook.Forms.MainForms
 {
@@ -18,15 +19,9 @@ namespace WF_Phonebook.Forms.MainForms
 		private const string _xmlFileName = "contacts.xml";
 		private const string _backupFileName = _xmlFileName + ".bak";
 
-		private PhonebookStore _store;
+		private static PhonebookStore _store;
 
-		public static BindingList<Contact> Contacts { get; set; } = new BindingList<Contact>();
 		public static Contact CurrentContact { get; private set; }
-
-		public BindingList<Person> Persons { get; set; }
-		public BindingList<Address> Addresses { get; set; }
-		public BindingList<Phone> Phones { get; set; }
-		public string Email { get; private set; }
 
 		public MainForm()
 			=> InitializeComponent();
@@ -38,29 +33,17 @@ namespace WF_Phonebook.Forms.MainForms
 		{
 			LoadData();
 
-			contactsBindingSource.DataSource = Contacts;
+			contactsBindingSource.DataSource = _store.Contacts;
 
-			Contacts.ListChanged += HandleListChanged;
-			btnEdit.Enabled = btnRemove.Enabled = Contacts.Count > 0;
+			_store.Contacts.ListChanged += (sender, e) => { btnEdit.Enabled = btnRemove.Enabled = _store.Contacts.Count > 0; };
+			btnEdit.Enabled = btnRemove.Enabled = _store.Contacts.Count > 0;
 		}
-
-		private void InitLists(PhonebookStore store)
-		{
-			Contacts = store.Contacts;
-			Persons = store.Persons;
-			Addresses = store.Addresses;
-			Phones = store.Phones;
-		}
-
-		private void HandleListChanged(object sender, ListChangedEventArgs e)
-			=> btnEdit.Enabled = btnRemove.Enabled = Contacts.Count > 0;
 
 		private void LoadData()
 		{
 			if (!File.Exists(_xmlFileName) || new FileInfo(_xmlFileName).Length == 0)
 			{
 				_store = new PhonebookStore();
-				InitLists(_store);
 				return;
 			}
 
@@ -72,18 +55,9 @@ namespace WF_Phonebook.Forms.MainForms
 					var store = formatter.Deserialize(fs) as PhonebookStore;
 
 					if (store is null)
-						return;
-
-					bool hasInvalidAttributes = store.Contacts.Any(HasInvalidContactAttributes) ||
-												store.Persons.Any(HasInvalidPersonAttributes) ||
-												store.Addresses.Any(HasInvalidAddressAttributes) ||
-												store.Phones.Any(HasInvalidPhoneAttributes);
-
-					if (hasInvalidAttributes)
-						throw new ArgumentException("Data contains entities with missing or invalid attributes.");
+						throw new ArgumentNullException(nameof(store), "Store cannot be null. Please ensure that a valid store instance is provided.");
 
 					_store = new PhonebookStore(store.Contacts, store.Persons, store.Addresses, store.Phones);
-					InitLists(_store);
 				}
 			}
 			catch (Exception ex)
@@ -99,59 +73,20 @@ namespace WF_Phonebook.Forms.MainForms
 				}
 				else
 				{
+					_store = new PhonebookStore();
 					MessageBox.Show("An error occurred while loading..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
-		}
-
-		private bool HasInvalidContactAttributes(Contact contact)
-		{
-			return contact.Person == null ||
-				   string.IsNullOrWhiteSpace(contact.Person.FirstName) ||
-				   string.IsNullOrWhiteSpace(contact.Person.LastName) ||
-				   string.IsNullOrWhiteSpace(contact.Person.Gender) ||
-				   contact.Person.BirthDate == default ||
-				   contact.Address == null ||
-				   string.IsNullOrWhiteSpace(contact.Address.Street) ||
-				   contact.Address.HouseNo <= 0 ||
-				   contact.Address.ApartmentNo <= 0 ||
-				   contact.Phone == null ||
-				   string.IsNullOrWhiteSpace(contact.Phone.Number) ||
-				   string.IsNullOrWhiteSpace(contact.Phone.Type) ||
-				   string.IsNullOrWhiteSpace(contact.Email);
-		}
-
-		private bool HasInvalidPersonAttributes(Person person)
-		{
-			return string.IsNullOrWhiteSpace(person.FirstName) ||
-				   string.IsNullOrWhiteSpace(person.LastName) ||
-				   string.IsNullOrWhiteSpace(person.Gender) ||
-				   person.BirthDate == default;
-		}
-
-		private bool HasInvalidAddressAttributes(Address address)
-		{
-			return string.IsNullOrWhiteSpace(address.Street) ||
-				   address.HouseNo <= 0 ||
-				   address.ApartmentNo <= 0;
-		}
-
-		private bool HasInvalidPhoneAttributes(Phone phone)
-		{
-			return string.IsNullOrWhiteSpace(phone.Number) ||
-				   string.IsNullOrWhiteSpace(phone.Type);
 		}
 
 		private bool SaveData()
 		{
 			try
 			{
-				var store = new PhonebookStore(_store.Contacts, _store.Persons, _store.Addresses, _store.Phones);
 				var formatter = new XmlSerializer(typeof(PhonebookStore));
-
 				using (FileStream fs = new FileStream(_xmlFileName, FileMode.Create))
 				{
-					formatter.Serialize(fs, store);
+					formatter.Serialize(fs, _store);
 				}
 
 				File.Copy(_xmlFileName, _backupFileName, true);
@@ -174,11 +109,18 @@ namespace WF_Phonebook.Forms.MainForms
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			using (var form = new ContactForm(ref _store))
+			using (var form = new ContactForm(_store))
 			{
-				form.ShowDialog();
+				if (form.ShowDialog() == DialogResult.OK)
+				{
+					_store.Contacts.Add(form.CreatedNewContact);
+					contactsDataGridView.Refresh();
+				}
 			}
 		}
+
+		public static int GenerateNewContactId()
+			=> _store.Contacts.Any() ? _store.Contacts.Max(c => c.ContactId) + 1 : 0;
 
 		private void tsPersonItem_Click(object sender, EventArgs e)
 			=> OpenPersonListForm();
@@ -195,13 +137,10 @@ namespace WF_Phonebook.Forms.MainForms
 		private void OpenPersonListForm()
 		{
 			RefreshCurrentContactFromDGV();
-			using (var form = new PersonListForm(Persons))
+			using (var form = new PersonListForm(_store.Persons))
 			{
 				if (form.ShowDialog() == DialogResult.OK)
-				{
-					var person = form.CurrentPerson;
-					Contacts[contactsDataGridView.SelectedRows[0].Index].Person = person;
-				}
+					_store.Contacts[contactsDataGridView.SelectedRows[0].Index].Person = form.CurrentPerson;
 				contactsDataGridView.Refresh();
 			}
 		}
@@ -209,13 +148,10 @@ namespace WF_Phonebook.Forms.MainForms
 		private void OpenAddressListForm()
 		{
 			RefreshCurrentContactFromDGV();
-			using (var form = new AddressListForm(Addresses))
+			using (var form = new AddressListForm(_store.Addresses))
 			{
 				if (form.ShowDialog() == DialogResult.OK)
-				{
-					var address = form.CurrentAddress;
-					Contacts[contactsDataGridView.SelectedRows[0].Index].Address = address;
-				}
+					_store.Contacts[contactsDataGridView.SelectedRows[0].Index].Address = form.CurrentAddress;
 				contactsDataGridView.Refresh();
 			}
 		}
@@ -223,13 +159,10 @@ namespace WF_Phonebook.Forms.MainForms
 		private void OpenPhoneListForm()
 		{
 			RefreshCurrentContactFromDGV();
-			using (var form = new PhoneListForm(Phones))
+			using (var form = new PhoneListForm(_store.Phones))
 			{
 				if (form.ShowDialog() == DialogResult.OK)
-				{
-					var phone = form.CurrentPhone;
-					Contacts[contactsDataGridView.SelectedRows[0].Index].Phone = phone;
-				}
+					_store.Contacts[contactsDataGridView.SelectedRows[0].Index].Phone = form.CurrentPhone;
 				contactsDataGridView.Refresh();
 			}
 		}
@@ -237,12 +170,10 @@ namespace WF_Phonebook.Forms.MainForms
 		private void OpenEmailForm()
 		{
 			RefreshCurrentContactFromDGV();
-			Email = CurrentContact.Email;
-
-			using (var form = new EmailForm(Email))
+			using (var form = new EmailForm(CurrentContact.Email))
 			{
 				if (form.ShowDialog() == DialogResult.OK)
-					Contacts[contactsDataGridView.SelectedRows[0].Index].Email = form.Email;
+					_store.Contacts[contactsDataGridView.SelectedRows[0].Index].Email = form.Email;
 				contactsDataGridView.Refresh();
 			}
 		}
@@ -254,7 +185,7 @@ namespace WF_Phonebook.Forms.MainForms
 				if (MessageBox.Show("Are you sure to remove this record?", "Removal warning",
 					MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
-					Contacts.RemoveAt(contactsDataGridView.SelectedRows[0].Index);
+					_store.Contacts.RemoveAt(contactsDataGridView.SelectedRows[0].Index);
 
 					if (contactsDataGridView.Rows.Count > 0)
 						contactsDataGridView.FirstDisplayedCell.Selected = true;
@@ -266,7 +197,7 @@ namespace WF_Phonebook.Forms.MainForms
 			=> RefreshCurrentContactFromDGV();
 
 		private void RefreshCurrentContactFromDGV()
-			=> CurrentContact = contactsDataGridView.SelectedRows.Count > 0 ? Contacts[contactsDataGridView.SelectedRows[0].Index] : null;
+			=> CurrentContact = contactsDataGridView.SelectedRows.Count > 0 ? _store.Contacts[contactsDataGridView.SelectedRows[0].Index] : null;
 
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 			=> SaveData();
@@ -277,11 +208,11 @@ namespace WF_Phonebook.Forms.MainForms
 				throw new ArgumentNullException();
 
             if (item is Person person)
-				return Contacts.Any(contact => contact.Person.Id == person.Id) && list.Contains(item);
+				return _store.Contacts.Any(contact => contact.Person.Id == person.Id) && list.Contains(item);
 			else if (item is Address address)
-				return Contacts.Any(contact => contact.Address.Id == address.Id) && list.Contains(item);
+				return _store.Contacts.Any(contact => contact.Address.Id == address.Id) && list.Contains(item);
 			else if (item is Phone phone)
-				return Contacts.Any(contact => contact.Phone.Id == phone.Id) && list.Contains(item);
+				return _store.Contacts.Any(contact => contact.Phone.Id == phone.Id) && list.Contains(item);
 			else
 				throw new ArgumentException("Invalid type" + nameof(item));
 		}
