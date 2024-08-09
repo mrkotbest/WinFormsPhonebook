@@ -51,12 +51,10 @@ namespace WF_Phonebook.Forms.MainForms
 				using (var fs = new FileStream(_xmlFileName, FileMode.Open))
 				{
 					var formatter = new XmlSerializer(typeof(PhonebookStore));
-					var store = formatter.Deserialize(fs) as PhonebookStore;
+					_store = formatter.Deserialize(fs) as PhonebookStore;
 
-					if (store is null)
-						throw new ArgumentNullException(nameof(store), "Store cannot be null. Please ensure that a valid store instance is provided.");
-
-					_store = new PhonebookStore(store.Contacts, store.Persons, store.Addresses, store.Phones);
+					if (_store is null)
+						throw new ArgumentNullException(nameof(_store), "Store cannot be null. Please ensure that a valid store instance is provided.");
 				}
 			}
 			catch (Exception ex)
@@ -65,15 +63,26 @@ namespace WF_Phonebook.Forms.MainForms
 
 				if (File.Exists(_backupFileName))
 				{
-					File.Copy(_backupFileName, _xmlFileName, true);
-					MessageBox.Show($"An error occurred while loading: {ex.Message}\n\nThe data has been restored from the latest backup.",
-						"Backup", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					LoadData();
+					try
+					{
+						File.Copy(_backupFileName, _xmlFileName, true);
+						LoadData();
+						MessageBox.Show($"An error occurred while loading: {ex.Message}\n\nThe data has been restored from the latest backup.",
+							"Backup", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					}
+					catch (Exception backupEx)
+					{
+						File.AppendAllText("error.log", $"[{DateTime.Now}] backup restore error: {backupEx.Message}\n");
+						_store = new PhonebookStore();
+						MessageBox.Show("An error occurred while loading and the backup restore failed. The store has been reset.",
+							"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
 				}
 				else
 				{
 					_store = new PhonebookStore();
-					MessageBox.Show("An error occurred while loading..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("An error occurred while loading, and no backup is available. The store has been reset.",
+						"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}
